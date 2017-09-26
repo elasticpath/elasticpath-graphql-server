@@ -1,16 +1,24 @@
-const express = require('express')
-const graphqlHTTP = require('express-graphql')
-const schema = require('./schema')
+const server = require('apollo-server-micro');
+const {makeExecutableSchema} = require('graphql-tools');
+const {formatError} = require('apollo-errors');
+const MoltinGateway = require('@moltin/sdk').gateway;
 
-const app = express()
+const typeDefs = require('./typeDefs');
+const resolvers = require('./resolvers');
 
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema,
-    graphiql: true,
-    pretty: true
-  })
-)
+const Moltin = MoltinGateway({
+  client_id: 'AQ8ZbUAOozQlOz3Sw0A0mXRR7iNAtwqGJYSxctwaZh'
+});
 
-app.listen(process.env.PORT || 4000)
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers
+});
+
+module.exports = server.microGraphql({
+  formatError,
+  schema,
+  context: {
+    Moltin
+  }
+});

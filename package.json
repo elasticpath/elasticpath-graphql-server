@@ -1,13 +1,23 @@
 {
-  "name": "moltin-graphql",
-  "version": "1.0.0",
+  "name": "moltin-graphql-server",
+  "private": true,
+  "version": "0.0.2",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "micro-dev",
+    "start": "micro"
+  },
   "dependencies": {
-    "@moltin/sdk": "^2.3.0",
-    "express": "^4.15.3",
-    "express-graphql": "^0.6.6",
-    "graphql": "^0.10.1",
-    "node-fetch": "^1.7.1"
+    "@moltin/sdk": "^2.8.0",
+    "apollo-errors": "^1.5.1",
+    "apollo-server-micro": "^1.1.2",
+    "graphql": "^0.11.3",
+    "graphql-tools": "^1.2.3",
+    "micro": "^9.0.0",
+    "node-fetch": "^1.7.3"
+  },
+  "devDependencies": {
+    "micro-dev": "^1.2.3"
   }
 }
