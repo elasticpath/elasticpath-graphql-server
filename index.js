@@ -1,4 +1,6 @@
-const server = require('apollo-server-micro');
+const express = require('express');
+const bodyParser = require('body-parser');
+const {graphqlExpress, graphiqlExpress} = require('apollo-server-express');
 const {makeExecutableSchema} = require('graphql-tools');
 const {formatError} = require('apollo-errors');
 const MoltinGateway = require('@moltin/sdk').gateway;
@@ -15,10 +17,20 @@ const schema = makeExecutableSchema({
   resolvers
 });
 
-module.exports = server.microGraphql({
-  formatError,
-  schema,
-  context: {
-    Moltin
-  }
-});
+const app = express();
+
+app.use(
+  '/graphql',
+  bodyParser.json(),
+  graphqlExpress({
+    formatError,
+    schema,
+    context: {
+      Moltin
+    }
+  })
+);
+
+app.get('/graphiql', graphiqlExpress({endpointURL: '/graphql'}));
+
+app.listen(process.env.PORT || 5000);
