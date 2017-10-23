@@ -2,7 +2,7 @@
 
 [moltin](https://moltin.com) is a fully baked eCommerce REST API for developers. This repo is a WIP. Contributors welcome 👋
 
-## Installation
+## Installation
 
   ```bash
   git clone https://github.com/notrab/moltin-graphql.git
