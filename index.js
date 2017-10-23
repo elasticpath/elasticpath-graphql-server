@@ -28,7 +28,8 @@ app.use(
     formatError,
     schema,
     context: {
-      Moltin
+      Moltin,
+      clientId: MOLTIN_CLIENT_ID
     }
   })
 )

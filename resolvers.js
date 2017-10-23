@@ -70,6 +70,26 @@ module.exports = {
           .then(({data}) => resolve(data))
           .catch(err => reject(err))
       })
+    },
+
+    Cart: (root, _, {Moltin}) => {
+      const getCart = new Promise((resolve, reject) =>
+        resolve(Moltin.Cart.Get())
+      )
+
+      const getCartItems = new Promise((resolve, reject) =>
+        resolve(Moltin.Cart.Items())
+      )
+
+      return Promise.all([getCart, getCartItems]).then(([cart, items]) => {
+        return Object.assign(
+          {},
+          {
+            id: cart.data.id,
+            items: items.data
+          }
+        )
+      })
     }
   }
 }

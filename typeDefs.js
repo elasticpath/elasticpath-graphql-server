@@ -53,6 +53,19 @@ module.exports = `
     description: String
   }
 
+  type CartItem {
+    id: ID!
+    type: String!
+    name: String!
+    description: String
+    quantity: Int!
+  }
+
+  type Cart {
+    id: ID!
+    items: [CartItem]
+  }
+
   type Query {
     allProducts: [Product]
     Product(id: ID!): Product
@@ -62,5 +75,6 @@ module.exports = `
     Collection(id: ID!): Collection
     allCategories: [Category]
     Category(id: ID!): Category
+    Cart: Cart
   }
 `
