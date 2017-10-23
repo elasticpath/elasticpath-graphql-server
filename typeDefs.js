@@ -28,10 +28,29 @@ module.exports = `
 
   type Brand {
     id: ID!
-    name: String!
+    type: String!
+    name: String
     slug: String
     description: String
     status: ActiveStatus
+  }
+
+  type Collection {
+    id: ID!
+    type: String!
+    status: ActiveStatus
+    name: String
+    slug: String
+    description: String
+  }
+
+  type Category {
+    id: ID!
+    type: String!
+    status: ActiveStatus
+    name: String
+    slug: String
+    description: String
   }
 
   type Query {
@@ -39,5 +58,9 @@ module.exports = `
     Product(id: ID!): Product
     allBrands: [Brand]
     Brand(id: ID!): Brand
+    allCollections: [Collection]
+    Collection(id: ID!): Collection
+    allCategories: [Category]
+    Category(id: ID!): Category
   }
-`;
+`
