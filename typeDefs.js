@@ -77,4 +77,22 @@ module.exports = `
     Category(id: ID!): Category
     Cart: Cart
   }
-`
+
+  enum AuthGrantType {
+    client_credentials
+    implicit
+    refresh_token
+  }
+
+  type AuthenticatePayload {
+    expires: Int!
+    identifier: String!
+    expires_in: Int!
+    access_token: String!
+    token_type: String!
+  }
+
+  type Mutation {
+    authenticate(clientId: String!, clientSecret: String, grantType: AuthGrantType!): AuthenticatePayload
+  }
+`;
