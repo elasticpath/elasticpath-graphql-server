@@ -1,4 +1,11 @@
+# dependencies
 node_modules
-localStorage
 
-.envrc
+# production
+dist
+
+# misc
+package-lock.json
+*.rdb
+.env*
+localStorage

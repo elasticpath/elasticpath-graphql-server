@@ -1,24 +1,37 @@
 {
-  "name": "moltin-graphql-server",
+  "name": "moltinql",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "dev": "nodemon -e ts,graphql -x ts-node -r dotenv/config src",
+    "deploy":
+      "now --public --dotenv .env.production && now alias && now rm --yes --safe moltinql",
+    "build": "rimraf dist && tsc",
+    "start": "node dist"
   },
   "dependencies": {
-    "@moltin/sdk": "^3.1.0",
-    "apollo-errors": "^1.5.1",
-    "body-parser": "^1.18.2",
-    "express": "^4.16.2",
-    "graphql": "^0.12.3",
-    "graphql-server-express": "^1.3.2",
-    "graphql-tools": "^2.14.1",
+    "@moltin/sdk": "^3.3.0",
+    "graphql-yoga": "^1.2.1",
     "node-fetch": "^1.7.3"
   },
   "devDependencies": {
-    "nodemon": "^1.13.3"
+    "@types/node": "^9.4.0",
+    "@types/node-fetch": "^1.6.7",
+    "dotenv": "^5.0.0",
+    "nodemon": "^1.14.12",
+    "now": "^9.2.7",
+    "rimraf": "^2.6.2",
+    "ts-node": "^4.1.0",
+    "typescript": "^2.7.1"
+  },
+  "now": {
+    "alias": "moltinql"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }
