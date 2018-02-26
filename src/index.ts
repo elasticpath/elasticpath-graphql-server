@@ -18,12 +18,4 @@ const server = new GraphQLServer({
   }),
 })
 
-server.express.disable('x-powered-by')
-
-server.start(
-  {
-    endpoint: '/graphql',
-    playground: '/playground',
-  },
-  ({ port }) => console.log(`Server is running on PORT: ${port}`),
-)
+server.start(({ port }) => console.log(`Server is running on PORT: ${port}`))
