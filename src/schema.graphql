@@ -81,15 +81,15 @@ type Payment {
 }
 
 type Query {
-  allProducts: [Product]
-  Product(id: ID!): Product
-  allBrands: [Brand]
-  Brand(id: ID!): Brand
-  allCollections: [Collection]
-  Collection(id: ID!): Collection
-  allCategories: [Category]
-  Category(id: ID!): Category
-  Cart: Cart
+  products: [Product]
+  product(id: ID!): Product
+  brands: [Brand]
+  brand(id: ID!): Brand
+  collections: [Collection]
+  collection(id: ID!): Collection
+  categories: [Category]
+  category(id: ID!): Category
+  cart: Cart
 }
 
 input CheckoutInput {
@@ -100,9 +100,7 @@ type Mutation {
   authenticate(
     clientId: String!
     clientSecret: String
-    grantType: AuthGrantType!
+    grantType: AuthGrantType
   ): AuthenticatePayload
   addToCart(productId: ID!, cartId: ID): Cart
-  checkout(input: CheckoutInput!): Checkout
-  pay(checkoutId: ID!): Payment
 }
