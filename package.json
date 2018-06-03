@@ -8,13 +8,13 @@
     "dev": "npm-run-all --parallel dev:server playground",
     "dev:server": "nodemon -e ts,graphql -x ts-node -r dotenv/config src",
     "playground": "graphql playground",
-    "deploy":
-      "now --public --dotenv .env.production && now alias && now rm --yes --safe moltinql",
+    "deploy": "now --public --dotenv .env.production && now alias && now rm --yes --safe moltinql",
     "build": "rimraf dist && tsc",
     "start": "node dist"
   },
   "dependencies": {
     "@moltin/sdk": "^3.3.0",
+    "dataloader": "^1.4.0",
     "graphql-yoga": "^1.4.3",
     "node-fetch": "^2.0.0"
   },
