@@ -1,5 +1,4 @@
 import * as DataLoader from 'dataloader'
-import { keyBy } from 'lodash'
 
 import { Moltin } from '../'
 
@@ -21,7 +20,9 @@ const productLoader = new DataLoader(async productIds => {
 
 const mainImageLoader = new DataLoader(async imageIds => {
   return imageIds.map(async id => {
-    const { data: { link, ...rest } } = await Moltin.Files.Get(id)
+    const {
+      data: { link, ...rest },
+    } = await Moltin.Files.Get(id)
 
     return {
       href: link.href,
