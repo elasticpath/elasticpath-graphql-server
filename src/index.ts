@@ -1,8 +1,5 @@
 require('dotenv').config();
 import { gateway as MoltinGateway } from '@moltin/sdk'
-
-// import loaders from './loaders'  // TODO
-
 const { ELASTICPATH_CLIENT_ID, ELASTICPATH_CLIENT_SECRET } = process.env
 
 export const Moltin = MoltinGateway({
@@ -13,11 +10,11 @@ export const Moltin = MoltinGateway({
 const { ApolloServer } = require('apollo-server');
 
 const typeDefs = require('./schema');
-const resolvers = require('./resolvers');
+import resolvers from './resolvers'
+import loaders from './loaders'
 
 // set up any dataSources our resolvers need
 const dataSources = () => ({
-  // launchAPI: new LaunchAPI(),
 });
 
 // the function that sets up the global context for each resolver, using the req
@@ -25,7 +22,7 @@ const context = async ({ req }) => {
   return {
     ...req,
     Moltin,
-    // loaders,
+    loaders,
   };
 };
 

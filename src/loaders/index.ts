@@ -2,7 +2,7 @@ import * as DataLoader from 'dataloader'
 
 import { Moltin } from '../'
 
-const brandLoader = new DataLoader(async brandIds => {
+const brandLoader = new DataLoader<string,any>(async brandIds => {
   return brandIds.map(async id => {
     const { data } = await Moltin.Brands.Get(id)
 
@@ -10,7 +10,7 @@ const brandLoader = new DataLoader(async brandIds => {
   })
 })
 
-const productLoader = new DataLoader(async productIds => {
+const productLoader = new DataLoader<string,any>(async productIds => {
   return productIds.map(async id => {
     const { data } = await Moltin.Products.Get(id)
 
@@ -18,7 +18,7 @@ const productLoader = new DataLoader(async productIds => {
   })
 })
 
-const mainImageLoader = new DataLoader(async imageIds => {
+const mainImageLoader = new DataLoader<string,any>(async imageIds => {
   return imageIds.map(async id => {
     const {
       data: { link, ...rest },
