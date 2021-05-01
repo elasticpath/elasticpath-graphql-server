@@ -1,21 +1,23 @@
-# Moltin GraphQL Server
+<img src="https://www.elasticpath.com/themes/custom/bootstrap_sass/logo.svg" alt="" width="400" />
 
-[moltin](https://moltin.com) is a fully baked eCommerce REST API for developers.
+# GraphQL Server for Elastic Path Commerce Cloud 
 
-This repo is a WIP. Contributors welcome 👋
+[Elastic Path](https://www.elasticpath.com/) is composable, API-first, headless commerce platform.
+
+Contributors welcome 👋
 
 ## Installation
 
 ```bash
-git clone https://github.com/notrab/graphql-moltin-wrapper.git
-cd graphql-moltin-wrapper
+git clone https://github.com/elasticpath/elasticpath-graphql-server
+cd elasticpath-graphql-server
 yarn
 ```
 
-You will need to set `MOLTIN_CLIENT_ID` inside `.env` or...
+You will need to set `ELASTICPATH_CLIENT_ID` inside `.env` or...
 
 ```bash
-export MOLTIN_CLIENT_ID=
+export ELASTICPATH_CLIENT_ID=
 ```
 
 ## Development
