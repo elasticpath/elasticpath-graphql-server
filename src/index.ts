@@ -4,11 +4,11 @@ import { gateway as MoltinGateway } from '@moltin/sdk'
 import resolvers from './resolvers'
 import loaders from './loaders'
 
-const { MOLTIN_CLIENT_ID, MOLTIN_CLIENT_SECRET } = process.env
+const { ELASTICPATH_CLIENT_ID, ELASTICPATH_CLIENT_SECRET } = process.env
 
 export const Moltin = MoltinGateway({
-  client_id: MOLTIN_CLIENT_ID,
-  client_secret: MOLTIN_CLIENT_SECRET,
+  client_id: ELASTICPATH_CLIENT_ID,
+  client_secret: ELASTICPATH_CLIENT_SECRET,
 })
 
 const server = new GraphQLServer({
