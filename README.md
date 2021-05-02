@@ -36,30 +36,22 @@ Visit [http://localhost:4000/playground](http://localhost:4000/playground) where
 
 ```graphql
 {
-  allProducts {
+  products {
     id
     name
     description
     status
   }
 
-  Product(id: "PRODUCT_ID") {
+  product(id: "PRODUCT_ID") {
     id
     name
     description
   }
 
-  allBrands {
+  brands {
     id
     name
   }
 }
-```
-
-## Production
-
-Most Node deployments will look for the `start` script. This is set to `node index.js` which will run the Express application. You can run as production by running the following;
-
-```bash
-NODE_ENV=production yarn start
 ```
