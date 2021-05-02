@@ -1,3 +1,6 @@
+const { gql } = require('apollo-server');
+
+const typeDefs = gql`
 type Product {
   id: ID!
   name: String!
@@ -162,3 +165,7 @@ type Mutation {
   ): Order
   stripeTokenPayment(orderId: ID!, token: String!): Order
 }
+
+`;
+
+module.exports = typeDefs;

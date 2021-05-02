@@ -1,23 +1,21 @@
 export default {
-  Query: {
-    categories: async (parent, args, { Moltin }) => {
-      try {
-        const { data: categories } = await Moltin.Collections.All()
+  categories: async (parent, args, { Moltin }) => {
+    try {
+      const { data: categories } = await Moltin.Collections.All()
 
-        return categories
-      } catch (e) {
-        return e
-      }
-    },
+      return categories
+    } catch (e) {
+      return e
+    }
+  },
 
-    category: async (parent, { id }, { Moltin }) => {
-      try {
-        const { data: category } = await Moltin.Categories.Get(id)
+  category: async (parent, { id }, { Moltin }) => {
+    try {
+      const { data: category } = await Moltin.Categories.Get(id)
 
-        return category
-      } catch (e) {
-        return e
-      }
-    },
+      return category
+    } catch (e) {
+      return e
+    }
   },
 }

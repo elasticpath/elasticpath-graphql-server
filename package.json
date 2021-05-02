@@ -1,7 +1,7 @@
 {
-  "name": "moltinql",
+  "name": "elasticpath-graphql-server",
   "private": true,
-  "version": "0.0.3",
+  "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -13,25 +13,26 @@
     "start": "node dist"
   },
   "dependencies": {
-    "@moltin/sdk": "^3.3.0",
-    "dataloader": "^1.4.0",
-    "graphql-yoga": "^1.4.3",
-    "node-fetch": "^2.0.0"
+    "@moltin/sdk": "^6.6.0",
+    "dataloader": "^2.0.0",
+    "apollo-server": "^2.24.0",
+    "apollo-server-testing": "^2.24.0",
+    "dotenv": "^8.2.0",
+    "graphql": "^15.5.0",
+    "nodemon": "^2.0.7"
   },
   "devDependencies": {
-    "@types/node": "^9.4.6",
-    "@types/node-fetch": "^1.6.7",
-    "dotenv": "^5.0.0",
-    "graphql-cli": "^2.15.7",
-    "nodemon": "^1.15.1",
-    "now": "^9.3.3",
-    "npm-run-all": "^4.1.2",
-    "rimraf": "^2.6.2",
-    "ts-node": "^5.0.0",
-    "typescript": "^2.7.2"
+    "dotenv": "^8.2.0",
+    "graphql-cli": "^4.1.0",
+    "nodemon": "^2.0.7",
+    "now": "^21.0.1",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
   },
   "now": {
-    "alias": "moltinql"
+    "alias": "elasticpath-graphql-server"
   },
   "prettier": {
     "semi": false,
@@ -39,6 +40,6 @@
     "trailingComma": "all"
   },
   "engines": {
-    "node": "<= 8"
+    "node": ">=12 <15"
   }
 }
