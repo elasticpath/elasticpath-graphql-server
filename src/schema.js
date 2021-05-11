@@ -12,6 +12,13 @@ type Product {
   main_image: MainImage
 }
 
+type Customer {
+  id: ID!
+  type: String
+  name: String
+  email: String
+}
+
 type ProductPrice {
   amount: Int!
   currency: String
@@ -116,9 +123,11 @@ type Query {
   categories: [Category]
   category(id: ID!): Category
   cart(id: ID!): Cart
+  customers: [Customer]
+  customer(id: ID!): Customer
 }
 
-input BillingAddress {
+input BillingAddressInput {
   first_name: String!
   last_name: String!
   company_name: String
@@ -130,7 +139,7 @@ input BillingAddress {
   country: String
 }
 
-input ShippingAddress {
+input ShippingAddressInput {
   first_name: String!
   last_name: String!
   phone_number: String
@@ -144,7 +153,7 @@ input ShippingAddress {
   instructions: String
 }
 
-input Customer {
+input CustomerInput {
   id: ID
   name: String
   email: String
@@ -159,11 +168,12 @@ type Mutation {
   addToCart(productId: ID!, cartId: ID!): Cart
   checkoutCart(
     cartId: ID!
-    customer: Customer!
-    billing: BillingAddress!
-    shipping: ShippingAddress
+    customer: CustomerInput!
+    billing: BillingAddressInput!
+    shipping: ShippingAddressInput
   ): Order
   stripeTokenPayment(orderId: ID!, token: String!): Order
+  addCustomer(customerInput: CustomerInput): Customer
 }
 
 `;
