@@ -14,7 +14,6 @@ export default {
     }
 
     try {
-      console.log("start")
       const data = await fetch(`https://api.moltin.com/oauth/access_token`, {
         method: 'POST',
         headers: {
@@ -26,7 +25,6 @@ export default {
           .join('&'),
       })
 
-      console.log("data")
       return data.json()
     } catch (e) {
       return { error: e.message }
