@@ -40,6 +40,6 @@
     "trailingComma": "all"
   },
   "engines": {
-    "node": ">=12 <15"
+    "node": "=14"
   }
 }
