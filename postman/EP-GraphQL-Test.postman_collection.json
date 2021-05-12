@@ -1,0 +1,656 @@
+{
+	"info": {
+		"_postman_id": "f3decba4-6ecd-437a-b828-6764546b27c5",
+		"name": "EP-GraphQL-Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "mutations",
+			"item": [
+				{
+					"name": "authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"postman.setNextRequest(\"products\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation authenticate ($clientId: String!, $clientSecret: String, $grantType: AuthGrantType) {\n    authenticate (clientId: $clientId, clientSecret: $clientSecret, grantType: $grantType) {\n        expires\n        identifier\n        expires_in\n        access_token\n        token_type\n    }\n}",
+								"variables": "{\n  \"clientId\": \"\",\n  \"clientSecret\": \"\",\n  \"grantType\": \"\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addToCart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Cart contains \" + pm.environment.get(\"product_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.addToCart.items).to.be.an('array').but.not.an('object');",
+									"",
+									"    var lineItemFound = false;",
+									"    for (var lineItem of jsonData.data.addToCart.items) {",
+									"        if (lineItem.name == pm.environment.get(\"product_name\")) {",
+									"            lineItemFound = true;",
+									"            break;",
+									"        }",
+									"    }",
+									"    pm.expect(lineItemFound).to.equal(true);",
+									"});",
+									"",
+									"postman.setNextRequest(\"cart\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation addToCart ($productId: ID!, $cartId: ID!) {\n    addToCart (productId: $productId, cartId: $cartId) {\n        id\n        items {\n            id\n            type\n            name\n            description\n            quantity\n        }\n    }\n}",
+								"variables": "{\n  \"productId\": \"{{product_id}}\",\n  \"cartId\": 0\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkoutCart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation checkoutCart ($cartId: ID!, $customer: CustomerInput!, $billing: BillingAddressInput!, $shipping: ShippingAddressInput) {\n    checkoutCart (cartId: $cartId, customer: $customer, billing: $billing, shipping: $shipping) {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
+								"variables": "{\n  \"cartId\": 0,\n  \"customer\": {\n    \"name\": \"\",\n    \"email\": \"\",\n    \"password\": \"\"\n  },\n  \"billing\": {\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"postcode\": \"\",\n    \"county\": \"\",\n    \"country\": \"\"\n  },\n  \"shipping\": {\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"phone_number\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"postcode\": \"\",\n    \"county\": \"\",\n    \"country\": \"\",\n    \"instructions\": \"\"\n  }\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stripeTokenPayment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation stripeTokenPayment ($orderId: ID!, $token: String!) {\n    stripeTokenPayment (orderId: $orderId, token: $token) {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
+								"variables": "{\n  \"orderId\": 0,\n  \"token\": \"\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addCustomer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation addCustomer ($customerInput: CustomerInput) {\n    addCustomer (customerInput: $customerInput) {\n        id\n        type\n        name\n        email\n    }\n}",
+								"variables": "{\n  \"customerInput\": {\n    \"name\": \"{{customer_name}}\",\n    \"email\": \"{{customer_email}}\",\n    \"password\": \"{{customer_password}}\"\n  }\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "queries",
+			"item": [
+				{
+					"name": "products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response contains \" + pm.environment.get(\"product_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.products).to.be.an('array').but.not.an('object');",
+									"",
+									"    var prodFound = false;",
+									"    for (var product of jsonData.data.products) {",
+									"        if (product.name == pm.environment.get(\"product_name\")) {",
+									"            prodFound = true;",
+									"            pm.environment.set(\"product_id\", product.id)",
+									"            break;",
+									"        }",
+									"    }",
+									"    pm.expect(prodFound).to.equal(true);",
+									"});",
+									"",
+									"postman.setNextRequest(\"product\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query products {\n    products {\n        id\n        name\n        slug\n        description\n        status\n        price {\n            amount\n            currency\n            includes_tax\n        }\n        brands {\n            id\n            type\n            name\n            slug\n            description\n            status\n            products {\n                id\n                name\n                slug\n                description\n                status\n                main_image {\n                    file_name\n                    href\n                }\n            }\n        }\n    }\n}",
+								"variables": "{}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Product is \" + pm.environment.get(\"product_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.product).to.be.an('object');",
+									"",
+									"    pm.expect(jsonData.data.product.name).to.equal(pm.environment.get(\"product_name\"));",
+									"});",
+									"",
+									"postman.setNextRequest(\"brands\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query product ($id: ID!) {\n    product (id: $id) {\n        id\n        name\n        slug\n        description\n        status\n        price {\n            amount\n            currency\n            includes_tax\n        }\n        brands {\n            id\n            type\n            name\n            slug\n            description\n            status\n            products {\n                id\n                name\n                slug\n                description\n                status\n                price {\n                    amount\n                    currency\n                    includes_tax\n                }\n                brands {\n                    id\n                    type\n                    name\n                    slug\n                    description\n                    status\n                }\n                main_image {\n                    file_name\n                    href\n                }\n            }\n        }\n        main_image {\n            file_name\n            href\n        }\n    }\n}",
+								"variables": "{\n  \"id\": \"{{product_id}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "brands",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response contains \" + pm.environment.get(\"brand_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.brands).to.be.an('array').but.not.an('object');",
+									"",
+									"    var brandFound = false;",
+									"    for (var brand of jsonData.data.brands) {",
+									"        if (brand.name == pm.environment.get(\"brand_name\")) {",
+									"            brandFound = true;",
+									"            pm.environment.set(\"brand_id\", brand.id)",
+									"            break;",
+									"        }",
+									"    }",
+									"    pm.expect(brandFound).to.equal(true);",
+									"});",
+									"",
+									"postman.setNextRequest(\"brand\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query brands {\n    brands {\n        id\n        type\n        name\n        slug\n        description\n        status\n        products {\n            id\n            name\n            slug\n            description\n            status\n            price {\n                amount\n                currency\n                includes_tax\n            }\n            brands {\n                id\n                type\n                name\n                slug\n                description\n                status\n            }\n            main_image {\n                file_name\n                href\n            }\n        }\n    }\n}",
+								"variables": "{}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "brand",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Brand is \" + pm.environment.get(\"brand_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.brand).to.be.an('object');",
+									"",
+									"    pm.expect(jsonData.data.brand.name).to.equal(pm.environment.get(\"brand_name\"));",
+									"});",
+									"",
+									"postman.setNextRequest(\"collections\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query brand ($id: ID!) {\n    brand (id: $id) {\n        id\n        type\n        name\n        slug\n        description\n        status\n        products {\n            id\n            name\n            slug\n            description\n            status\n            price {\n                amount\n                currency\n                includes_tax\n            }\n            brands {\n                id\n                type\n                name\n                slug\n                description\n                status\n                products {\n                    id\n                    name\n                    slug\n                    description\n                    status\n                    main_image {\n                        file_name\n                        href\n                    }\n                }\n            }\n        }\n    }\n}",
+								"variables": "{\n  \"id\": \"{{brand_id}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "collections",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response contains \" + pm.environment.get(\"collection_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.collections).to.be.an('array').but.not.an('object');",
+									"",
+									"    var collectionFound = false;",
+									"    for (var collection of jsonData.data.collections) {",
+									"        if (collection.name == pm.environment.get(\"collection_name\")) {",
+									"            collectionFound = true;",
+									"            pm.environment.set(\"collection_id\", collection.id)",
+									"            break;",
+									"        }",
+									"    }",
+									"    pm.expect(collectionFound).to.equal(true);",
+									"});",
+									"",
+									"postman.setNextRequest(\"collection\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query collections {\n    collections {\n        id\n        type\n        status\n        name\n        slug\n        description\n    }\n}",
+								"variables": "{}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Collection is \" + pm.environment.get(\"collection_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.collection).to.be.an('object');",
+									"",
+									"    pm.expect(jsonData.data.collection.name).to.equal(pm.environment.get(\"collection_name\"));",
+									"});",
+									"",
+									"postman.setNextRequest(\"categories\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query collection ($id: ID!) {\n    collection (id: $id) {\n        id\n        type\n        status\n        name\n        slug\n        description\n    }\n}",
+								"variables": "{\n  \"id\": \"{{collection_id}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response contains \" + pm.environment.get(\"category_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.categories).to.be.an('array').but.not.an('object');",
+									"",
+									"    var categoryFound = false;",
+									"    for (var category of jsonData.data.categories) {",
+									"        if (category.name == pm.environment.get(\"category_name\")) {",
+									"            categoryFound = true;",
+									"            pm.environment.set(\"category_id\", category.id)",
+									"            break;",
+									"        }",
+									"    }",
+									"    pm.expect(categoryFound).to.equal(true);",
+									"});",
+									"",
+									"postman.setNextRequest(\"category\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query categories {\n    categories {\n        id\n        type\n        status\n        name\n        slug\n        description\n    }\n}",
+								"variables": "{}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Category is \" + pm.environment.get(\"category_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.category).to.be.an('object');",
+									"",
+									"    pm.expect(jsonData.data.category.name).to.equal(pm.environment.get(\"category_name\"));",
+									"});",
+									"",
+									"postman.setNextRequest(\"customers\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query category ($id: ID!) {\n    category (id: $id) {\n        id\n        type\n        status\n        name\n        slug\n        description\n    }\n}",
+								"variables": "{\n  \"id\": \"{{category_id}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Cart contains \" + pm.environment.get(\"product_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.cart.items).to.be.an('array').but.not.an('object');",
+									"",
+									"    var lineItemFound = false;",
+									"    for (var lineItem of jsonData.data.cart.items) {",
+									"        if (lineItem.name == pm.environment.get(\"product_name\")) {",
+									"            lineItemFound = true;",
+									"            pm.environment.set(\"product_id\", lineItem.id)",
+									"            break;",
+									"        }",
+									"    }",
+									"    pm.expect(lineItemFound).to.equal(true);",
+									"});",
+									"",
+									"postman.setNextRequest(\"null\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query cart ($id: ID!) {\n    cart (id: $id) {\n        id\n        items {\n            id\n            type\n            name\n            description\n            quantity\n        }\n    }\n}",
+								"variables": "{\n  \"id\": 0\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "customers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response contains \" + pm.environment.get(\"customer_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.customers).to.be.an('array').but.not.an('object');",
+									"",
+									"    var customerFound = false;",
+									"    for (var customer of jsonData.data.customers) {",
+									"        if (customer.name == pm.environment.get(\"customer_name\")) {",
+									"            customerFound = true;",
+									"            pm.environment.set(\"customer_id\", customer.id)",
+									"            break;",
+									"        }",
+									"    }",
+									"    pm.expect(customerFound).to.equal(true);",
+									"});",
+									"",
+									"postman.setNextRequest(\"customer\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query customers {\n    customers {\n        id\n        type\n        name\n        email\n    }\n}",
+								"variables": "{}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Customer is \" + pm.environment.get(\"customer_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.customer).to.be.an('object');",
+									"",
+									"    pm.expect(jsonData.data.customer.name).to.equal(pm.environment.get(\"customer_name\"));",
+									"});",
+									"",
+									"postman.setNextRequest(\"addToCart\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query customer ($id: ID!) {\n    customer (id: $id) {\n        id\n        type\n        name\n        email\n    }\n}",
+								"variables": "{\n  \"id\": \"{{customer_id}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "",
+			"type": "any",
+			"description": "URL for the request."
+		}
+	]
+}
