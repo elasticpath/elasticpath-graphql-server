@@ -11,7 +11,7 @@ const typeDefs = mergeTypeDefs(loadedFiles);
 
 const printedTypeDefs = print(typeDefs);
 console.log(printedTypeDefs)
-// fs.writeFileSync('joined.graphql', printedTypeDefs);
+fs.writeFileSync('schema.graphql', printedTypeDefs);
 
 module.exports = {
   typeDefs
