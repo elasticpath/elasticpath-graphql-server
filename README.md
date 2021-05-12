@@ -40,6 +40,10 @@ Development uses [nodemon](https://github.com/remy/nodemon) which automatically 
 
 Visit [http://localhost:4000/graphql](http://localhost:4000/graphql) where you will be able to perform queries using GraphiQL.
 
+### Run Linting
+```bash
+yarn lint
+```
 ### Example Query
 
 ```graphql
