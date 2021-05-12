@@ -150,9 +150,28 @@ type Mutation {
   addCustomer(customerInput: CustomerInput): Customer
 }
 
+type PCMProductAttributes {
+  name: String!
+  commodity_type: String!
+  description: String!
+  mpn: String!
+  sku: String!
+  slug: String!
+  status: String!
+  upc_ean: String!
+}
+
+type PCMProduct {
+  id: ID!
+  type: String!
+  attributes: PCMProductAttributes!
+}
+
 type Query {
   products: [Product]
   product(id: ID!): Product
+  pcmProducts: [PCMProduct]
+  pcmProduct(id: ID!): PCMProduct
   brands: [Brand]
   brand(id: ID!): Brand
   collections: [Collection]
