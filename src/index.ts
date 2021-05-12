@@ -5,6 +5,8 @@ import {ApolloServer} from 'apollo-server'
 import resolvers from './resolvers'
 import loaders from './loaders'
 
+const { makeExecutableSchema } = require('apollo-server');
+
 const {ELASTICPATH_CLIENT_ID, ELASTICPATH_CLIENT_SECRET, ELASTICPATH_API_HOST} = process.env
 
 export const Moltin = MoltinGateway({
@@ -22,10 +24,14 @@ const context = async ({req}) => {
     return {...req, Moltin, loaders}
 }
 
-// Set up Apollo Server
-const server = new ApolloServer({
+const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
+});
+
+// Set up Apollo Server
+const server = new ApolloServer({
+    schema,
     dataSources,
     context,
     introspection: true,
