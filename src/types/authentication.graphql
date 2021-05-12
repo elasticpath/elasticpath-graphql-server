@@ -1,0 +1,13 @@
+enum AuthGrantType {
+  client_credentials
+  implicit
+  refresh_token
+}
+
+type AuthenticatePayload {
+  expires: Int!
+  identifier: String!
+  expires_in: Int!
+  access_token: String!
+  token_type: String!
+}
