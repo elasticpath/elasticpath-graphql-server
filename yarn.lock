@@ -960,10 +960,10 @@
   resolved "https://registry.yarnpkg.com/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz#9ceecc94b49fbaa15666e38ae8587f64acce007d"
   integrity sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==
 
-"@moltin/sdk@^6.6.0":
-  version "6.6.0"
-  resolved "https://registry.yarnpkg.com/@moltin/sdk/-/sdk-6.6.0.tgz#909a653099fa98123d78ff05000b3afdadf207dd"
-  integrity sha512-ZfgPaKEPVzPWDb6At1fdJDIVVrGOxRIeYHq3efvkbnH2xnxk7e0K3I0VN5d5tNVj5UOdOfbgNxOIOsifLjOrJg==
+"@moltin/sdk@7.0.0-beta.26":
+  version "7.0.0-beta.26"
+  resolved "https://registry.yarnpkg.com/@moltin/sdk/-/sdk-7.0.0-beta.26.tgz#79128d1b8c269b2a421ecae18269a147d2791820"
+  integrity sha512-Nf7l0y3TmOB7tIxFKg5eDmHArqmDFmKeUToOllg5z69JdKREcXx04FMsED97zujylmalXoyLPwqo2CaToNf6iQ==
   dependencies:
     es6-promise "^4.0.5"
     fetch-everywhere "^1.0.5"
