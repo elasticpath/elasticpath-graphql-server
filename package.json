@@ -23,7 +23,7 @@
     "nodemon": "^2.0.7"
   },
   "devDependencies": {
-    "@tsconfig/node14": "^1.0.0",
+    "@tsconfig/node16": "^1.0.1",
     "dotenv": "^9.0.2",
     "graphql-cli": "^4.1.0",
     "nodemon": "^2.0.7",
