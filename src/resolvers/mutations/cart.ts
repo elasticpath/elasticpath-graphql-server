@@ -1,22 +1,24 @@
-const addToCart = async (root, {productId, cartId}, {Moltin}) => {
+const addToCart = async (root, { productId, cartId }, { Moltin }) => {
     try {
         await Moltin.Cart(cartId).AddProduct(productId)
         const getCart = Moltin.Cart(cartId).Get()
         const getCartItems = Moltin.Cart(cartId).Items()
 
-        const [{data: {id}}, {data: items}] = await Promise.all([
+        const [{ data: { id } }, { data: items }] = await Promise.all([
             getCart,
             getCartItems,
         ])
-        return {id, items}
+        return { id, items }
     } catch (e) {
         return e
     }
 }
 
-const checkoutCart = async (root, {cartId, billing, customer, shipping = billing}, {Moltin}) => {
+const checkoutCart = async (root, {
+    cartId, billing, customer, shipping = billing,
+}, { Moltin }) => {
     try {
-        const {data: order} = await Moltin.Cart(cartId).Checkout(
+        const { data: order } = await Moltin.Cart(cartId).Checkout(
             customer,
             billing,
             shipping,
@@ -28,5 +30,5 @@ const checkoutCart = async (root, {cartId, billing, customer, shipping = billing
 }
 export default {
     checkoutCart,
-    addToCart
+    addToCart,
 }
