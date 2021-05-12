@@ -13,7 +13,7 @@ stages:
 build-server:
   stage: build
   needs: []
-  image: node:14-alpine
+  image: node:16-alpine
   script:
     - yarn install
     - yarn build
