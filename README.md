@@ -6,6 +6,9 @@
 
 Contributors welcome 👋
 
+## Pre-requisites 
+This code uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/getting-started/)
+
 ## Installation
 
 ```bash

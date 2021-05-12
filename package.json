@@ -17,14 +17,14 @@
     "apollo-server": "^2.24.0",
     "apollo-server-testing": "^2.24.0",
     "dataloader": "^2.0.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^9.0.2",
     "graphql": "^15.5.0",
     "graphql-tools": "^7.0.5",
     "nodemon": "^2.0.7"
   },
   "devDependencies": {
-    "@tsconfig/node14": "^1.0.0",
-    "dotenv": "^8.2.0",
+    "@tsconfig/node16": "^1.0.1",
+    "dotenv": "^9.0.2",
     "graphql-cli": "^4.1.0",
     "nodemon": "^2.0.7",
     "now": "^21.0.1",
@@ -42,7 +42,7 @@
     "trailingComma": "all"
   },
   "engines": {
-    "node": "=14"
+    "node": "=16"
   },
   "nodemonConfig": {
     "ignore": [
