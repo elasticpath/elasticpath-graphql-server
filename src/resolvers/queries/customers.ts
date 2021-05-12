@@ -1,15 +1,15 @@
-const customers = async (parent, args, {Moltin}) => {
+const customers = async (parent, args, { Moltin }) => {
     try {
-        const {data: customers} = await Moltin.Customers.All()
+        const { data: customers } = await Moltin.Customers.All()
         return customers
     } catch (e) {
         return e
     }
 }
 
-const customer = async (parent, {id}, {Moltin}) => {
+const customer = async (parent, { id }, { Moltin }) => {
     try {
-        const {data: customer} = await Moltin.Customers.Get(id)
+        const { data: customer } = await Moltin.Customers.Get(id)
         return customer
     } catch (e) {
         return e
@@ -18,5 +18,5 @@ const customer = async (parent, {id}, {Moltin}) => {
 
 export default {
     customers,
-    customer
+    customer,
 }
