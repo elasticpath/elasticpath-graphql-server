@@ -68,6 +68,8 @@ Visit [http://localhost:4000/graphql](http://localhost:4000/graphql) where you w
 
 This project uses postman collection to handle testing. We can run the tests on the command-line using newman so it is easy to incorporate those tests in CI.
 
+Before running the tests, make sure your server is up and running!
+
 Run the tests with the following command:
 
 ```bash
