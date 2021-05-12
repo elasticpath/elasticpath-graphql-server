@@ -1,13 +1,13 @@
 {
+  "extends": "@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
-    "target": "es5",
-    "moduleResolution": "node",
-    "module": "commonjs",
+    "strict": false,
+    "esModuleInterop": false,
     "sourceMap": true,
     "noUnusedLocals": true,
     "rootDir": "src",
     "outDir": "dist",
-    "lib": ["esnext.asynciterable", "es2016", "dom"]
+    "lib": ["esnext.asynciterable", "es2020", "dom"],
   },
   "exclude": ["node_modules", "dist"]
 }
