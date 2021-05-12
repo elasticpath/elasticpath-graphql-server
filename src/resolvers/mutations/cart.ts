@@ -8,10 +8,7 @@ const addToCart = async (root, {productId, cartId}, {Moltin}) => {
             getCart,
             getCartItems,
         ])
-        return {
-            id,
-            items,
-        }
+        return {id, items}
     } catch (e) {
         return e
     }
