@@ -14,10 +14,15 @@ cd elasticpath-graphql-server
 yarn
 ```
 
-You will need to set `ELASTICPATH_CLIENT_ID` and `ELASTICPATH_API_HOST` inside `.env` or...
+You will need to set a few environment variables inside.
+
+Copy the `.env.example` file to create a `.env` file and fill in appropriate values or...
+
 
 ```bash
 export ELASTICPATH_CLIENT_ID=
+export ELASTICPATH_CLIENT_SECRET=
+export ELASTICPATH_API_HOST=
 ```
 
 ## Development
