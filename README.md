@@ -14,6 +14,11 @@ cd elasticpath-graphql-server
 yarn
 ```
 
+The first time you open the project you may need to run 
+```bash
+npm isntall apollo-server graphql
+```
+
 You will need to set a few environment variables inside.
 
 Copy the `.env.example` file to create a `.env` file and fill in appropriate values or...
