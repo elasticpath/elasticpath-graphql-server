@@ -35,7 +35,7 @@ yarn dev
 
 Development uses [nodemon](https://github.com/remy/nodemon) which automatically reloads code after changes.
 
-Visit [http://localhost:4000/playground](http://localhost:4000/playground) where you will be able to perform queries using GraphiQL.
+Visit [http://localhost:4000/graphql](http://localhost:4000/graphql) where you will be able to perform queries using GraphiQL.
 
 ## Example Query
 
