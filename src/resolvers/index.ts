@@ -8,7 +8,7 @@ import brandQueryResolvers from './queries/brands'
 import productQueryResolvers from './queries/products'
 import categoryQueryResolvers from './queries/categories'
 import collectionQueryResolvers from './queries/collections'
-import customerQueryResolvers from './queries/customers'
+import addressQueryResolvers from './queries/addresses'
 import rootQueryResolvers from './root'
 
 export default {
@@ -25,6 +25,6 @@ export default {
     ...productQueryResolvers,
     ...categoryQueryResolvers,
     ...collectionQueryResolvers,
-    ...customerQueryResolvers
+    ...addressQueryResolvers
   },
 }

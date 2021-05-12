@@ -81,10 +81,44 @@ type Customer {
   email: String
 }
 
+type CustomerAddress {
+  id: ID!
+  type: String!
+  first_name: String!
+  last_name: String!
+  name: String
+  phone_number: String
+  instructions: String
+  company_name: String
+  line_1: String
+  line_2: String
+  city: String
+  county: String
+  postcode: String
+  country: String
+}
+
 input CustomerInput {
   id: ID
   name: String
   email: String
+}
+
+input CustomerAddressInput {
+  id: ID
+  type: String!
+  first_name: String!
+  last_name: String!
+  name: String
+  phone_number: String
+  instructions: String
+  company_name: String
+  line_1: String!
+  line_2: String
+  city: String
+  county: String!
+  postcode: String!
+  country: String!
 }
 
 type Product {
@@ -147,7 +181,8 @@ type Mutation {
   addToCart(productId: ID!, cartId: ID!): Cart
   checkoutCart(cartId: ID!, customer: CustomerInput!, billing: BillingAddressInput!, shipping: ShippingAddressInput): Order
   stripeTokenPayment(orderId: ID!, token: String!): Order
-  addCustomer(customerInput: CustomerInput): Customer
+  addCustomerAddress(customerId: ID!, address: CustomerAddressInput): CustomerAddress
+  updateCustomerAddress(customerId: ID!, addressId: ID!, address: CustomerAddressInput): CustomerAddress
 }
 
 type Query {
@@ -160,8 +195,8 @@ type Query {
   categories: [Category]
   category(id: ID!): Category
   cart(id: ID!): Cart
-  customers: [Customer]
-  customer(id: ID!): Customer
+  customerAddresses(customer: String!): [CustomerAddress]
+  customerAddress(customer: String!, address: String!): CustomerAddress
 }
 
 schema {
