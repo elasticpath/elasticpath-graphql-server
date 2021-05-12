@@ -40,12 +40,8 @@ const server = new ApolloServer({
 // Start our server if we're not in a test env.
 // if we're in a test env, we'll manually start it in a test
 if (process.env.NODE_ENV !== 'test') {
-    server.listen().then(() => {
-        console.log(`
-      Server is listening on port 4000.
-      For postman & curl use http://localhost:4000
-      Playground available at http://localhost:4000/graphql
-    `)
+    server.listen().then(({url}) => {
+        console.log(`\n\tServer is ready at ${url}, For postman, curl and Playground.\n`)
     })
 }
 
