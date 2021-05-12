@@ -4,11 +4,7 @@ import {gateway as MoltinGateway} from '@moltin/sdk'
 import {ApolloServer} from 'apollo-server'
 import resolvers from './resolvers'
 import loaders from './loaders'
-
-// const { makeExecutableSchema } = require('apollo-server');
 import { makeExecutableSchema } from '@graphql-tools/schema';
-// import {mergeSchemas} from '@graphql-tools/merge';
-
 
 const {ELASTICPATH_CLIENT_ID, ELASTICPATH_CLIENT_SECRET, ELASTICPATH_API_HOST} = process.env
 
@@ -17,7 +13,6 @@ export const Moltin = MoltinGateway({
     client_secret: ELASTICPATH_CLIENT_SECRET,
     host: ELASTICPATH_API_HOST
 })
-
 
 // set up any dataSources our resolvers need
 const dataSources = () => ({})
