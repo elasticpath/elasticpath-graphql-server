@@ -1,7 +1,7 @@
 require('dotenv').config();
+import { typeDefs } from './schema'
 import {gateway as MoltinGateway} from '@moltin/sdk'
 import {ApolloServer} from 'apollo-server'
-import typeDefs from './schema'
 import resolvers from './resolvers'
 import loaders from './loaders'
 
