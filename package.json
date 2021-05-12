@@ -10,9 +10,13 @@
     "playground": "graphql playground",
     "deploy": "now --public --dotenv .env.production && now alias && now rm --yes --safe moltinql",
     "build": "rimraf dist && tsc",
-    "start": "node dist"
+    "start": "node dist",
+    "lint": "eslint . --ext .ts --fix"
   },
   "dependencies": {
+    "@graphql-tools/load-files": "^6.3.2",
+    "@graphql-tools/merge": "^6.2.14",
+    "@graphql-tools/schema": "^7.1.5",
     "@moltin/sdk": "^6.6.0",
     "apollo-server": "^2.24.0",
     "apollo-server-testing": "^2.24.0",
@@ -24,7 +28,12 @@
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
     "dotenv": "^9.0.2",
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "graphql-cli": "^4.1.0",
     "nodemon": "^2.0.7",
     "now": "^21.0.1",

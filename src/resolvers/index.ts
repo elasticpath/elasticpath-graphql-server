@@ -12,19 +12,19 @@ import customerQueryResolvers from './queries/customers'
 import rootQueryResolvers from './root'
 
 export default {
-  ...rootQueryResolvers,
-  Mutation: {
-    ...authenticationMutationResolvers,
-    ...cartMutationResolvers,
-    ...orderMutationResolvers,
-    ...customerMutationResolvers,
-  },
-  Query: {
-    ...brandQueryResolvers,
-    ...cartQueryResolvers,
-    ...productQueryResolvers,
-    ...categoryQueryResolvers,
-    ...collectionQueryResolvers,
-    ...customerQueryResolvers
-  },
+    ...rootQueryResolvers,
+    Mutation: {
+        ...authenticationMutationResolvers,
+        ...cartMutationResolvers,
+        ...orderMutationResolvers,
+        ...customerMutationResolvers,
+    },
+    Query: {
+        ...brandQueryResolvers,
+        ...cartQueryResolvers,
+        ...productQueryResolvers,
+        ...categoryQueryResolvers,
+        ...collectionQueryResolvers,
+        ...customerQueryResolvers,
+    },
 }

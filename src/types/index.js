@@ -1,6 +1,5 @@
-const path = require('path');
-const { print } = require('graphql');
 const fs = require('fs');
+const { print } = require('graphql')
 const { loadFilesSync } = require('@graphql-tools/load-files');
 const { mergeTypeDefs } = require('@graphql-tools/merge');
 
@@ -12,5 +11,5 @@ const printedTypeDefs = print(typeDefs);
 fs.writeFileSync('schema.graphql', printedTypeDefs);
 
 module.exports = {
-  typeDefs
-}
+  typeDefs,
+};
