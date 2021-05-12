@@ -15,4 +15,5 @@ type Mutation {
 
   addCustomerAddress(customerId: ID!, address: CustomerAddressInput): CustomerAddress
   updateCustomerAddress(customerId: ID!, addressId:ID!,address: CustomerAddressInput): CustomerAddress
+  deleteCustomerAddress(customerId: ID!, addressId:ID!): Boolean
 }
