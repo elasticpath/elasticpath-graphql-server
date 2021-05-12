@@ -6,17 +6,15 @@
 
 Contributors welcome 👋
 
+## Pre-requisites 
+This code uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/getting-started/)
+
 ## Installation
 
 ```bash
 git clone https://github.com/elasticpath/elasticpath-graphql-server
 cd elasticpath-graphql-server
 yarn
-```
-
-The first time you open the project you may need to run 
-```bash
-npm isntall apollo-server graphql
 ```
 
 You will need to set a few environment variables inside.
