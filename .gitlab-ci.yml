@@ -13,7 +13,10 @@ stages:
 build-server:
   stage: build
   needs: []
-  image: node:14-alpine
+  image: quay.io/elasticpath/lang-node:14.16-b66be95e-21981
+  variables:
+    DOCKER_AUTH_CONFIG: |
+      {"auths":{"quay.io":{"auth":"${QUAY_DOCKER_AUTH_PARVEZ_AKKAS}"}}}
   script:
     - yarn install
     - yarn build
