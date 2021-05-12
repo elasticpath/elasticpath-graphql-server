@@ -42,9 +42,9 @@ const server = new ApolloServer({
 if (process.env.NODE_ENV !== 'test') {
     server.listen().then(() => {
         console.log(`
-      Server is running!
-      Listening on port 4000
-      Query at https://studio.apollographql.com/dev
+      Server is listening on port 4000.
+      For postman & curl use http://localhost:4000
+      Playground available at http://localhost:4000/graphql
     `)
     })
 }
