@@ -1,12 +1,12 @@
 type PCMProductAttributes {
   name: String!
   commodity_type: String!
-  description: String!
-  mpn: String!
   sku: String!
-  slug: String!
-  status: String!
-  upc_ean: String!
+  slug: String
+  description: String
+  mpn: String
+  status: String
+  upc_ean: String
 }
 
 type PCMProduct {
