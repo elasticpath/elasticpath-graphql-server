@@ -1,0 +1,26 @@
+type Customer {
+  id: ID!
+  type: String
+  name: String
+  email: String
+}
+
+enum AuthGrantType {
+  client_credentials
+  implicit
+  refresh_token
+}
+
+type AuthenticatePayload {
+  expires: Int!
+  identifier: String!
+  expires_in: Int!
+  access_token: String!
+  token_type: String!
+}
+
+input CustomerInput {
+  id: ID
+  name: String
+  email: String
+}

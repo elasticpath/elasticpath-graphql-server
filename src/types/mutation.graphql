@@ -1,0 +1,16 @@
+type Mutation {
+  authenticate(
+    clientId: String!
+    clientSecret: String
+    grantType: AuthGrantType
+  ): AuthenticatePayload
+  addToCart(productId: ID!, cartId: ID!): Cart
+  checkoutCart(
+    cartId: ID!
+    customer: CustomerInput!
+    billing: BillingAddressInput!
+    shipping: ShippingAddressInput
+  ): Order
+  stripeTokenPayment(orderId: ID!, token: String!): Order
+  addCustomer(customerInput: CustomerInput): Customer
+}

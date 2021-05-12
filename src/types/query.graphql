@@ -1,0 +1,13 @@
+type Query {
+  products: [Product]
+  product(id: ID!): Product
+  brands: [Brand]
+  brand(id: ID!): Brand
+  collections: [Collection]
+  collection(id: ID!): Collection
+  categories: [Category]
+  category(id: ID!): Category
+  cart(id: ID!): Cart
+  customers: [Customer]
+  customer(id: ID!): Customer
+}
