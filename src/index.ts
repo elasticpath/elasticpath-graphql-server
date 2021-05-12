@@ -7,7 +7,7 @@ import loaders from './loaders'
 
 // const { makeExecutableSchema } = require('apollo-server');
 import { makeExecutableSchema } from '@graphql-tools/schema';
-
+// import {mergeSchemas} from '@graphql-tools/merge';
 
 
 const {ELASTICPATH_CLIENT_ID, ELASTICPATH_CLIENT_SECRET, ELASTICPATH_API_HOST} = process.env
