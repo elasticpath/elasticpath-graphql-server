@@ -1,0 +1,19 @@
+#####################
+## Pipeline stages
+#####################
+
+stages:
+  - build
+  - test
+
+############################
+## Jobs for build stage
+############################
+
+build-server:
+  stage: build
+  needs: []
+  image: node:14-alpine
+  script:
+    - yarn install
+    - yarn build
