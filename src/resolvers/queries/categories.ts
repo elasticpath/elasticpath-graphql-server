@@ -10,7 +10,6 @@ const categories = async (parent, args, {Moltin}) => {
 const category = async (parent, {id}, {Moltin}) => {
     try {
         const {data: category} = await Moltin.Categories.Get(id)
-
         return category
     } catch (e) {
         return e

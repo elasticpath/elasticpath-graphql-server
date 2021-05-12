@@ -2,8 +2,7 @@ const brands = async ({relationships}, args, {loaders: {brandLoader}}) => {
     if (!relationships || !relationships.brands) return
     try {
         const brandIds = relationships.brands.data.map(b => b.id)
-        const brand = await brandLoader.loadMany(brandIds)
-        return brand
+        return await brandLoader.loadMany(brandIds)
     } catch (e) {
         return e
     }
@@ -12,10 +11,7 @@ const brands = async ({relationships}, args, {loaders: {brandLoader}}) => {
 const main_image = async ({relationships}, args, {loaders: {mainImageLoader}}) => {
     if (!relationships || !relationships.main_image) return
     try {
-        const mainImage = await mainImageLoader.load(
-            relationships.main_image.data.id,
-        )
-        return mainImage
+        return await mainImageLoader.load(relationships.main_image.data.id)
     } catch (e) {
         return e
     }
@@ -25,9 +21,7 @@ const products = async ({relationships}, args, {loaders: {productLoader}}) => {
     try {
         if (!relationships || !relationships.products) return
         const productIds = relationships.products.data.map(p => p.id)
-        const product = await productLoader.loadMany(productIds)
-
-        return product
+        return await productLoader.loadMany(productIds)
     } catch (e) {
         return e
     }
