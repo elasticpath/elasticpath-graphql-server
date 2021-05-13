@@ -1,6 +1,6 @@
-const customer = async (parent, { id }, { Moltin }) => {
+const customer = async (parent, { id, token }, { Moltin }) => {
     try {
-        const { data: customer } = await Moltin.Customers.Get(id)
+        const { data: customer } = await Moltin.Customers.Get(id, token)
         return customer
     } catch (e) {
         return e

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f3decba4-6ecd-437a-b828-6764546b27c5",
+		"_postman_id": "575e4a84-91ae-4bd7-8167-eea502d314cd",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -9,12 +9,21 @@
 			"name": "mutations",
 			"item": [
 				{
-					"name": "authenticate",
+					"name": "authenticateAsCustomerViaPassword",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.test(\"Token has customer_id\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.authenticateAsCustomerViaPassword).to.be.an('object');",
+									"",
+									"    pm.expect(jsonData.data.authenticateAsCustomerViaPassword.customer_id).to.equal(pm.environment.get(\"customer_id\"));",
+									"",
+									"    pm.environment.set(\"token\", jsonData.data.authenticateAsCustomerViaPassword.token);",
+									"});",
+									"",
 									"postman.setNextRequest(\"products\");"
 								],
 								"type": "text/javascript"
@@ -27,8 +36,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation authenticate ($clientId: String!, $clientSecret: String, $grantType: AuthGrantType) {\n    authenticate (clientId: $clientId, clientSecret: $clientSecret, grantType: $grantType) {\n        expires\n        identifier\n        expires_in\n        access_token\n        token_type\n    }\n}",
-								"variables": "{\n  \"clientId\": \"\",\n  \"clientSecret\": \"\",\n  \"grantType\": \"\"\n}"
+								"query": "mutation authenticateAsCustomerViaPassword ($email: String!, $password: String!) {\n    authenticateAsCustomerViaPassword (email: $email, password: $password) {\n        type\n        id\n        customer_id\n        token\n        expires\n    }\n}",
+								"variables": "{\n  \"email\": \"{{customer_email}}\",\n  \"password\": \"{{customer_password}}\"\n}"
 							}
 						},
 						"url": {
@@ -484,7 +493,7 @@
 									"    pm.expect(jsonData.data.category.name).to.equal(pm.environment.get(\"category_name\"));",
 									"});",
 									"",
-									"postman.setNextRequest(\"customers\");"
+									"postman.setNextRequest(\"customer\");"
 								],
 								"type": "text/javascript"
 							}
@@ -543,55 +552,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query cart ($id: ID!) {\n    cart (id: $id) {\n        id\n        items {\n            id\n            type\n            name\n            description\n            quantity\n        }\n    }\n}",
+								"query": "query cart ($id: ID!) {\n    cart (id: $id) {\n        id\n        name\n        description\n        priceWithTax {\n            amount\n            currency\n            formatted\n        }\n        priceWithoutTax {\n            amount\n            currency\n            formatted\n        }\n        tax {\n            amount\n            currency\n            formatted\n        }\n        items {\n            id\n            type\n            name\n            description\n            quantity\n            sku\n            value {\n                amount\n                currency\n                includes_tax\n            }\n            unit_price {\n                amount\n                currency\n                includes_tax\n            }\n        }\n    }\n}",
 								"variables": "{\n  \"id\": 0\n}"
-							}
-						},
-						"url": {
-							"raw": "{{url}}",
-							"host": [
-								"{{url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "customers",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Response contains \" + pm.environment.get(\"customer_name\"), function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.data.customers).to.be.an('array').but.not.an('object');",
-									"",
-									"    var customerFound = false;",
-									"    for (var customer of jsonData.data.customers) {",
-									"        if (customer.name == pm.environment.get(\"customer_name\")) {",
-									"            customerFound = true;",
-									"            pm.environment.set(\"customer_id\", customer.id)",
-									"            break;",
-									"        }",
-									"    }",
-									"    pm.expect(customerFound).to.equal(true);",
-									"});",
-									"",
-									"postman.setNextRequest(\"customer\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query customers {\n    customers {\n        id\n        type\n        name\n        email\n    }\n}",
-								"variables": "{}"
 							}
 						},
 						"url": {
@@ -629,8 +591,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customer ($id: ID!) {\n    customer (id: $id) {\n        id\n        type\n        name\n        email\n    }\n}",
-								"variables": "{\n  \"id\": \"{{customer_id}}\"\n}"
+								"query": "query customer ($id: ID!, $token: String!) {\n    customer (id: $id, token: $token) {\n        id\n        type\n        name\n        email\n    }\n}",
+								"variables": "{\n  \"id\": \"{{customer_id}}\",\n  \"token\": \"{{token}}\"\n}"
 							}
 						},
 						"url": {

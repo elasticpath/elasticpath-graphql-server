@@ -1,26 +1,12 @@
-const authenticate = async (parent, {
-    clientId: client_id,
-    clientSecret: client_secret,
-    grantType: grant_type = 'implicit'
-}) => {
-    const body = {client_id, client_secret, grant_type}
+const authenticateAsCustomerViaPassword = async (root, { email, password }, {Moltin}) => {
     try {
-        const data = await fetch(`https://api.moltin.com/oauth/access_token`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: Object.keys(body)
-                .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(body[k])}`)
-                .join('&'),
-        })
-        return data.json()
+        const {data: token} = await Moltin.Customers.TokenViaPassword(email, password)
+        return token
     } catch (e) {
-        return {error: e.message}
+        return e
     }
 }
 
 export default {
-    authenticate
+    authenticateAsCustomerViaPassword
 }
