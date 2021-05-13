@@ -17,3 +17,16 @@ build-server:
   script:
     - yarn install
     - yarn build
+
+postman-tests:
+  stage: test
+  needs: []
+  image: node:16-alpine
+  before_script:
+    - echo "ELASTICPATH_CLIENT_ID=${ELASTICPATH_CLIENT_ID}" > .env
+    - echo "ELASTICPATH_API_HOST=${ELASTICPATH_API_HOST}" >> .env
+  script:
+    - yarn install
+    - yarn dev&
+    - sleep 5
+    - yarn test

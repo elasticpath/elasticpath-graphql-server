@@ -1,12 +1,3 @@
-const customers = async (parent, args, { Moltin }) => {
-    try {
-        const { data: customers } = await Moltin.Customers.All()
-        return customers
-    } catch (e) {
-        return e
-    }
-}
-
 const customer = async (parent, { id }, { Moltin }) => {
     try {
         const { data: customer } = await Moltin.Customers.Get(id)
@@ -15,8 +6,26 @@ const customer = async (parent, { id }, { Moltin }) => {
         return e
     }
 }
+const customerAddresses = async (parent, { customer }, { Moltin }) => {
+    try {
+        const { data: addresses } = await Moltin.Addresses.All({ customer })
+        return addresses
+    } catch (e) {
+        return e
+    }
+}
+
+const customerAddress = async (parent, { customer, address: addressInput }, { Moltin }) => {
+    try {
+        const { data: address } = await Moltin.Addresses.Get({ customer, address: addressInput })
+        return address
+    } catch (e) {
+        return e
+    }
+}
 
 export default {
-    customers,
+    customerAddresses,
+    customerAddress,
     customer,
 }

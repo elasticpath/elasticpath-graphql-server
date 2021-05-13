@@ -6,25 +6,27 @@ import customerMutationResolvers from './mutations/customers'
 import cartQueryResolvers from './queries/cart'
 import brandQueryResolvers from './queries/brands'
 import productQueryResolvers from './queries/products'
+import pcmProductQueryResolvers from './queries/pcmProducts'
 import categoryQueryResolvers from './queries/categories'
 import collectionQueryResolvers from './queries/collections'
 import customerQueryResolvers from './queries/customers'
 import rootQueryResolvers from './root'
 
 export default {
-    ...rootQueryResolvers,
-    Mutation: {
-        ...authenticationMutationResolvers,
-        ...cartMutationResolvers,
-        ...orderMutationResolvers,
-        ...customerMutationResolvers,
-    },
-    Query: {
-        ...brandQueryResolvers,
-        ...cartQueryResolvers,
-        ...productQueryResolvers,
-        ...categoryQueryResolvers,
-        ...collectionQueryResolvers,
-        ...customerQueryResolvers,
-    },
+  ...rootQueryResolvers,
+  Mutation: {
+    ...authenticationMutationResolvers,
+    ...cartMutationResolvers,
+    ...orderMutationResolvers,
+    ...customerMutationResolvers,
+  },
+  Query: {
+    ...brandQueryResolvers,
+    ...cartQueryResolvers,
+    ...productQueryResolvers,
+    ...pcmProductQueryResolvers,
+    ...categoryQueryResolvers,
+    ...collectionQueryResolvers,
+    ...customerQueryResolvers
+  },
 }

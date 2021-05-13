@@ -12,5 +12,5 @@ const cart = async (parent, { id: cartId }, { Moltin }) => {
 }
 
 export default {
-    cart,
+    cart
 }

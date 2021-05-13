@@ -1,0 +1,16 @@
+type PCMProductAttributes {
+  name: String!
+  commodity_type: String!
+  sku: String!
+  slug: String
+  description: String
+  mpn: String
+  status: String
+  upc_ean: String
+}
+
+type PCMProduct {
+  id: ID!
+  type: String!
+  attributes: PCMProductAttributes!
+}
