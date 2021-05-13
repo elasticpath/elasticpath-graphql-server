@@ -6,11 +6,10 @@ import resolvers from './resolvers'
 import loaders from './loaders'
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
-const {ELASTICPATH_CLIENT_ID, ELASTICPATH_CLIENT_SECRET, ELASTICPATH_API_HOST} = process.env
+const {ELASTICPATH_CLIENT_ID, ELASTICPATH_API_HOST} = process.env
 
 export const Moltin = MoltinGateway({
     client_id: ELASTICPATH_CLIENT_ID,
-    client_secret: ELASTICPATH_CLIENT_SECRET,
     host: ELASTICPATH_API_HOST
 })
 
