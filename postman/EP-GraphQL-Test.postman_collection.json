@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "575e4a84-91ae-4bd7-8167-eea502d314cd",
+		"_postman_id": "487a010d-1c28-4499-b2ee-9af924e1340f",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -176,7 +176,15 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Customer Address First Name is \" + pm.environment.get(\"customer_first_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.addCustomerAddress).to.be.an('object');",
+									"",
+									"    pm.expect(jsonData.data.addCustomerAddress.first_name).to.equal(pm.environment.get(\"customer_first_name\"));",
+									"    pm.environment.set(\"address_id\", jsonData.data.addCustomerAddress.id)",
+									"});",
+									"",
+									"postman.setNextRequest(\"deleteCustomerAddress\");"
 								],
 								"type": "text/javascript"
 							}
@@ -189,7 +197,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "mutation addCustomerAddress ($customerId: ID!, $address: CustomerAddressInput) {\n    addCustomerAddress (customerId: $customerId, address: $address) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customerId\": 0,\n  \"address\": {\n    \"id\": 0,\n    \"type\": \"\",\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"name\": \"\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"county\": \"\",\n    \"postcode\": \"\",\n    \"country\": \"\"\n  }\n}"
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"address\": {\n\n    \"type\": \"address\",\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"name\": \"{{customer_name}}\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"{{customer_line_1}}\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"county\": \"{{customer_county}}\",\n    \"postcode\": \"{{customer_postcode}}\",\n    \"country\": \"{{customer_country}}\"\n  }\n}"
 							}
 						},
 						"url": {
@@ -208,7 +216,14 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Customer Address First Line 1 is updated with: 'line 1 updated' \", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.addCustomerAddress).to.be.an('object');",
+									"",
+									"    pm.expect(jsonData.data.addCustomerAddress.line_1).to.equal(\"line 1 updated\");",
+									"});",
+									"",
+									"postman.setNextRequest(\"customerAddresses\");"
 								],
 								"type": "text/javascript"
 							}
@@ -221,7 +236,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "mutation updateCustomerAddress ($customerId: ID!, $addressId: ID!, $address: CustomerAddressInput) {\n    updateCustomerAddress (customerId: $customerId, addressId: $addressId, address: $address) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customerId\": 0,\n  \"addressId\": 0,\n  \"address\": {\n    \"id\": 0,\n    \"type\": \"\",\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"name\": \"\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"county\": \"\",\n    \"postcode\": \"\",\n    \"country\": \"\"\n  }\n}"
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"address\": {\n    \"id\" : \"{{address_id}}\",\n    \"type\": \"address\",\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"name\": \"{{customer_name}}\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"line 1 updated\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"county\": \"county updated\",\n    \"postcode\": {{customer_postcode}},\n    \"country\": \"{{customer_country}}\"\n  },\n  \"addressId\": \"{{address_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -240,7 +255,12 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Customer Address does not exists \", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.deleteCustomerAddress).to.equal(true);",
+									"});",
+									"",
+									"postman.setNextRequest(\"addToCart\");"
 								],
 								"type": "text/javascript"
 							}
@@ -253,7 +273,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "mutation deleteCustomerAddress ($customerId: ID!, $addressId: ID!) {\n    deleteCustomerAddress (customerId: $customerId, addressId: $addressId)\n}",
-								"variables": "{\n  \"customerId\": 0,\n  \"addressId\": 0\n}"
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"addressId\": \"{{address_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -675,7 +695,7 @@
 									"    pm.expect(jsonData.data.customer.name).to.equal(pm.environment.get(\"customer_name\"));",
 									"});",
 									"",
-									"postman.setNextRequest(\"addToCart\");"
+									"postman.setNextRequest(\"addCustomerAddress\");"
 								],
 								"type": "text/javascript"
 							}
@@ -702,6 +722,31 @@
 				},
 				{
 					"name": "customerAddresses",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response contains \" + pm.environment.get(\"customer_first_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.customerAddresses).to.be.an('array').but.not.an('object');",
+									"",
+									"    var addressFound = false;",
+									"    for (var address of jsonData.data.customerAddresses) {",
+									"        if (address.first_name == pm.environment.get(\"customer_first_name\")) {",
+									"            addressFound = true;",
+									"            break;",
+									"        }",
+									"    }",
+									"    pm.expect(addressFound).to.equal(true);",
+									"});",
+									"",
+									"postman.setNextRequest(\"customerAddress\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -709,7 +754,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query customerAddresses ($customer: String!) {\n    customerAddresses (customer: $customer) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customer\": \"\"\n}"
+								"variables": "{\n  \"customer\": \"{{customer_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -723,6 +768,24 @@
 				},
 				{
 					"name": "customerAddress",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Customer Address is \" + pm.environment.get(\"customer_first_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.customerAddress).to.be.an('object');",
+									"",
+									"    pm.expect(jsonData.data.customerAddress.first_name).to.equal(pm.environment.get(\"customer_first_name\"));",
+									"});",
+									"",
+									"postman.setNextRequest(\"deleteCustomerAddress\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -730,7 +793,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query customerAddress ($customer: String!, $address: String!) {\n    customerAddress (customer: $customer, address: $address) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customer\": \"\",\n  \"address\": \"\"\n}"
+								"variables": "{\n  \"customer\": \"{{customer_id}}\",\n  \"address\": \"{{address_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -747,6 +810,7 @@
 	],
 	"variable": [
 		{
+			"id": "c225570a-3af9-4cb2-9ef4-a937ddde5a50",
 			"key": "url",
 			"value": "",
 			"type": "any",
