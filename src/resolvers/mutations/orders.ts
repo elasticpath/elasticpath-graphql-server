@@ -1,4 +1,4 @@
-const stripeTokenPayment = async (root, {orderId, token: payment}, {Moltin}) => {
+const stripeTokenPayment = async (root, { orderId, token: payment }, { Moltin }) => {
     try {
         await Moltin.Orders.Payment(orderId, {
             gateway: 'stripe',
@@ -7,15 +7,15 @@ const stripeTokenPayment = async (root, {orderId, token: payment}, {Moltin}) => 
         })
         const getOrder = Moltin.Orders.Get(orderId)
         const getOrderItems = Moltin.Orders.Items(orderId)
-        const [{data: {id, ...rest}}, {data: items}] = await Promise.all([
+        const [{ data: { id, ...rest } }, { data: items }] = await Promise.all([
             getOrder,
             getOrderItems,
         ])
-        return {id, items, ...rest}
+        return { id, items, ...rest }
     } catch (e) {
         return e
     }
 }
 export default {
-    stripeTokenPayment
+    stripeTokenPayment,
 }

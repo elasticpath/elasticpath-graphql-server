@@ -38,9 +38,9 @@ type AuthenticatePayload {
 }
 
 input CustomerInput {
-  id: ID
   name: String
   email: String
+<<<<<<< HEAD
 }
 
 input CustomerAddressInput {
@@ -59,3 +59,7 @@ input CustomerAddressInput {
   postcode: String!
   country: String!
 }
+=======
+  password: String
+}
+>>>>>>> origin

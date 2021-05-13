@@ -8,23 +8,23 @@ import brandQueryResolvers from './queries/brands'
 import productQueryResolvers from './queries/products'
 import categoryQueryResolvers from './queries/categories'
 import collectionQueryResolvers from './queries/collections'
-import addressQueryResolvers from './queries/addresses'
+import customerQueryResolvers from './queries/customers'
 import rootQueryResolvers from './root'
 
 export default {
-  ...rootQueryResolvers,
-  Mutation: {
-    ...authenticationMutationResolvers,
-    ...cartMutationResolvers,
-    ...orderMutationResolvers,
-    ...customerMutationResolvers,
-  },
-  Query: {
-    ...brandQueryResolvers,
-    ...cartQueryResolvers,
-    ...productQueryResolvers,
-    ...categoryQueryResolvers,
-    ...collectionQueryResolvers,
-    ...addressQueryResolvers
-  },
+    ...rootQueryResolvers,
+    Mutation: {
+        ...authenticationMutationResolvers,
+        ...cartMutationResolvers,
+        ...orderMutationResolvers,
+        ...customerMutationResolvers,
+    },
+    Query: {
+        ...brandQueryResolvers,
+        ...cartQueryResolvers,
+        ...productQueryResolvers,
+        ...categoryQueryResolvers,
+        ...collectionQueryResolvers,
+        ...customerQueryResolvers,
+    },
 }

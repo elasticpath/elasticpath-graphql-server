@@ -99,9 +99,9 @@ type CustomerAddress {
 }
 
 input CustomerInput {
-  id: ID
   name: String
   email: String
+  password: String
 }
 
 input CustomerAddressInput {
