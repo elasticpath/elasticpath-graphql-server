@@ -16,7 +16,6 @@ const customerAddresses = async (parent, { customer }, { Moltin }) => {
 }
 
 const customerAddress = async (parent, { customer, address: addressInput }, { Moltin }) => {
-    console.log('ddd')
     try {
         const { data: address } = await Moltin.Addresses.Get({ customer, address: addressInput })
         return address

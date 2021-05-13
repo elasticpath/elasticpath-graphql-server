@@ -181,6 +181,7 @@ type Mutation {
   addToCart(productId: ID!, cartId: ID!): Cart
   checkoutCart(cartId: ID!, customer: CustomerInput!, billing: BillingAddressInput!, shipping: ShippingAddressInput): Order
   stripeTokenPayment(orderId: ID!, token: String!): Order
+  addCustomer(customerInput: CustomerInput): Customer
   addCustomerAddress(customerId: ID!, address: CustomerAddressInput): CustomerAddress
   updateCustomerAddress(customerId: ID!, addressId: ID!, address: CustomerAddressInput): CustomerAddress
   deleteCustomerAddress(customerId: ID!, addressId: ID!): Boolean
@@ -196,6 +197,7 @@ type Query {
   categories: [Category]
   category(id: ID!): Category
   cart(id: ID!): Cart
+  customer(id: ID!): Customer
   customerAddresses(customer: String!): [CustomerAddress]
   customerAddress(customer: String!, address: String!): CustomerAddress
 }
