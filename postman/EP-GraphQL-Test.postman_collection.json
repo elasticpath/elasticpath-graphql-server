@@ -484,7 +484,7 @@
 									"    pm.expect(jsonData.data.category.name).to.equal(pm.environment.get(\"category_name\"));",
 									"});",
 									"",
-									"postman.setNextRequest(\"customers\");"
+									"postman.setNextRequest(\"customer\");"
 								],
 								"type": "text/javascript"
 							}
@@ -545,53 +545,6 @@
 							"graphql": {
 								"query": "query cart ($id: ID!) {\n    cart (id: $id) {\n        id\n        items {\n            id\n            type\n            name\n            description\n            quantity\n        }\n    }\n}",
 								"variables": "{\n  \"id\": 0\n}"
-							}
-						},
-						"url": {
-							"raw": "{{url}}",
-							"host": [
-								"{{url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "customers",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Response contains \" + pm.environment.get(\"customer_name\"), function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.data.customers).to.be.an('array').but.not.an('object');",
-									"",
-									"    var customerFound = false;",
-									"    for (var customer of jsonData.data.customers) {",
-									"        if (customer.name == pm.environment.get(\"customer_name\")) {",
-									"            customerFound = true;",
-									"            pm.environment.set(\"customer_id\", customer.id)",
-									"            break;",
-									"        }",
-									"    }",
-									"    pm.expect(customerFound).to.equal(true);",
-									"});",
-									"",
-									"postman.setNextRequest(\"customer\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query customers {\n    customers {\n        id\n        type\n        name\n        email\n    }\n}",
-								"variables": "{}"
 							}
 						},
 						"url": {
