@@ -14,7 +14,7 @@
     "test": "newman run postman/EP-GraphQL-Test.postman_collection.json -e postman/EP-GraphQL-env.postman_environment.json"
   },
   "dependencies": {
-    "@moltin/sdk": "^6.6.0",
+    "@moltin/sdk": "7.0.0-beta.26",
     "apollo-server": "^2.24.0",
     "apollo-server-testing": "^2.24.0",
     "dataloader": "^2.0.0",
