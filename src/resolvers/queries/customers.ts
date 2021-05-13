@@ -1,15 +1,15 @@
 const customer = async (parent, { id }, { Moltin }) => {
     try {
-        const { data: customer } = await Moltin.Customers.Get(id)
-        return customer
+        const {data} = await Moltin.Customers.Get(id)
+        return data
     } catch (e) {
         return e
     }
 }
 const customerAddresses = async (parent, { customer }, { Moltin }) => {
     try {
-        const { data: addresses } = await Moltin.Addresses.All({ customer })
-        return addresses
+        const {data} = await Moltin.Addresses.All({ customer })
+        return data
     } catch (e) {
         return e
     }
@@ -17,8 +17,8 @@ const customerAddresses = async (parent, { customer }, { Moltin }) => {
 
 const customerAddress = async (parent, { customer, address: addressInput }, { Moltin }) => {
     try {
-        const { data: address } = await Moltin.Addresses.Get({ customer, address: addressInput })
-        return address
+        const {data} = await Moltin.Addresses.Get({ customer, address: addressInput })
+        return data
     } catch (e) {
         return e
     }

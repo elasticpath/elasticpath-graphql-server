@@ -7,6 +7,7 @@ import cartQueryResolvers from './queries/cart'
 import brandQueryResolvers from './queries/brands'
 import productQueryResolvers from './queries/products'
 import pcmProductQueryResolvers from './queries/pcmProducts'
+import promotionQueryResolvers from './queries/promotions'
 import categoryQueryResolvers from './queries/categories'
 import collectionQueryResolvers from './queries/collections'
 import customerQueryResolvers from './queries/customers'
@@ -25,6 +26,7 @@ export default {
     ...cartQueryResolvers,
     ...productQueryResolvers,
     ...pcmProductQueryResolvers,
+    ...promotionQueryResolvers,
     ...categoryQueryResolvers,
     ...collectionQueryResolvers,
     ...customerQueryResolvers

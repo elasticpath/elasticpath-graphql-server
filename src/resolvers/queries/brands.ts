@@ -1,7 +1,7 @@
 const brands = async (parent, args, {Moltin}) => {
     try {
-        const {data: brands} = await Moltin.Brands.All()
-        return brands
+        const {data} = await Moltin.Brands.All()
+        return data
     } catch (e) {
         return e
     }
@@ -9,8 +9,8 @@ const brands = async (parent, args, {Moltin}) => {
 
 const brand = async (parent, {id}, {Moltin}) => {
     try {
-        const {data: brand} = await Moltin.Brands.Get(id)
-        return brand
+        const {data} = await Moltin.Brands.Get(id)
+        return data
     } catch (e) {
         return e
     }

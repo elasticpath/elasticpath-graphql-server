@@ -1,0 +1,109 @@
+type CurrencyAmount {
+    amount: Float
+    currency: String
+}
+
+type CurrencyPercentage {
+    percentage: Float
+    currency: Float
+}
+
+"""
+DOCS: https://documentation.elasticpath.com/commerce-cloud/docs/api/carts-and-checkout/promotions/index.html#fixed-discount
+"""
+type FixedDiscountSchema {
+    currencies: [CurrencyAmount!]!
+}
+
+"""
+DOCS: https://documentation.elasticpath.com/commerce-cloud/docs/api/carts-and-checkout/promotions/index.html#percent-discount
+"""
+type PercentDiscountSchema {
+    currencies: [CurrencyPercentage!]!
+}
+
+"""
+DOCS: https://documentation.elasticpath.com/commerce-cloud/docs/api/carts-and-checkout/promotions/index.html#x-for-y
+"""
+type XforYSchema {
+    x: Int!
+    y: Int!
+    targets: [String!]!
+}
+
+"""
+DOCS: https://documentation.elasticpath.com/commerce-cloud/docs/api/carts-and-checkout/promotions/index.html#x-for-amount
+"""
+type XforAmountSchema {
+    x:  Int!
+    targets: [CurrencyAmount!]!
+}
+
+"""
+DOCS: https://documentation.elasticpath.com/commerce-cloud/docs/api/carts-and-checkout/promotions/index.html#bundle-discount
+"""
+type  Requirements {
+    targets: [String!]!
+    quantity: Int!
+}
+
+type BundleDiscountSchema {
+    requirements: [Requirements!]!
+    currencies: [CurrencyAmount!]!
+}
+
+"""
+DOCS: https://documentation.elasticpath.com/commerce-cloud/docs/api/carts-and-checkout/promotions/index.html#item-fixed-discount
+"""
+type ItemFixedDiscountSchema {
+    targets: [String!]!
+    currencies: [CurrencyAmount!]!
+}
+
+"""
+DOCS: https://documentation.elasticpath.com/commerce-cloud/docs/api/carts-and-checkout/promotions/index.html#item-percent-discount
+"""
+type ItemPercentDiscountSchema {
+    targets: [String!]!
+    percent: Float!
+}
+
+union PromotionSchema  = FixedDiscountSchema | PercentDiscountSchema | XforYSchema | XforAmountSchema | BundleDiscountSchema | ItemFixedDiscountSchema | ItemPercentDiscountSchema
+
+enum PromotionType {
+    fixed_discount
+    percent_discount
+    x_for_y
+    x_for_amount
+    bundle_fixed_discount
+    item_fixed_discount
+    item_percent_discount
+}
+
+type PromotionTimestamps {
+    created_at: String!
+    updated_at: String!
+}
+
+type PromotionMeta {
+    timestamps: PromotionTimestamps
+}
+
+"""
+DOCS: https://documentation.elasticpath.com/commerce-cloud/docs/api/carts-and-checkout/promotions/index.html#the-promotions-object
+"""
+type Promotion {
+    id: ID!
+    type: String!
+    name: String!
+    description: String!
+    enabled: String!
+    automatic: Boolean
+    promotion_type: PromotionType
+    schema: PromotionSchema
+    min_cart_value: [CurrencyAmount!]!
+    max_discount_value: [CurrencyAmount!]!
+    start: String!
+    end: String!
+    meta: PromotionMeta!
+}
