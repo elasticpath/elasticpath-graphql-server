@@ -1,8 +1,8 @@
 type Query {
   products: [Product]
   product(id: ID!): Product
-  pcmProducts: [PCMProduct]
-  pcmProduct(id: ID!): PCMProduct
+  pcmProducts(token: String): [PCMProduct]
+  pcmProduct(id: ID!, token: String): PCMProduct
   brands: [Brand]
   brand(id: ID!): Brand
   collections: [Collection]
