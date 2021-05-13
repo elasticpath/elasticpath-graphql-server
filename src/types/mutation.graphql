@@ -1,9 +1,8 @@
 type Mutation {
-  authenticate(
-    clientId: String!
-    clientSecret: String
-    grantType: AuthGrantType
-  ): AuthenticatePayload
+  authenticateAsCustomerViaPassword(
+    email: String!
+    password: String!
+  ): TokenPayload
   addToCart(productId: ID!, cartId: ID!): Cart
   checkoutCart(
     cartId: ID!
