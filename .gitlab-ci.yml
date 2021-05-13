@@ -28,5 +28,6 @@ postman-tests:
     - echo "ELASTICPATH_API_HOST=${ELASTICPATH_API_HOST}" >> .env
   script:
     - yarn install
-    - yarn dev &
+    - yarn dev&
+    - sleep 5
     - yarn test
