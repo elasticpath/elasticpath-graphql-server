@@ -8,6 +8,7 @@ type Query {
   categories: [Category]
   category(id: ID!): Category
   cart(id: ID!): Cart
-  customers: [Customer]
   customer(id: ID!): Customer
+  customerAddresses(customer: String!): [CustomerAddress]
+  customerAddress(customer: String!, address: String!): CustomerAddress
 }
