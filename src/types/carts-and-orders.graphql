@@ -1,13 +1,34 @@
+type Amount {
+  amount: Int
+  currency: String
+  formatted: String
+}
+
+type Value {
+  amount: Int
+  currency: String
+  includes_tax: Boolean 
+}
+
+
 type CartItem {
   id: ID!
   type: String!
   name: String!
   description: String
   quantity: Int!
+  sku: String!
+  value: Value!
+  unit_price: Value!
 }
 
 type Cart {
   id: ID!
+  name: String
+  description: String
+  priceWithTax: Amount
+  priceWithoutTax: Amount
+  tax: Amount
   items: [CartItem]
 }
 
