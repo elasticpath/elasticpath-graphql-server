@@ -1,10 +1,12 @@
+import { UserInputError } from "apollo-server"
+
 const brands = async ({relationships}, args, {loaders: {brandLoader}}) => {
     if (!relationships || !relationships.brands) return
     try {
         const brandIds = relationships.brands.data.map(b => b.id)
         return await brandLoader.loadMany(brandIds)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
@@ -13,7 +15,7 @@ const main_image = async ({relationships}, args, {loaders: {mainImageLoader}}) =
     try {
         return await mainImageLoader.load(relationships.main_image.data.id)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
@@ -23,7 +25,7 @@ const products = async ({relationships}, args, {loaders: {productLoader}}) => {
         const productIds = relationships.products.data.map(p => p.id)
         return await productLoader.loadMany(productIds)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 

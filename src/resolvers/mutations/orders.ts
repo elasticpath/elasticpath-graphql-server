@@ -1,3 +1,5 @@
+import {UserInputError} from "apollo-server";
+
 const stripeTokenPayment = async (root, {orderId, token: payment}, {Moltin}) => {
     try {
         await Moltin.Orders.Payment(orderId, {
@@ -13,7 +15,7 @@ const stripeTokenPayment = async (root, {orderId, token: payment}, {Moltin}) => 
         ])
         return {id, items, ...rest}
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 export default {

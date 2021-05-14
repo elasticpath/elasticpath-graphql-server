@@ -1,9 +1,11 @@
+import {UserInputError} from "apollo-server";
+
 const categories = async (parent, args, {Moltin}) => {
     try {
         const {data: categories} = await Moltin.Categories.All()
         return categories
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
@@ -12,7 +14,7 @@ const category = async (parent, {id}, {Moltin}) => {
         const {data: category} = await Moltin.Categories.Get(id)
         return category
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
