@@ -37,7 +37,50 @@ const pcmProduct = async (parent, {id}, {Moltin}) => {
         return e
     }
 }
+
+const nodes = async (parent, args, {Moltin}) => {
+    try {
+        const host = process.env.ELASTICPATH_API_HOST
+        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
+
+        const data = await fetch(`https://` + host + `/catalog/nodes`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": authHeader
+            },
+        })
+        const result = await data.json()
+        return result.data
+    } catch (e) {
+        return e
+    }
+}
+
+const node = async (parent, {id}, {Moltin}) => {
+    try {
+        const host = process.env.ELASTICPATH_API_HOST
+        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
+
+        const data = await fetch(`https://` + host + `/catalog/nodes/` + id, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": authHeader
+            },
+        })
+        const result = await data.json()
+        return result.data
+    } catch (e) {
+        return e
+    }
+}
+
 export default {
     pcmProducts,
-    pcmProduct
+    pcmProduct,
+    nodes,
+    node
 }

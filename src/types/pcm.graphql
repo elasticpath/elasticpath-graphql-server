@@ -14,3 +14,15 @@ type PCMProduct {
   type: String!
   attributes: PCMProductAttributes!
 }
+
+type NodeAttributes {
+  name: String!,
+  slug: String!,
+  description: String
+}
+
+type Node {
+  id: ID!
+  type: String!
+  attributes: NodeAttributes!
+}
