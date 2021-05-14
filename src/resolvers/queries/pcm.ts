@@ -1,6 +1,7 @@
+const host = process.env.ELASTICPATH_API_HOST
+
 const pcmProducts = async (parent, args, {Moltin}) => {
     try {
-        const host = process.env.ELASTICPATH_API_HOST
         const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
 
         const data = await fetch(`https://` + host + `/catalog/products`, {
@@ -20,7 +21,6 @@ const pcmProducts = async (parent, args, {Moltin}) => {
 
 const pcmProduct = async (parent, {id}, {Moltin}) => {
     try {
-        const host = process.env.ELASTICPATH_API_HOST
         const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
 
         const data = await fetch(`https://` + host + `/catalog/products/` + id, {
@@ -40,7 +40,6 @@ const pcmProduct = async (parent, {id}, {Moltin}) => {
 
 const nodes = async (parent, args, {Moltin}) => {
     try {
-        const host = process.env.ELASTICPATH_API_HOST
         const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
 
         const data = await fetch(`https://` + host + `/catalog/nodes`, {
@@ -60,7 +59,6 @@ const nodes = async (parent, args, {Moltin}) => {
 
 const node = async (parent, {id}, {Moltin}) => {
     try {
-        const host = process.env.ELASTICPATH_API_HOST
         const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
 
         const data = await fetch(`https://` + host + `/catalog/nodes/` + id, {
