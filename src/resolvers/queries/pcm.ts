@@ -82,6 +82,7 @@ const node = async (parent, {id}, {Moltin}) => {
 
 const nodeChildren = async (parent, {id}, {Moltin}) => {
     try {
+        await Moltin.Authenticate()
         const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
 
         const data = await fetch(`https://` + host + `/catalog/nodes/` + id + `/relationships/children`, {
