@@ -82,8 +82,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation addToCart ($productId: ID!, $cartId: ID!) {\n    addToCart (productId: $productId, cartId: $cartId) {\n        id\n        name\n        description\n        priceWithTax {\n            amount\n            currency\n            formatted\n        }\n        priceWithoutTax {\n            amount\n            currency\n            formatted\n        }\n        tax {\n            amount\n            currency\n            formatted\n        }\n        items {\n            id\n            type\n            name\n            description\n            quantity\n            sku\n            value {\n                amount\n                currency\n                includes_tax\n            }\n            unit_price {\n                amount\n                currency\n                includes_tax\n            }\n        }\n    }\n}",
-								"variables": "{\n  \"productId\": \"{{product_id}}\",\n  \"cartId\": 0\n}"
+								"query": "mutation addToCart ($productId: ID!, $cartId: ID!, $quantity: Int!) {\n    addToCart (productId: $productId, cartId: $cartId, quantity: $quantity) {\n        id\n        name\n        description\n        priceWithTax {\n            amount\n            currency\n            formatted\n        }\n        priceWithoutTax {\n            amount\n            currency\n            formatted\n        }\n        tax {\n            amount\n            currency\n            formatted\n        }\n        items {\n            id\n            type\n            name\n            description\n            quantity\n            sku\n            value {\n                amount\n                currency\n                includes_tax\n            }\n            unit_price {\n                amount\n                currency\n                includes_tax\n            }\n        }\n    }\n}",
+								"variables": "{\n  \"productId\": \"{{product_id}}\",\n  \"cartId\": 0,\n  \"quantity\": 1\n}"
 							}
 						},
 						"url": {
