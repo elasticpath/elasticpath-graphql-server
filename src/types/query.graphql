@@ -4,7 +4,7 @@ type Query {
   pcmProducts: [PCMProduct]
   pcmProduct(id: ID!): PCMProduct
   hierarchies: [Hierarchy]
-  hierarchy: Hierarchy
+  hierarchy(id: ID!): Hierarchy
   nodes: [Node]
   node(id: ID!): Node
   brands: [Brand]

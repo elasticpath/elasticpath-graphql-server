@@ -76,9 +76,49 @@ const node = async (parent, {id}, {Moltin}) => {
     }
 }
 
+const hierarchies = async (parent, args, {Moltin}) => {
+    try {
+        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
+
+        const data = await fetch(`https://` + host + `/catalog/hierarchies`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": authHeader
+            },
+        })
+        const result = await data.json()
+        return result.data
+    } catch (e) {
+        return e
+    }
+}
+
+const hierarchy = async (parent, {id}, {Moltin}) => {
+    try {
+        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
+
+        const data = await fetch(`https://` + host + `/catalog/hierarchies/` + id, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": authHeader
+            },
+        })
+        const result = await data.json()
+        return result.data
+    } catch (e) {
+        return e
+    }
+}
+
 export default {
     pcmProducts,
     pcmProduct,
     nodes,
-    node
+    node,
+    hierarchies,
+    hierarchy
 }
