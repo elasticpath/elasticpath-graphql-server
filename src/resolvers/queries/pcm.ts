@@ -1,3 +1,5 @@
+import {UserInputError} from "apollo-server";
+
 const host = process.env.ELASTICPATH_API_HOST
 
 const pcmProducts = async (parent, args, {Moltin}) => {
@@ -16,7 +18,7 @@ const pcmProducts = async (parent, args, {Moltin}) => {
         const result = await data.json()
         return result.data
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
@@ -36,7 +38,7 @@ const pcmProduct = async (parent, {id}, {Moltin}) => {
         const result = await data.json()
         return result.data
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
@@ -56,7 +58,7 @@ const nodes = async (parent, args, {Moltin}) => {
         const result = await data.json()
         return result.data
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
@@ -76,7 +78,7 @@ const node = async (parent, {id}, {Moltin}) => {
         const result = await data.json()
         return result.data
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
@@ -116,7 +118,7 @@ const hierarchies = async (parent, args, {Moltin}) => {
         const result = await data.json()
         return result.data
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
@@ -136,7 +138,7 @@ const hierarchy = async (parent, {id}, {Moltin}) => {
         const result = await data.json()
         return result.data
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 

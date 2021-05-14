@@ -1,3 +1,5 @@
+import {UserInputError} from "apollo-server";
+
 const addToCart = async (root, {productId, cartId}, {Moltin}) => {
     try {
         await Moltin.Cart(cartId).AddProduct(productId)
@@ -10,7 +12,7 @@ const addToCart = async (root, {productId, cartId}, {Moltin}) => {
         ])
         return {id, items}
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
@@ -23,7 +25,7 @@ const checkoutCart = async (root, {cartId, billing, customer, shipping = billing
         )
         return order
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 export default {
