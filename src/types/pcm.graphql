@@ -26,3 +26,15 @@ type Node {
   type: String!
   attributes: NodeAttributes!
 }
+
+type HierarchyAttributes {
+  name: String!,
+  slug: String!,
+  description: String
+}
+
+type Hierarchy {
+  id: ID!
+  type: String!
+  attributes: HierarchyAttributes!
+}

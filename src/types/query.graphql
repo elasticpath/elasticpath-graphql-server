@@ -3,6 +3,8 @@ type Query {
   product(id: ID!): Product
   pcmProducts: [PCMProduct]
   pcmProduct(id: ID!): PCMProduct
+  hierarchies: [Hierarchy]
+  hierarchy: Hierarchy
   nodes: [Node]
   node(id: ID!): Node
   brands: [Brand]
