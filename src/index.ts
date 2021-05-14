@@ -14,7 +14,7 @@ export const Moltin = MoltinGateway({
 })
 
 // set up any dataSources our resolvers need
-const dataSources = () => ({})
+//const dataSources = () => ({})
 
 // the function that sets up the global context for each resolver, using the req
 const context = async ({req}) => {
@@ -29,7 +29,7 @@ const schema = makeExecutableSchema({
 // Set up Apollo Server
 const server = new ApolloServer({
     schema,
-    dataSources,
+    //dataSources,
     context,
     introspection: true,
     playground: true,
@@ -46,7 +46,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 // export all the important pieces for integration/e2e tests to use
 module.exports = {
-    dataSources,
+    //dataSources,
     context,
     typeDefs,
     resolvers,
