@@ -27,7 +27,7 @@ const pcmProduct = async (parent, {id}, {Moltin}) => {
         await Moltin.Authenticate()
         const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
 
-        const data = await fetch(`https://${host}/catalog/products/` + id, {
+        const data = await fetch(`https://${host}/catalog/products/${id}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -98,7 +98,7 @@ const nodeChildren = async (parent, {id}, {Moltin}) => {
         const result = await data.json()
         return result.data
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
