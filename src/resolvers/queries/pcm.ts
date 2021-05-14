@@ -80,6 +80,25 @@ const node = async (parent, {id}, {Moltin}) => {
     }
 }
 
+const nodeChildren = async (parent, {id}, {Moltin}) => {
+    try {
+        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
+
+        const data = await fetch(`https://` + host + `/catalog/nodes/` + id + `/relationships/children`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": authHeader
+            },
+        })
+        const result = await data.json()
+        return result.data
+    } catch (e) {
+        return e
+    }
+}
+
 const hierarchies = async (parent, args, {Moltin}) => {
     try {
         await Moltin.Authenticate()
@@ -125,6 +144,7 @@ export default {
     pcmProduct,
     nodes,
     node,
+    nodeChildren,
     hierarchies,
     hierarchy
 }
