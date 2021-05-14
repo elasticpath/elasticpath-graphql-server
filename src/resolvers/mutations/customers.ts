@@ -7,20 +7,21 @@ const addCustomer = async (root, {customerInput}, {Moltin}) => {
     }
 }
 
-const addCustomerAddress = async (root, { customerId, address }, { Moltin }) => {
+const addCustomerAddress = async (root, { customerId, address, token }, { Moltin }) => {
     try {
-        const { data: addressRes } = await Moltin.Addresses.Create({ customer: customerId, body: address })
+        const { data: addressRes } = await Moltin.Addresses.Create({ customer: customerId, body: address, token: token})
         return addressRes
     } catch (e) {
         return e
     }
 }
-const updateCustomerAddress = async (root, { customerId, addressId, address }, { Moltin }) => {
+const updateCustomerAddress = async (root, { customerId, addressId, address, token }, { Moltin }) => {
     try {
         const { data: addressRes } = await Moltin.Addresses.Update({
             customer: customerId,
             address: addressId,
             body: address,
+            token,
         })
         return addressRes
     } catch (e) {
@@ -28,9 +29,9 @@ const updateCustomerAddress = async (root, { customerId, addressId, address }, {
     }
 }
 
-const deleteCustomerAddress = async (root, { customerId, addressId }, { Moltin }) => {
+const deleteCustomerAddress = async (root, { customerId, addressId, token }, { Moltin }) => {
     try {
-        await Moltin.Addresses.Delete({ customer: customerId, address: addressId })
+        await Moltin.Addresses.Delete({ customer: customerId, address: addressId, token })
         return true
     } catch (e) {
         return e

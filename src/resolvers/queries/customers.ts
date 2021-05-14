@@ -6,18 +6,18 @@ const customer = async (parent, { id, token }, { Moltin }) => {
         return e
     }
 }
-const customerAddresses = async (parent, { customer }, { Moltin }) => {
+const customerAddresses = async (parent, { customer, token }, { Moltin }) => {
     try {
-        const { data: addresses } = await Moltin.Addresses.All({ customer })
+        const { data: addresses } = await Moltin.Addresses.All({ customer, token }, )
         return addresses
     } catch (e) {
         return e
     }
 }
 
-const customerAddress = async (parent, { customer, address: addressInput }, { Moltin }) => {
+const customerAddress = async (parent, { customer, address: addressInput, token}, { Moltin }) => {
     try {
-        const { data: address } = await Moltin.Addresses.Get({ customer, address: addressInput })
+        const { data: address } = await Moltin.Addresses.Get({ customer, address: addressInput, token })
         return address
     } catch (e) {
         return e

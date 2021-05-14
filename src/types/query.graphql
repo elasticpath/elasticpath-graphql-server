@@ -11,6 +11,6 @@ type Query {
   category(id: ID!): Category
   cart(id: ID!): Cart
   customer(id: ID!, token: String!): Customer
-  customerAddresses(customer: String!): [CustomerAddress]
-  customerAddress(customer: String!, address: String!): CustomerAddress
+  customerAddresses(customer: String!, token: String!): [CustomerAddress]
+  customerAddress(customer: String!, address: String!, token: String!): CustomerAddress
 }
