@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "736ae1f2-91e8-4d9a-8b99-1295ef215de0",
+		"_postman_id": "011dc524-4add-4aa6-b166-9810d2d642ba",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -780,7 +780,7 @@
 									"    pm.expect(jsonData.data.customerAddress.first_name).to.equal(pm.environment.get(\"customer_first_name\"));",
 									"});",
 									"",
-									"postman.setNextRequest(\"deleteCustomerAddress\");"
+									"postman.setNextRequest(\"nodes\");"
 								],
 								"type": "text/javascript"
 							}
@@ -794,6 +794,152 @@
 							"graphql": {
 								"query": "query customerAddress ($customer: String!, $address: String!, $token: String!) {\n    customerAddress (customer: $customer, address: $address, token: $token) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
 								"variables": "{\n  \"customer\": \"{{customer_id}}\",\n  \"address\": \"{{address_id}}\",\n  \"token\": \"{{token}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "nodes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get All Nodes\", function () {",
+									"    var jsonData = pm.response.json()",
+									"    var nodes = jsonData.data.nodes",
+									"",
+									"    pm.expect(nodes).to.be.an('array').but.not.an('object')",
+									"    pm.expect(nodes).length.to.be.at.least(1)",
+									"",
+									"    for (var node of nodes) {",
+									"        pm.expect(node).to.be.an('object')",
+									"        pm.expect(node).to.have.all.keys('id', 'type', 'attributes')",
+									"        pm.expect(node.id).to.be.a('string')",
+									"        pm.expect(node.type).to.be.a('string').and.equals(\"node\")",
+									"        pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"    }",
+									"",
+									"    // Set the first node's id in env for next test",
+									"    pm.environment.set(\"node_id\", nodes[0].id)",
+									"});",
+									"",
+									"postman.setNextRequest(\"node\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query nodes {\n  nodes {\n    id\n    type\n    attributes {\n      name\n      description\n      slug\n    }\n  }\n}",
+								"variables": "{}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "node",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get A Node\", function () {",
+									"    var jsonData = pm.response.json()",
+									"    var node = jsonData.data.node",
+									"",
+									"    pm.expect(node).to.be.an('object')",
+									"    pm.expect(node).to.have.all.keys('id', 'type', 'attributes')",
+									"    pm.expect(node.id).to.be.a('string')",
+									"    pm.expect(node.type).to.be.a('string').and.equals(\"node\")",
+									"    pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"});",
+									"",
+									"// Set a specfic node as env var for the next test (nodesChildren)",
+									"pm.environment.set(\"node_id\", \"3b7acf0a-a6ca-4353-ba32-624ef342e234\")",
+									"",
+									"postman.setNextRequest(\"nodeChildren\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query node ($id: ID!) {\n  node (id: $id) {\n    id\n    type\n    attributes {\n      name\n      description\n      slug\n    }\n  }\n}",
+								"variables": "{\n  \"id\": \"{{node_id}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "nodeChildren",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get Node Children\", function () {",
+									"    var jsonData = pm.response.json()",
+									"    var nodeChildren = jsonData.data.nodeChildren",
+									"",
+									"    pm.expect(nodeChildren).to.be.an('array').but.not.an('object')",
+									"    pm.expect(nodeChildren).length.to.be.at.least(1)",
+									"",
+									"    for (var node of nodeChildren) {",
+									"        pm.expect(node).to.be.an('object')",
+									"        pm.expect(node).to.have.all.keys('id', 'type', 'attributes')",
+									"        pm.expect(node.id).to.be.a('string')",
+									"        pm.expect(node.type).to.be.a('string').and.equals(\"node\")",
+									"        pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"    }",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query nodeChildren ($id: ID!) {\n  nodeChildren (id: $id) {\n    id\n    type\n    attributes {\n      name\n      description\n      slug\n    }\n  }\n}",
+								"variables": "{\n  \"id\": \"{{node_id}}\"\n}"
 							}
 						},
 						"url": {
