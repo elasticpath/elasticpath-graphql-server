@@ -1,4 +1,4 @@
-const pcmProducts = async (parent, { token }, {Moltin}) => {
+const pcmProducts = async (parent, args, {Moltin}) => {
     try {
         const host = process.env.ELASTICPATH_API_HOST
         const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
@@ -18,7 +18,7 @@ const pcmProducts = async (parent, { token }, {Moltin}) => {
     }
 }
 
-const pcmProduct = async (parent, {id, token}, {Moltin}) => {
+const pcmProduct = async (parent, {id}, {Moltin}) => {
     try {
         const host = process.env.ELASTICPATH_API_HOST
         const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
