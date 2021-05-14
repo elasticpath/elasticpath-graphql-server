@@ -11,9 +11,8 @@ const addCustomer = async (root, {customerInput}, {Moltin}) => {
 
 const addCustomerAddress = async (root, { customerId, address, token }, { Moltin }) => {
     try {
-        const response = await Moltin.Addresses.Create({ customer: customerId, body: address, token: token})
-        const { data: addressRes } = response
-        return addressRes
+        const { data }  = await Moltin.Addresses.Create({ customer: customerId, body: address, token: token})
+        return data
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
@@ -47,4 +46,3 @@ export default {
     updateCustomerAddress,
     deleteCustomerAddress,
 }
-
