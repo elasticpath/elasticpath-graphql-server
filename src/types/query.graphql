@@ -7,6 +7,7 @@ type Query {
   hierarchy(id: ID!): Hierarchy
   nodes: [Node]
   node(id: ID!): Node
+  nodeChildren(id: ID!): [Node]
   brands: [Brand]
   brand(id: ID!): Brand
   collections: [Collection]
