@@ -31,7 +31,7 @@ const products = async ({relationships}, args, {loaders: {productLoader}}) => {
 
 const items = async (parent, { id: cartId }, { dataSources }) => {
     try {
-        return dataSources.cartsAPI.getCartItems(cartId)
+        return dataSources.cartsAPI.getCartItems(parent.id)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
