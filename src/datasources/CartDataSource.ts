@@ -46,5 +46,17 @@ export class CartDataSource extends RESTDataSource {
     const {data: result} = await this.post(`/carts/${cartId}/items/`, body);
     return result;
   }
+  
+  async checkout(cartId, customer, billing, shipping = billing) {
+    const body = `{
+      "data": {
+        "customer": "${customer}",
+        "billing_address": "${billing}",
+        "shipping_address": "${shipping}"
+      }
+    }`;
+    const {data: result} = await this.post(`/carts/${cartId}/checkout/`, body);
+    return result;
+  }
 
 }

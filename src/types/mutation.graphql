@@ -10,7 +10,7 @@ type Mutation {
   addPromotion(cartId: ID!, promotionCode: String!): [CartItem]
   checkoutCart(
     cartId: ID!
-    customer: CustomerInput!
+    customer: CustomerInputForCheckout!
     billing: BillingAddressInput!
     shipping: ShippingAddressInput
   ): Order

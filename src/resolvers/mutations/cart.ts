@@ -16,14 +16,9 @@ const addPromotion = async (root, {cartId, promotionCode}, {dataSources}) => {
     }
 }
 
-const checkoutCart = async (root, {cartId, billing, customer, shipping = billing}, {Moltin}) => {
+const checkoutCart = async (root, {cartId, customer, billing, shipping = billing}, {dataSources}) => {
     try {
-        const {data: order} = await Moltin.Cart(cartId).Checkout(
-            customer,
-            billing,
-            shipping,
-        )
-        return order
+        return dataSources.cartsAPI.checkout(cartId, customer, billing, shipping)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
