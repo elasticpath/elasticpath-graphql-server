@@ -4,17 +4,16 @@ const catalogUrl = `https://${process.env.ELASTICPATH_API_HOST}/catalog`
 
 const pcmProducts = async (parent, args, {Moltin}) => {
     try {
-        await Moltin.Authenticate()
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
+        const authenticate = await Moltin.Authenticate()
         const data = await fetch(`${catalogUrl}/products`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                "Authorization": authHeader
+                'Authorization': `Bearer ${authenticate.access_token}`
             },
         })
+        console.log(JSON.stringify(data))
         const result = await data.json()
         return result.data
     } catch (e) {
@@ -24,15 +23,13 @@ const pcmProducts = async (parent, args, {Moltin}) => {
 
 const pcmProduct = async (parent, {id}, {Moltin}) => {
     try {
-        await Moltin.Authenticate()
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
+        const authenticate = await Moltin.Authenticate()
         const data = await fetch(`${catalogUrl}/products/${id}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                "Authorization": authHeader
+                'Authorization': `Bearer ${authenticate.access_token}`
             },
         })
         const result = await data.json()
@@ -44,15 +41,13 @@ const pcmProduct = async (parent, {id}, {Moltin}) => {
 
 const nodes = async (parent, args, {Moltin}) => {
     try {
-        await Moltin.Authenticate()
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
+        const authenticate = await Moltin.Authenticate()
         const data = await fetch(`${catalogUrl}/nodes`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                "Authorization": authHeader
+                'Authorization': `Bearer ${authenticate.access_token}`
             },
         })
         const result = await data.json()
@@ -64,15 +59,13 @@ const nodes = async (parent, args, {Moltin}) => {
 
 const node = async (parent, {id}, {Moltin}) => {
     try {
-        await Moltin.Authenticate()
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
+        const authenticate = await Moltin.Authenticate()
         const data = await fetch(`${catalogUrl}/nodes/${id}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                "Authorization": authHeader
+                'Authorization': `Bearer ${authenticate.access_token}`
             },
         })
         const result = await data.json()
@@ -84,15 +77,13 @@ const node = async (parent, {id}, {Moltin}) => {
 
 const nodeChildren = async (parent, {id}, {Moltin}) => {
     try {
-        await Moltin.Authenticate()
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
+        const authenticate = await Moltin.Authenticate()
         const data = await fetch(`${catalogUrl}/nodes/${id}/relationships/children`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                "Authorization": authHeader
+                'Authorization': `Bearer ${authenticate.access_token}`
             },
         })
         const result = await data.json()
@@ -104,15 +95,13 @@ const nodeChildren = async (parent, {id}, {Moltin}) => {
 
 const hierarchies = async (parent, args, {Moltin}) => {
     try {
-        await Moltin.Authenticate()
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
+        const authenticate = await Moltin.Authenticate()
         const data = await fetch(`${catalogUrl}/hierarchies`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                "Authorization": authHeader
+                'Authorization': `Bearer ${authenticate.access_token}`
             },
         })
         const result = await data.json()
@@ -124,15 +113,13 @@ const hierarchies = async (parent, args, {Moltin}) => {
 
 const hierarchy = async (parent, {id}, {Moltin}) => {
     try {
-        await Moltin.Authenticate()
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
+        const authenticate = await Moltin.Authenticate()
         const data = await fetch(`${catalogUrl}/hierarchies/${id}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                "Authorization": authHeader
+                'Authorization': `Bearer ${authenticate.access_token}`
             },
         })
         const result = await data.json()
