@@ -2,7 +2,7 @@
 
 # GraphQL Server for Elastic Path Commerce Cloud 
 
-[Elastic Path](https://www.elasticpath.com/) is a composable, API-first, headless commerce platform. This project provides a [GraphQL](https://graphql.org/) abstraction for a subset of Elastic Path Commerce Cloud APIs to support shopping experiences. APIs that are used for store administration are not included in this project. This code uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/getting-started/)
+[Elastic Path](https://www.elasticpath.com/) is a composable, API-first, headless commerce platform. This project provides a [GraphQL](https://graphql.org/) abstraction for a subset of Elastic Path Commerce Cloud APIs to support shopping experiences. APIs that are used for store administration are not included in this project. This code uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/getting-started/).
 
 Contributors welcome 👋
 
