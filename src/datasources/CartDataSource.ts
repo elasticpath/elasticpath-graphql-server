@@ -30,9 +30,7 @@ export class CartDataSource extends RESTDataSource {
         "quantity": ${quantity}
       }
     }`;
-    console.log(body)
     const {data: result} = await this.post(`/carts/${cartId}/items/`, body);
-    console.log(result)
     return result;
   }
 
