@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "93fdd1c2-6c5c-4652-9466-003323e998cf",
+		"_postman_id": "cfb54aa7-5688-4886-9eb4-56f8d55446d8",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -97,10 +97,10 @@
 								"exec": [
 									"pm.test(\"Cart contains \" + pm.environment.get(\"product_name\"), function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.data.addToCart.items).to.be.an('array').but.not.an('object');",
+									"    pm.expect(jsonData.data.addToCart).to.be.an('array').but.not.an('object');",
 									"",
 									"    var lineItemFound = false;",
-									"    for (var lineItem of jsonData.data.addToCart.items) {",
+									"    for (var lineItem of jsonData.data.addToCart) {",
 									"        if (lineItem.name == pm.environment.get(\"product_name\")) {",
 									"            lineItemFound = true;",
 									"            break;",
@@ -121,7 +121,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation addToCart ($productId: ID!, $cartId: ID!, $quantity: Int!) {\n    addToCart (productId: $productId, cartId: $cartId, quantity: $quantity) {\n        id\n        name\n        description\n        priceWithTax {\n            amount\n            currency\n            formatted\n        }\n        priceWithoutTax {\n            amount\n            currency\n            formatted\n        }\n        tax {\n            amount\n            currency\n            formatted\n        }\n        items {\n            id\n            type\n            name\n            description\n            quantity\n            sku\n            value {\n                amount\n                currency\n                includes_tax\n            }\n            unit_price {\n                amount\n                currency\n                includes_tax\n            }\n        }\n    }\n}",
+								"query": "mutation addToCart ($cartId: ID!, $productId: ID!, $quantity: Int!) {\n    addToCart (cartId: $cartId, productId: $productId, quantity: $quantity) {\n        id\n        type\n        name\n        description\n        quantity\n        sku\n        value {\n            amount\n            currency\n            includes_tax\n        }\n        unit_price {\n            amount\n            currency\n            includes_tax\n        }\n    }\n}",
 								"variables": "{\n  \"productId\": \"{{product_id}}\",\n  \"cartId\": 0,\n  \"quantity\": 1\n}"
 							}
 						},
@@ -323,6 +323,36 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},

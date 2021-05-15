@@ -6,11 +6,11 @@ type Mutation {
     email: String!
     password: String!
   ): TokenPayload
-  addToCart( productId: ID!, cartId: ID!, quantity: Int!): Cart
-  addPromotion(cartId: ID!, promotionCode: String!): Cart
+  addToCart( cartId: ID!, productId: ID!, quantity: Int!): [CartItem]
+  addPromotion(cartId: ID!, promotionCode: String!): [CartItem]
   checkoutCart(
     cartId: ID!
-    customer: CustomerInput!
+    customer: CustomerInputForCheckout!
     billing: BillingAddressInput!
     shipping: ShippingAddressInput
   ): Order

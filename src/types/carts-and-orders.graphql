@@ -55,6 +55,12 @@ type Payment {
   id: ID!
 }
 
+input CustomerInputForCheckout {
+  name: String
+  email: String
+  id: ID
+}
+
 input BillingAddressInput {
   first_name: String!
   last_name: String!

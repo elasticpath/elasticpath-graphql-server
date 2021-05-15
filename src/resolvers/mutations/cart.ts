@@ -1,45 +1,24 @@
 import {UserInputError} from "apollo-server";
 
-const addToCart = async (root, {productId, cartId, quantity}, {Moltin}) => {
+const addToCart = async (root, {cartId, productId, quantity}, {dataSources}) => {
     try {
-        await Moltin.Cart(cartId).AddProduct(productId, quantity)
-        const getCart = Moltin.Cart(cartId).Get()
-        const getCartItems = Moltin.Cart(cartId).Items()
-
-        const [{data: {id}}, {data: items}] = await Promise.all([
-            getCart,
-            getCartItems,
-        ])
-        return {id, items}
+        return dataSources.cartsAPI.addProductToCart(cartId, productId, quantity)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const addPromotion = async (root, {cartId, promotionCode}, {Moltin}) => {
+const addPromotion = async (root, {cartId, promotionCode}, {dataSources}) => {
     try {
-        await Moltin.Cart(cartId).AddPromotion(promotionCode)
-        const getCart = Moltin.Cart(cartId).Get()
-        const getCartItems = Moltin.Cart(cartId).Items()
-
-        const [{data: {id}}, {data: items}] = await Promise.all([
-            getCart,
-            getCartItems,
-        ])
-        return {id, items}
+        return dataSources.cartsAPI.addProductToCart(cartId, promotionCode)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const checkoutCart = async (root, {cartId, billing, customer, shipping = billing}, {Moltin}) => {
+const checkoutCart = async (root, {cartId, customer, billing, shipping = billing}, {dataSources}) => {
     try {
-        const {data: order} = await Moltin.Cart(cartId).Checkout(
-            customer,
-            billing,
-            shipping,
-        )
-        return order
+        return dataSources.cartsAPI.checkout(cartId, customer, billing, shipping)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
