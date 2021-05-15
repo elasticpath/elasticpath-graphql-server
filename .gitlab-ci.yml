@@ -25,6 +25,7 @@ postman-tests:
   before_script:
     - echo "ELASTICPATH_CLIENT_ID=${ELASTICPATH_CLIENT_ID}" > .env
     - echo "ELASTICPATH_API_HOST=${ELASTICPATH_API_HOST}" >> .env
+    - sed -i "s/\${ELASTICPATH_CLIENT_ID}/${ELASTICPATH_CLIENT_ID}/" postman/EP-GraphQL-globals.postman_globals.json
   script:
     - yarn install
     - yarn dev&

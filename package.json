@@ -11,7 +11,7 @@
     "deploy": "now --public --dotenv .env.production && now alias && now rm --yes --safe moltinql",
     "build": "rimraf dist && tsc",
     "start": "node dist",
-    "test": "newman run postman/EP-GraphQL-Test.postman_collection.json -e postman/EP-GraphQL-env.postman_environment.json"
+    "test": "newman run postman/EP-GraphQL-Test.postman_collection.json -e postman/EP-GraphQL-env.postman_environment.json -g postman/EP-GraphQL-globals.postman_globals.json"
   },
   "dependencies": {
     "@moltin/sdk": "7.0.0-beta.26",
