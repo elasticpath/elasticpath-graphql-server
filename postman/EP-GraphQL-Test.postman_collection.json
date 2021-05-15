@@ -136,14 +136,30 @@
 				},
 				{
 					"name": "checkoutCart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Checkout is successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.checkoutCart).to.be.an('object').but.not.an('array');",
+									"});",
+									"",
+									"postman.setNextRequest(\"nodes\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation checkoutCart ($cartId: ID!, $customer: CustomerInput!, $billing: BillingAddressInput!, $shipping: ShippingAddressInput) {\n    checkoutCart (cartId: $cartId, customer: $customer, billing: $billing, shipping: $shipping) {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
-								"variables": "{\n  \"cartId\": 0,\n  \"customer\": {\n    \"name\": \"\",\n    \"email\": \"\",\n    \"password\": \"\"\n  },\n  \"billing\": {\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"postcode\": \"\",\n    \"county\": \"\",\n    \"country\": \"\"\n  },\n  \"shipping\": {\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"phone_number\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"postcode\": \"\",\n    \"county\": \"\",\n    \"country\": \"\",\n    \"instructions\": \"\"\n  }\n}"
+								"query": "mutation checkoutCart ($cartId: ID!, $customer: CustomerInputForCheckout!, $billing: BillingAddressInput!, $shipping: ShippingAddressInput) {\n    checkoutCart (cartId: $cartId, customer: $customer, billing: $billing, shipping: $shipping) {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
+								"variables": "{\n  \"cartId\": 0,\n  \"customer\": {\n    \"name\": \"{{customer_name}}\",\n    \"email\": \"{{customer_email}}\"\n  },\n  \"billing\": {\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"company_name\": \"{{$randomCompanyName}}\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"\",\n    \"city\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"county\": \"{{address_county}}\",\n    \"country\": \"{{address_country}}\"\n  },\n  \"shipping\": {\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"phone_number\": \"{{$randomPhoneNumber}}\",\n    \"company_name\": \"{{$randomCompanyName}}\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"\",\n    \"city\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"county\": \"{{address_county}}\",\n    \"country\": \"{{address_country}}\",\n    \"instructions\": \"\"\n  }\n}"
 							}
 						},
 						"url": {
@@ -725,7 +741,7 @@
 									"    pm.expect(lineItemFound).to.equal(true);",
 									"});",
 									"",
-									"postman.setNextRequest(\"nodes\");"
+									"postman.setNextRequest(\"checkoutCart\");"
 								],
 								"type": "text/javascript"
 							}
