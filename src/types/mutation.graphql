@@ -1,4 +1,7 @@
 type Mutation {
+  authenticate(
+    client_id: String!
+  ): ImplicitToken  
   authenticateAsCustomerViaPassword(
     email: String!
     password: String!
