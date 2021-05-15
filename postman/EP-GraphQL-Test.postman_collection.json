@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "011dc524-4add-4aa6-b166-9810d2d642ba",
+		"_postman_id": "04f71334-3f7d-4668-9a9c-eed645393872",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -656,7 +656,7 @@
 									"    pm.expect(lineItemFound).to.equal(true);",
 									"});",
 									"",
-									"postman.setNextRequest(\"null\");"
+									"postman.setNextRequest(\"nodes\");"
 								],
 								"type": "text/javascript"
 							}
@@ -780,7 +780,7 @@
 									"    pm.expect(jsonData.data.customerAddress.first_name).to.equal(pm.environment.get(\"customer_first_name\"));",
 									"});",
 									"",
-									"postman.setNextRequest(\"nodes\");"
+									"postman.setNextRequest(\"deleteCustomerAddress\");"
 								],
 								"type": "text/javascript"
 							}
