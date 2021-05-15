@@ -6,6 +6,8 @@ import resolvers from './resolvers'
 import loaders from './loaders'
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
+import {PCMDataSource} from './datasources/PCMDataSource'
+
 const {ELASTICPATH_CLIENT_ID, ELASTICPATH_API_HOST} = process.env
 
 export const Moltin = MoltinGateway({
@@ -14,11 +16,13 @@ export const Moltin = MoltinGateway({
 })
 
 // set up any dataSources our resolvers need
-const dataSources = () => ({})
+const dataSources = () => ({
+    pcmAPI: new PCMDataSource()
+})
 
 // the function that sets up the global context for each resolver, using the req
 const context = async ({req}) => {
-    return {...req, Moltin, loaders}
+    return {req, Moltin, loaders}
 }
 
 const schema = makeExecutableSchema({
