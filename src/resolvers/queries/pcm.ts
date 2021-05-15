@@ -1,128 +1,56 @@
 import {UserInputError} from "apollo-server";
 
-const catalogUrl = `https://${process.env.ELASTICPATH_API_HOST}/catalog`
-
-const pcmProducts = async (parent, args, {Moltin}) => {
+const pcmProducts = async (parent, args, {dataSources}) => {
     try {
-        const authenticate = await Moltin.Authenticate()
-        const data = await fetch(`${catalogUrl}/products`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authenticate.access_token}`
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getProducts()
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const pcmProduct = async (parent, {id}, {Moltin}) => {
+const pcmProduct = async (parent, {id}, {dataSources}) => {
     try {
-        const authenticate = await Moltin.Authenticate()
-        const data = await fetch(`${catalogUrl}/products/${id}`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authenticate.access_token}`
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getProduct(id)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const nodes = async (parent, args, {Moltin}) => {
+const nodes = async (parent, args, {dataSources}) => {
     try {
-        const authenticate = await Moltin.Authenticate()
-        const data = await fetch(`${catalogUrl}/nodes`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authenticate.access_token}`
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getNodes()
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const node = async (parent, {id}, {Moltin}) => {
+const node = async (parent, {id}, {dataSources}) => {
     try {
-        const authenticate = await Moltin.Authenticate()
-        const data = await fetch(`${catalogUrl}/nodes/${id}`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authenticate.access_token}`
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getNode(id)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const nodeChildren = async (parent, {id}, {Moltin}) => {
+const nodeChildren = async (parent, {id}, {dataSources}) => {
     try {
-        const authenticate = await Moltin.Authenticate()
-        const data = await fetch(`${catalogUrl}/nodes/${id}/relationships/children`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authenticate.access_token}`
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getNodeChildren(id)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const hierarchies = async (parent, args, {Moltin}) => {
+const hierarchies = async (parent, args, {dataSources}) => {
     try {
-        const authenticate = await Moltin.Authenticate()
-        const data = await fetch(`${catalogUrl}/hierarchies`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authenticate.access_token}`
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getHierarchies()
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const hierarchy = async (parent, {id}, {Moltin}) => {
+const hierarchy = async (parent, {id}, {dataSources}) => {
     try {
-        const authenticate = await Moltin.Authenticate()
-        const data = await fetch(`${catalogUrl}/hierarchies/${id}`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authenticate.access_token}`
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getHierarchy(id)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
