@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "04f71334-3f7d-4668-9a9c-eed645393872",
+		"_postman_id": "93fdd1c2-6c5c-4652-9466-003323e998cf",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8,6 +8,45 @@
 		{
 			"name": "mutations",
 			"item": [
+				{
+					"name": "authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Authentication is successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.authenticate).to.be.an('object');",
+									"",
+									"    pm.environment.set(\"access_token\", jsonData.data.authenticate.access_token);",
+									"});",
+									"",
+									"postman.setNextRequest(\"authenticateAsCustomerViaPassword\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation authenticate ($client_id: String!) {\n    authenticate (client_id: $client_id) {\n        expires_in\n        expires\n        access_token\n        token_type\n        identifier\n    }\n}",
+								"variables": "{\n  \"client_id\": \"{{ELASTICPATH_CLIENT_ID}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "authenticateAsCustomerViaPassword",
 					"event": [
@@ -950,6 +989,36 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
