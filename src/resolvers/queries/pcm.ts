@@ -13,7 +13,6 @@ const pcmProducts = async (parent, args, {Moltin}) => {
                 'Authorization': `Bearer ${authenticate.access_token}`
             },
         })
-        console.log(JSON.stringify(data))
         const result = await data.json()
         return result.data
     } catch (e) {
