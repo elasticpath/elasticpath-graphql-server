@@ -6,7 +6,7 @@ type Mutation {
     email: String!
     password: String!
   ): TokenPayload
-  addToCart( productId: ID!, cartId: ID!, quantity: Int!): Cart
+  addToCart( cartId: ID!, productId: ID!, quantity: Int!): Cart
   addPromotion(cartId: ID!, promotionCode: String!): Cart
   checkoutCart(
     cartId: ID!

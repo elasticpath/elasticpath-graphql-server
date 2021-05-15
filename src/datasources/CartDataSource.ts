@@ -1,4 +1,4 @@
-import { RESTDataSource } from "apollo-datasource-rest";
+import {RESTDataSource} from "apollo-datasource-rest";
 
 export class CartDataSource extends RESTDataSource {
   willSendRequest(request) {
@@ -19,6 +19,31 @@ export class CartDataSource extends RESTDataSource {
 
   async getCartItems(id) {
     const { data: result } = await this.get(`/carts/${id}/items/`);
+    return result;
+  }
+  
+  async addProductToCart(cartId, productId, quantity) {
+    const body = `{
+      "data": {
+        "type": "cart_item",
+        "id": "${productId}",
+        "quantity": ${quantity}
+      }
+    }`;
+    console.log(body)
+    const {data: result} = await this.post(`/carts/${cartId}/items/`, body);
+    console.log(result)
+    return result;
+  }
+
+  async addPromotionToCart(cartId, promotionCode) {
+    const body = `{
+      "data": {
+        "type": "cart_item",
+        "code": "${promotionCode}"
+      }
+    }`;
+    const {data: result} = await this.post(`/carts/${cartId}/items/`, body);
     return result;
   }
 

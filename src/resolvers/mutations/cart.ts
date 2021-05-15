@@ -1,32 +1,16 @@
 import {UserInputError} from "apollo-server";
 
-const addToCart = async (root, {productId, cartId, quantity}, {Moltin}) => {
+const addToCart = async (root, {cartId, productId, quantity}, {dataSources}) => {
     try {
-        await Moltin.Cart(cartId).AddProduct(productId, quantity)
-        const getCart = Moltin.Cart(cartId).Get()
-        const getCartItems = Moltin.Cart(cartId).Items()
-
-        const [{data: {id}}, {data: items}] = await Promise.all([
-            getCart,
-            getCartItems,
-        ])
-        return {id, items}
+        return dataSources.cartsAPI.addProductToCart(cartId, productId, quantity)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const addPromotion = async (root, {cartId, promotionCode}, {Moltin}) => {
+const addPromotion = async (root, {cartId, promotionCode}, {dataSources}) => {
     try {
-        await Moltin.Cart(cartId).AddPromotion(promotionCode)
-        const getCart = Moltin.Cart(cartId).Get()
-        const getCartItems = Moltin.Cart(cartId).Items()
-
-        const [{data: {id}}, {data: items}] = await Promise.all([
-            getCart,
-            getCartItems,
-        ])
-        return {id, items}
+        return dataSources.cartsAPI.addProductToCart(cartId, promotionCode)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
