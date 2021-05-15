@@ -47,18 +47,4 @@ export class CartDataSource extends RESTDataSource {
     return result;
   }
 
-  async updateCartItem(cartId, itemId, qty) {
-    var apiStr = `/carts/${cartId}/items/${itemId}`;
-    var body = `{
-      "data": {
-      "type": "cart_item",
-      "id": "${itemId}",
-      "quantity": ${qty}
-      }
-    }`;
-    const {data: result} = await this.put(apiStr, body);
-    //console.log(result);
-    return result[0]; //I have to do this because there is a "["
-  }
-
 }
