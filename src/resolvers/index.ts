@@ -1,5 +1,5 @@
 import authenticationMutationResolvers from './mutations/authentication'
-import cartMutationResolvers from './mutations/cart'
+import cartMutationResolvers from './mutations/carts'
 import orderMutationResolvers from './mutations/orders'
 import customerMutationResolvers from './mutations/customers'
 
