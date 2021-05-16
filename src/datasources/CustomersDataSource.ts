@@ -37,19 +37,23 @@ export class CustomersDataSource extends RESTDataSource {
         "password": "${customerInput.password}"
       }
     }`;
-    console.log(body)
     const {data: result} = await this.post(`/customers/`, body);
     return result;
   }
 
-  async addCustomerAddress(cartId, promotionCode) {
+  async createCustomerAddress(customerId, address) {
     const body = `{
-      "data": {
-        "type": "cart_item",
-        "code": "${promotionCode}"
-      }
+      "data": ${JSON.stringify(address)}
     }`;
-    const {data: result} = await this.post(`/carts/${cartId}/items/`, body);
+    const {data: result} = await this.post(`/customers/${customerId}/addresses/`, body);
+    return result;
+  }
+
+  async updateCustomerAddress(customerId, addressId, address) {
+    const body = `{
+      "data": ${JSON.stringify(address)}
+    }`;
+    const {data: result} = await this.put(`/customers/${customerId}/addresses/${addressId}`, body);
     return result;
   }
   

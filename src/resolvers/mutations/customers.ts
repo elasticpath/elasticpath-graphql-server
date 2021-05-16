@@ -8,23 +8,16 @@ const addCustomer = async (root, {customerInput}, {dataSources}) => {
     }
 }
 
-const addCustomerAddress = async (root, { customerId, address }, { Moltin, req }) => {
+const addCustomerAddress = async (root, { customerId, address }, { dataSources}) => {
     try {
-        const { data }  = await Moltin.Addresses.Create({ customer: customerId, body: address, token: req.headers['x-moltin-customer-token']})
-        return data
+        return dataSources.customersAPI.createCustomerAddress(customerId, address)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
-const updateCustomerAddress = async (root, { customerId, addressId, address }, { Moltin, req }) => {
+const updateCustomerAddress = async (root, { customerId, addressId, address }, { dataSources }) => {
     try {
-        const { data: addressRes } = await Moltin.Addresses.Update({
-            customer: customerId,
-            address: addressId,
-            body: address,
-            token: req.headers['x-moltin-customer-token']
-        })
-        return addressRes
+        return dataSources.customersAPI.updateCustomerAddress(customerId, addressId, address)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
