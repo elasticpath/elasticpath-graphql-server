@@ -1,71 +1,63 @@
 import {UserInputError} from "apollo-server";
 
-const products = async (parent, args, {Moltin}) => {
+const products = async (parent, args, {dataSources}) => {
     try {
-        const {data: products} = await Moltin.Products.All()
-        return products
+        return dataSources.legacyCatalogAPI.getProducts()
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const product = async (parent, {id}, {Moltin}) => {
+const product = async (parent, {id}, {dataSources}) => {
     try {
-        const {data: product} = await Moltin.Products.Get(id)
-        return product
+        return dataSources.legacyCatalogAPI.getProduct(id)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
-const brands = async (parent, args, {Moltin}) => {
+const brands = async (parent, args, {dataSources}) => {
     try {
-        const {data: brands} = await Moltin.Brands.All()
-        return brands
-    } catch (e) {
-        throw new UserInputError("API returned with errors.", e)
-    }
-}
-
-const brand = async (parent, {id}, {Moltin}) => {
-    try {
-        const {data: brand} = await Moltin.Brands.Get(id)
-        return brand
+        return dataSources.legacyCatalogAPI.getBrands()
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const categories = async (parent, args, {Moltin}) => {
+const brand = async (parent, {id}, {dataSources}) => {
     try {
-        const {data: categories} = await Moltin.Categories.All()
-        return categories
+        return dataSources.legacyCatalogAPI.getBrand(id)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const category = async (parent, {id}, {Moltin}) => {
+const categories = async (parent, args, {dataSources}) => {
     try {
-        const {data: category} = await Moltin.Categories.Get(id)
-        return category
+        return dataSources.legacyCatalogAPI.getCategories()
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const collections = async (parent, args, {Moltin}) => {
+const category = async (parent, {id}, {dataSources}) => {
     try {
-        const {data: collections} = await Moltin.Collections.All()
-        return collections
+        return dataSources.legacyCatalogAPI.getCategory(id)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const collection = async (parent, {id}, {Moltin}) => {
+const collections = async (parent, args, {dataSources}) => {
     try {
-        const {data: collection} = await Moltin.Collections.Get(id)
-        return collection
+        return dataSources.legacyCatalogAPI.getCollections()
+    } catch (e) {
+        throw new UserInputError("API returned with errors.", e)
+    }
+}
+
+const collection = async (parent, {id}, {dataSources}) => {
+    try {
+        return dataSources.legacyCatalogAPI.getCollection(id)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
