@@ -3,7 +3,6 @@ import { typeDefs } from './types'
 import {gateway as MoltinGateway} from '@moltin/sdk'
 import {ApolloServer} from 'apollo-server'
 import resolvers from './resolvers'
-import loaders from './loaders'
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
 import {PCMDataSource} from './datasources/PCMDataSource'
@@ -20,7 +19,7 @@ export const Moltin = MoltinGateway({
 })
 
 // set up any dataSources our resolvers need
-export const dataSources = () => ({
+const dataSources = () => ({
     pcmAPI: new PCMDataSource(),
     tokensAPI: new TokensDataSource(),
     cartsAPI: new CartsDataSource(),
@@ -30,7 +29,7 @@ export const dataSources = () => ({
 
 // the function that sets up the global context for each resolver, using the req
 const context = async ({req}) => {
-    return {req, Moltin, loaders}
+    return {req, Moltin}
 }
 
 const schema = makeExecutableSchema({

@@ -12,10 +12,14 @@ const brands = async ({relationships}, args, {dataSources}) => {
     }
 }
 
-const main_image = async ({relationships}, args, {loaders: {mainImageLoader}}) => {
+const main_image = async ({relationships}, args, {dataSources}) => {
     if (!relationships || !relationships.main_image) return
     try {
-        return await mainImageLoader.load(relationships.main_image.data.id)
+        const { link, ...rest } = await dataSources.legacyCatalogAPI.getFile(relationships.main_image.data.id)
+        return {
+            href: link.href,
+            ...rest
+        }
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
