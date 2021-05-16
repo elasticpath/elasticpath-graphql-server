@@ -199,7 +199,12 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Create customer is successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.addCustomer).to.be.an('object').but.not.an('array');",
+									"});",
+									"",
+									"postman.setNextRequest(\"addCustomerAddress\");"
 								],
 								"type": "text/javascript"
 							}
@@ -212,7 +217,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "mutation addCustomer ($customerInput: CustomerInput) {\n    addCustomer (customerInput: $customerInput) {\n        id\n        type\n        name\n        email\n    }\n}",
-								"variables": "{\n  \"customerInput\": {\n    \"name\": \"{{customer_name}}\",\n    \"email\": \"{{customer_email}}\",\n    \"password\": \"{{customer_password}}\"\n  }\n}"
+								"variables": "{\n  \"customerInput\": {\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"{{customer_password}}\"\n  }\n}"
 							}
 						},
 						"url": {
@@ -780,7 +785,7 @@
 									"    pm.expect(jsonData.data.customer.name).to.equal(pm.environment.get(\"customer_name\"));",
 									"});",
 									"",
-									"postman.setNextRequest(\"addCustomerAddress\");"
+									"postman.setNextRequest(\"addCustomer\");"
 								],
 								"type": "text/javascript"
 							}

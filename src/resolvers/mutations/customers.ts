@@ -1,9 +1,8 @@
 import { UserInputError } from "apollo-server"
 
-const addCustomer = async (root, {customerInput}, {Moltin}) => {
+const addCustomer = async (root, {customerInput}, {dataSources}) => {
     try {
-        const {data: customer} = await Moltin.Customers.Create(customerInput)
-        return customer
+        return dataSources.customersAPI.createCustomer(customerInput)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
