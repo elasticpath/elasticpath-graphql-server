@@ -8,10 +8,9 @@ const authenticate = async (root, { client_id }, {dataSources}) => {
     }
 }
 
-const authenticateAsCustomerViaPassword = async (root, { email, password }, {Moltin}) => {
+const authenticateAsCustomerViaPassword = async (root, { email, password }, {dataSources}) => {
     try {
-        const {data: token} = await Moltin.Customers.TokenViaPassword(email, password)
-        return token
+        return dataSources.tokensAPI.authenticateAsCustomerViaPassword(email, password)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
