@@ -3,6 +3,7 @@ import {RESTDataSource} from "apollo-datasource-rest";
 export class CustomersDataSource extends RESTDataSource {
   willSendRequest(request) {
     request.headers.set('Authorization', this.context.req.headers.authorization)
+    request.headers.set('X-Moltin-Customer-Token', this.context.req.headers['x-moltin-customer-token'])
     request.headers.set('Content-Type', 'application/json')
     request.headers.set('Accept', 'application/json')
   }
@@ -12,13 +13,18 @@ export class CustomersDataSource extends RESTDataSource {
     this.baseURL = `https://${process.env.ELASTICPATH_API_HOST}/v2`
   }
 
-  async getCart(id) {
-    const { data: result } = await this.get(`/carts/${id}/`);
+  async getCustomer(id) {
+    const { data: result } = await this.get(`/customers/${id}/`);
     return result;
   }
 
-  async getCartItems(id) {
-    const { data: result } = await this.get(`/carts/${id}/items/`);
+  async getCustomerAddresses(id) {
+    const { data: result } = await this.get(`/customers/${id}/addresses/`);
+    return result;
+  }
+
+  async getCustomerAddress(customerId, addressId) {
+    const { data: result } = await this.get(`/customers/${customerId}/addresses/${addressId}`);
     return result;
   }
   

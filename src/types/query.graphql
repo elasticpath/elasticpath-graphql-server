@@ -8,8 +8,8 @@ type Query {
   nodeChildren(id: ID!): [Node]
   cart(id: ID!): Cart
   customer(id: ID!): Customer
-  customerAddresses(customer: String!): [CustomerAddress]
-  customerAddress(customer: String!, address: String!): CustomerAddress
+  customerAddresses(customerId: String!): [CustomerAddress]
+  customerAddress(customerId: String!, addressId: String!): CustomerAddress
   
   products: [Product] @deprecated( reason: "Use pcmProducts instead")
   product(id: ID!): Product @deprecated( reason: "Use pcmProduct instead")
