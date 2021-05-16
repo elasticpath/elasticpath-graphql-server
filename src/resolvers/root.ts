@@ -1,29 +1,37 @@
 import { UserInputError } from "apollo-server"
 
-const brands = async ({relationships}, args, {loaders: {brandLoader}}) => {
+const brands = async ({relationships}, args, {dataSources}) => {
     if (!relationships || !relationships.brands) return
     try {
         const brandIds = relationships.brands.data.map(b => b.id)
-        return await brandLoader.loadMany(brandIds)
+        return brandIds.map(async id => {
+            return dataSources.legacyCatalogAPI.getBrand(id)
+        })
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const main_image = async ({relationships}, args, {loaders: {mainImageLoader}}) => {
+const main_image = async ({relationships}, args, {dataSources}) => {
     if (!relationships || !relationships.main_image) return
     try {
-        return await mainImageLoader.load(relationships.main_image.data.id)
+        const { link, ...rest } = await dataSources.legacyCatalogAPI.getFile(relationships.main_image.data.id)
+        return {
+            href: link.href,
+            ...rest
+        }
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const products = async ({relationships}, args, {loaders: {productLoader}}) => {
+const products = async ({relationships}, args, {dataSources}) => {
     try {
         if (!relationships || !relationships.products) return
         const productIds = relationships.products.data.map(p => p.id)
-        return await productLoader.loadMany(productIds)
+        return productIds.map(async id => {
+            return dataSources.legacyCatalogAPI.getProduct(id)
+        })
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }

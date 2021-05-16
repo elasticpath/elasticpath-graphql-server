@@ -3,13 +3,13 @@ import { typeDefs } from './types'
 import {gateway as MoltinGateway} from '@moltin/sdk'
 import {ApolloServer} from 'apollo-server'
 import resolvers from './resolvers'
-import loaders from './loaders'
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
 import {PCMDataSource} from './datasources/PCMDataSource'
 import {TokensDataSource} from "./datasources/TokensDataSource";
 import {CartsDataSource} from "./datasources/CartsDataSource";
 import {CustomersDataSource} from "./datasources/CustomersDataSource";
+import {LegacyCatalogDataSource} from "./datasources/LegacyCatalogDataSource";
 
 const {ELASTICPATH_CLIENT_ID, ELASTICPATH_API_HOST} = process.env
 
@@ -23,12 +23,13 @@ const dataSources = () => ({
     pcmAPI: new PCMDataSource(),
     tokensAPI: new TokensDataSource(),
     cartsAPI: new CartsDataSource(),
-    customersAPI: new CustomersDataSource()
+    customersAPI: new CustomersDataSource(),
+    legacyCatalogAPI: new LegacyCatalogDataSource()
 })
 
 // the function that sets up the global context for each resolver, using the req
 const context = async ({req}) => {
-    return {req, Moltin, loaders}
+    return {req, Moltin}
 }
 
 const schema = makeExecutableSchema({
