@@ -8,7 +8,8 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 
 import {PCMDataSource} from './datasources/PCMDataSource'
 import {TokensDataSource} from "./datasources/TokensDataSource";
-import {CartDataSource} from "./datasources/CartDataSource";
+import {CartsDataSource} from "./datasources/CartsDataSource";
+import {CustomersDataSource} from "./datasources/CustomersDataSource";
 
 const {ELASTICPATH_CLIENT_ID, ELASTICPATH_API_HOST} = process.env
 
@@ -21,7 +22,8 @@ export const Moltin = MoltinGateway({
 const dataSources = () => ({
     pcmAPI: new PCMDataSource(),
     tokensAPI: new TokensDataSource(),
-    cartsAPI: new CartDataSource()
+    cartsAPI: new CartsDataSource(),
+    customersAPI: new CustomersDataSource()
 })
 
 // the function that sets up the global context for each resolver, using the req

@@ -199,7 +199,12 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Create customer is successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.addCustomer).to.be.an('object').but.not.an('array');",
+									"});",
+									"",
+									"postman.setNextRequest(\"addCustomerAddress\");"
 								],
 								"type": "text/javascript"
 							}
@@ -212,7 +217,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "mutation addCustomer ($customerInput: CustomerInput) {\n    addCustomer (customerInput: $customerInput) {\n        id\n        type\n        name\n        email\n    }\n}",
-								"variables": "{\n  \"customerInput\": {\n    \"name\": \"{{customer_name}}\",\n    \"email\": \"{{customer_email}}\",\n    \"password\": \"{{customer_password}}\"\n  }\n}"
+								"variables": "{\n  \"customerInput\": {\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"{{customer_password}}\"\n  }\n}"
 							}
 						},
 						"url": {
@@ -780,7 +785,7 @@
 									"    pm.expect(jsonData.data.customer.name).to.equal(pm.environment.get(\"customer_name\"));",
 									"});",
 									"",
-									"postman.setNextRequest(\"addCustomerAddress\");"
+									"postman.setNextRequest(\"addCustomer\");"
 								],
 								"type": "text/javascript"
 							}
@@ -838,8 +843,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customerAddresses ($customer: String!) {\n    customerAddresses (customer: $customer) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customer\": \"{{customer_id}}\"\n}"
+								"query": "query customerAddresses ($customerId: String!) {\n    customerAddresses (customerId: $customerId) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -877,8 +882,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customerAddress ($customer: String!, $address: String!) {\n    customerAddress (customer: $customer, address: $address) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customer\": \"{{customer_id}}\",\n  \"address\": \"{{address_id}}\"\n}"
+								"query": "query customerAddress ($customerId: String!, $addressId: String!) {\n    customerAddress (customerId: $customerId, addressId: $addressId) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"addressId\": \"{{address_id}}\"\n}"
 							}
 						},
 						"url": {

@@ -1,6 +1,6 @@
 import {RESTDataSource} from "apollo-datasource-rest";
 
-export class CartDataSource extends RESTDataSource {
+export class CartsDataSource extends RESTDataSource {
   willSendRequest(request) {
     request.headers.set('Authorization', this.context.req.headers.authorization)
     request.headers.set('Content-Type', 'application/json')
