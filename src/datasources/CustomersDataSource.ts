@@ -56,18 +56,9 @@ export class CustomersDataSource extends RESTDataSource {
     const {data: result} = await this.put(`/customers/${customerId}/addresses/${addressId}`, body);
     return result;
   }
-  
-  async checkout(cartId, customer, billing, shipping = billing) {
-    const body = `{
-      "data": {
-        "customer": ${JSON.stringify(customer)},
-        "billing_address": ${JSON.stringify(billing)},
-        "shipping_address": ${JSON.stringify(shipping)}
-      }
-    }`;
-    
-    const {data: result} = await this.post(`/carts/${cartId}/checkout/`, body);
-    return result;
-  }
 
+  async deleteCustomerAddress(customerId, addressId) {
+    await this.delete(`/customers/${customerId}/addresses/${addressId}`);
+    return true;
+  }
 }

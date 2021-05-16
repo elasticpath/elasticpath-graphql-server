@@ -23,10 +23,9 @@ const updateCustomerAddress = async (root, { customerId, addressId, address }, {
     }
 }
 
-const deleteCustomerAddress = async (root, { customerId, addressId }, { Moltin, req }) => {
+const deleteCustomerAddress = async (root, { customerId, addressId }, { dataSources }) => {
     try {
-        await Moltin.Addresses.Delete({ customer: customerId, address: addressId, token: req.headers['x-moltin-customer-token'] })
-        return true
+        return dataSources.customersAPI.deleteCustomerAddress(customerId, addressId)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
