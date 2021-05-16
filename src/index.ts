@@ -20,7 +20,7 @@ export const Moltin = MoltinGateway({
 })
 
 // set up any dataSources our resolvers need
-const dataSources = () => ({
+export const dataSources = () => ({
     pcmAPI: new PCMDataSource(),
     tokensAPI: new TokensDataSource(),
     cartsAPI: new CartsDataSource(),
