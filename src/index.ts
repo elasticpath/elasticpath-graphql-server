@@ -1,6 +1,5 @@
 require('dotenv').config();
 import { typeDefs } from './types'
-import {gateway as MoltinGateway} from '@moltin/sdk'
 import {ApolloServer} from 'apollo-server'
 import resolvers from './resolvers'
 import { makeExecutableSchema } from '@graphql-tools/schema';
@@ -11,13 +10,6 @@ import {CartsDataSource} from "./datasources/CartsDataSource";
 import {OrdersDataSource} from "./datasources/OrdersDataSource";
 import {CustomersDataSource} from "./datasources/CustomersDataSource";
 import {LegacyCatalogDataSource} from "./datasources/LegacyCatalogDataSource";
-
-const {ELASTICPATH_CLIENT_ID, ELASTICPATH_API_HOST} = process.env
-
-export const Moltin = MoltinGateway({
-    client_id: ELASTICPATH_CLIENT_ID,
-    host: ELASTICPATH_API_HOST
-})
 
 // set up any dataSources our resolvers need
 const dataSources = () => ({
@@ -31,7 +23,7 @@ const dataSources = () => ({
 
 // the function that sets up the global context for each resolver, using the req
 const context = async ({req}) => {
-    return {req, Moltin}
+    return {req}
 }
 
 const schema = makeExecutableSchema({

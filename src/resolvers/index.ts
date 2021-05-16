@@ -1,6 +1,5 @@
 import authenticationMutationResolvers from './mutations/authentication'
 import cartMutationResolvers from './mutations/carts'
-import orderMutationResolvers from './mutations/orders'
 import customerMutationResolvers from './mutations/customers'
 
 import cartsQueryResolvers from './queries/carts'
@@ -15,7 +14,6 @@ export default {
   Mutation: {
     ...authenticationMutationResolvers,
     ...cartMutationResolvers,
-    ...orderMutationResolvers,
     ...customerMutationResolvers,
   },
   Query: {
