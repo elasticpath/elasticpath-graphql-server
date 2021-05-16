@@ -54,7 +54,6 @@ export class LegacyCatalogDataSource extends RESTDataSource {
 
     async getFile(id) {
         const {data: result} = await this.get(`/files/${id}`)
-        console.log(result)
         return result
     }
 

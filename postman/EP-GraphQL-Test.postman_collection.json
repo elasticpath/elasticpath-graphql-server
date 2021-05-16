@@ -146,7 +146,7 @@
 									"    pm.expect(jsonData.data.checkoutCart).to.be.an('object').but.not.an('array');",
 									"});",
 									"",
-									"postman.setNextRequest(\"nodes\");"
+									"postman.setNextRequest(\"orders\");"
 								],
 								"type": "text/javascript"
 							}
@@ -403,7 +403,6 @@
 									"});",
 									"",
 									"pm.test(\"There are no errors\", function () {",
-									"    // tests dataloaders",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.errors).is.undefined;",
 									"});",
@@ -781,6 +780,86 @@
 							"graphql": {
 								"query": "query cart ($id: ID!) {\n    cart (id: $id) {\n        id\n        name\n        description\n        priceWithTax {\n            amount\n            currency\n            formatted\n        }\n        priceWithoutTax {\n            amount\n            currency\n            formatted\n        }\n        tax {\n            amount\n            currency\n            formatted\n        }\n        items {\n            id\n            type\n            name\n            description\n            quantity\n            sku\n            value {\n                amount\n                currency\n                includes_tax\n            }\n            unit_price {\n                amount\n                currency\n                includes_tax\n            }\n        }\n    }\n}",
 								"variables": "{\n  \"id\": 0\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Orders is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.orders).to.be.an('array').but.not.an('object');",
+									"    pm.expect(jsonData.data.orders.length).to.be.greaterThan(1)",
+									"",
+									"    pm.environment.set(\"order_id\", jsonData.data.orders[0].id);",
+									"});",
+									"",
+									"postman.setNextRequest(\"nodes\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query orders {\n    orders {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
+								"variables": "{}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Orders is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.orders).to.be.an('array').but.not.an('object');",
+									"    pm.expect(jsonData.data.orders.length).to.be.greaterThan(1)",
+									"",
+									"    pm.environment.set(\"order_id\", \"jsonData.data.orders[0].id\");",
+									"});",
+									"",
+									"postman.setNextRequest(\"nodes\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query order ($id: ID!) {\n    order (id: $id) {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
+								"variables": "{\n  \"id\": \"{{order_id}}\"\n}"
 							}
 						},
 						"url": {

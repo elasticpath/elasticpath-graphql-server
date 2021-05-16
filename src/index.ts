@@ -8,6 +8,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import {PCMDataSource} from './datasources/PCMDataSource'
 import {TokensDataSource} from "./datasources/TokensDataSource";
 import {CartsDataSource} from "./datasources/CartsDataSource";
+import {OrdersDataSource} from "./datasources/OrdersDataSource";
 import {CustomersDataSource} from "./datasources/CustomersDataSource";
 import {LegacyCatalogDataSource} from "./datasources/LegacyCatalogDataSource";
 
@@ -23,6 +24,7 @@ const dataSources = () => ({
     pcmAPI: new PCMDataSource(),
     tokensAPI: new TokensDataSource(),
     cartsAPI: new CartsDataSource(),
+    ordersAPI: new OrdersDataSource(),
     customersAPI: new CustomersDataSource(),
     legacyCatalogAPI: new LegacyCatalogDataSource()
 })

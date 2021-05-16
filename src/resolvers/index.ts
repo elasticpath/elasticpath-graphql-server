@@ -3,7 +3,8 @@ import cartMutationResolvers from './mutations/carts'
 import orderMutationResolvers from './mutations/orders'
 import customerMutationResolvers from './mutations/customers'
 
-import cartQueryResolvers from './queries/cart'
+import cartsQueryResolvers from './queries/carts'
+import ordersQueryResolvers from './queries/orders'
 import legacyCatalogQueryResolvers from './queries/legacy_catalog'
 import pcmQueryResolvers from './queries/pcm'
 import customerQueryResolvers from './queries/customers'
@@ -18,7 +19,8 @@ export default {
     ...customerMutationResolvers,
   },
   Query: {
-    ...cartQueryResolvers,
+    ...cartsQueryResolvers,
+    ...ordersQueryResolvers,
     ...pcmQueryResolvers,
     ...customerQueryResolvers,
     ...legacyCatalogQueryResolvers

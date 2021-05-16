@@ -7,6 +7,8 @@ type Query {
   node(id: ID!): Node
   nodeChildren(id: ID!): [Node]
   cart(id: ID!): Cart
+  order(id: ID!): Order
+  orders: [Order]
   customer(id: ID!): Customer
   customerAddresses(customerId: String!): [CustomerAddress]
   customerAddress(customerId: String!, addressId: String!): CustomerAddress
