@@ -16,7 +16,7 @@ type Mutation {
   ): Order
   stripeTokenPayment(orderId: ID!, token: String!): Order
   addCustomer(customerInput: CustomerInput): Customer
-  addCustomerAddress(customerId: ID!, address: CustomerAddressInput, token: String!): CustomerAddress
-  updateCustomerAddress(customerId: ID!, addressId:ID!,address: CustomerAddressInput, token: String!): CustomerAddress
-  deleteCustomerAddress(customerId: ID!, addressId:ID!, token: String!): Boolean
+  addCustomerAddress(customerId: ID!, address: CustomerAddressInput): CustomerAddress
+  updateCustomerAddress(customerId: ID!, addressId:ID!,address: CustomerAddressInput): CustomerAddress
+  deleteCustomerAddress(customerId: ID!, addressId:ID!): Boolean
 }

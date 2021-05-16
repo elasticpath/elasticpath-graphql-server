@@ -15,7 +15,7 @@ export class TokensDataSource extends RESTDataSource {
             client_id: client_id,
             grant_type: 'implicit'
         }
-        const result = await this.post(
+        return await this.post(
             `/oauth/access_token`,
             Object.keys(body)
                 .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(body[k])}`)
@@ -26,7 +26,6 @@ export class TokensDataSource extends RESTDataSource {
                 }
             }
         )
-        return result
     }
 
 }

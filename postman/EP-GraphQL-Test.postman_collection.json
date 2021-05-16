@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cfb54aa7-5688-4886-9eb4-56f8d55446d8",
+		"_postman_id": "2e2ba38a-4487-413b-9c17-7efb2556d650",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -60,7 +60,7 @@
 									"",
 									"    pm.expect(jsonData.data.authenticateAsCustomerViaPassword.customer_id).to.equal(pm.environment.get(\"customer_id\"));",
 									"",
-									"    pm.environment.set(\"token\", jsonData.data.authenticateAsCustomerViaPassword.token);",
+									"    pm.environment.set(\"x-moltin-customer-token\", jsonData.data.authenticateAsCustomerViaPassword.token);",
 									"});",
 									"",
 									"postman.setNextRequest(\"products\");"
@@ -251,8 +251,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation addCustomerAddress ($customerId: ID!, $address: CustomerAddressInput, $token: String!) {\n    addCustomerAddress (customerId: $customerId, address: $address, token: $token) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"address\": {\n    \"type\": \"address\",\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"name\": \"{{address_name}}\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"county\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"country\": \"{{address_country}}\"\n  },\n  \"token\": \"{{token}}\"\n}"
+								"query": "mutation addCustomerAddress ($customerId: ID!, $address: CustomerAddressInput) {\n    addCustomerAddress (customerId: $customerId, address: $address) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"address\": {\n    \"type\": \"address\",\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"name\": \"{{address_name}}\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"county\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"country\": \"{{address_country}}\"\n  }\n}"
 							}
 						},
 						"url": {
@@ -290,8 +290,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateCustomerAddress ($customerId: ID!, $addressId: ID!, $address: CustomerAddressInput, $token: String!) {\n    updateCustomerAddress (customerId: $customerId, addressId: $addressId, address: $address, token: $token) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"address\": {\n    \"id\": \"{{address_id}}\",\n    \"type\": \"address\",\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"name\": \"{{address_name}}\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"updated\",\n    \"city\": \"\",\n    \"county\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"country\": \"{{address_country}}\"\n  },\n  \"addressId\": \"{{address_id}}\",\n  \"token\": \"{{token}}\"\n}"
+								"query": "mutation updateCustomerAddress ($customerId: ID!, $addressId: ID!, $address: CustomerAddressInput) {\n    updateCustomerAddress (customerId: $customerId, addressId: $addressId, address: $address) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"address\": {\n    \"id\": \"{{address_id}}\",\n    \"type\": \"address\",\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"name\": \"{{address_name}}\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"updated\",\n    \"city\": \"\",\n    \"county\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"country\": \"{{address_country}}\"\n  },\n  \"addressId\": \"{{address_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -327,8 +327,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteCustomerAddress ($customerId: ID!, $addressId: ID!, $token: String!) {\n    deleteCustomerAddress (customerId: $customerId, addressId: $addressId, token: $token)\n}",
-								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"addressId\": \"{{address_id}}\",\n  \"token\": \"{{token}}\"\n}"
+								"query": "mutation deleteCustomerAddress ($customerId: ID!, $addressId: ID!) {\n    deleteCustomerAddress (customerId: $customerId, addressId: $addressId)\n}",
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"addressId\": \"{{address_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -792,8 +792,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customer ($id: ID!, $token: String!) {\n    customer (id: $id, token: $token) {\n        id\n        type\n        name\n        email\n    }\n}",
-								"variables": "{\n  \"id\": \"{{customer_id}}\",\n  \"token\": \"{{token}}\"\n}"
+								"query": "query customer ($id: ID!) {\n    customer (id: $id) {\n        id\n        type\n        name\n        email\n    }\n}",
+								"variables": "{\n  \"id\": \"{{customer_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -838,8 +838,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customerAddresses ($customer: String!, $token: String!) {\n    customerAddresses (customer: $customer, token: $token) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customer\": \"{{customer_id}}\",\n  \"token\": \"{{token}}\"\n}"
+								"query": "query customerAddresses ($customer: String!) {\n    customerAddresses (customer: $customer) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
+								"variables": "{\n  \"customer\": \"{{customer_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -877,8 +877,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customerAddress ($customer: String!, $address: String!, $token: String!) {\n    customerAddress (customer: $customer, address: $address, token: $token) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customer\": \"{{customer_id}}\",\n  \"address\": \"{{address_id}}\",\n  \"token\": \"{{token}}\"\n}"
+								"query": "query customerAddress ($customer: String!, $address: String!) {\n    customerAddress (customer: $customer, address: $address) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
+								"variables": "{\n  \"customer\": \"{{customer_id}}\",\n  \"address\": \"{{address_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -1069,12 +1069,33 @@
 			]
 		}
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({",
+					"  key: \"X-Moltin-Customer-Token\",",
+					"  value: \"{{x-moltin-customer-token}}\"",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "url",
-			"value": "",
-			"type": "any",
-			"description": "URL for the request."
+			"value": ""
 		}
 	]
 }
