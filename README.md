@@ -23,7 +23,6 @@ Copy the `.env.example` file to create a `.env` file and fill in appropriate val
 
 
 ```bash
-export ELASTICPATH_CLIENT_ID=
 export ELASTICPATH_API_HOST=
 ```
 
