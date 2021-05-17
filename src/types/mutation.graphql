@@ -1,4 +1,4 @@
-stype Mutation {
+type Mutation {
   authenticate(
     client_id: String!
   ): ImplicitToken  
