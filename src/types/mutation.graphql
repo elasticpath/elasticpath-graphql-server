@@ -6,7 +6,7 @@ type Mutation {
     email: String!
     password: String!
   ): TokenPayload
-  generateAccountTokens(accountTokenInput : AccountTokenInput):[AccountToken]
+  generateAccountTokens(accountTokenInput : AccountTokenInput!):[AccountToken]
   addToCart( cartId: ID!, productId: ID!, quantity: Int!): [CartItem]
   updateProductQtyInCart(cartId: ID!, productId: ID!, quantity: Int!): CartItem
   addPromotion(cartId: ID!, promotionCode: String!): [CartItem]
