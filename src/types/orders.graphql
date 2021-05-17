@@ -52,3 +52,27 @@ type OrderMeta {
      display_price: DisplayPrice
      timestamps: TimeStamps
 }
+type ShippingAddress {
+  first_name: String
+  last_name: String
+  phone_number: String
+  company_name: String
+  line_1: String
+  line_2: String
+  city: String
+  postcode: String
+  county: String
+  country: String
+  instructions: String
+}
+type BillingAddress {
+  first_name: String
+  last_name: String
+  company_name: String
+  line_1: String
+  line_2: String
+  city: String
+  postcode: String
+  county: String
+  country: String
+}
