@@ -37,17 +37,17 @@ const products = async ({relationships}, args, {dataSources}) => {
     }
 }
 
-const items = async (parent, { id: cartId }, { dataSources }) => {
-    try {
-        return dataSources.cartsAPI.getCartItems(parent.id)
-    } catch (e) {
-        throw new UserInputError("API returned with errors.", e)
-    }
-}
+//const items = async (parent, { id: cartId }, { dataSources }) => {
+//    try {
+//        return dataSources.cartsAPI.getCartItems(parent.id)
+//    } catch (e) {
+//        throw new UserInputError("API returned with errors.", e)
+//    }
+//}
 
-const priceWithTax = (parent) => parent.meta.display_price.with_tax
-const priceWithoutTax= (parent) => parent.meta.display_price.without_tax
-const tax = (parent) => parent.meta.display_price.tax
+//const priceWithTax = (parent) => parent.meta.display_price.with_tax
+//const priceWithoutTax= (parent) => parent.meta.display_price.without_tax
+//const tax = (parent) => parent.meta.display_price.tax
 
 export default {
     Product: {
@@ -59,9 +59,9 @@ export default {
     },
     //TODO: refactor this later
     Cart: {
-        items,
-        priceWithTax,
-        priceWithoutTax,
-        tax
+        items: (parent, __, { dataSources }) => dataSources.cartsAPI.getCartItems(parent.id),
+        priceWithTax: (parent) => parent.meta.display_price.with_tax,
+        priceWithoutTax: (parent) => parent.meta.display_price.without_tax,
+        tax: (parent) => parent.meta.display_price.tax,
     }
 }
