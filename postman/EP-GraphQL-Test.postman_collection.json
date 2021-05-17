@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "736ae1f2-91e8-4d9a-8b99-1295ef215de0",
+		"_postman_id": "2e2ba38a-4487-413b-9c17-7efb2556d650",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8,6 +8,45 @@
 		{
 			"name": "mutations",
 			"item": [
+				{
+					"name": "authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Authentication is successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.authenticate).to.be.an('object');",
+									"",
+									"    pm.environment.set(\"access_token\", jsonData.data.authenticate.access_token);",
+									"});",
+									"",
+									"postman.setNextRequest(\"authenticateAsCustomerViaPassword\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation authenticate ($client_id: String!) {\n    authenticate (client_id: $client_id) {\n        expires_in\n        expires\n        access_token\n        token_type\n        identifier\n    }\n}",
+								"variables": "{\n  \"client_id\": \"{{ELASTICPATH_CLIENT_ID}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "authenticateAsCustomerViaPassword",
 					"event": [
@@ -21,7 +60,7 @@
 									"",
 									"    pm.expect(jsonData.data.authenticateAsCustomerViaPassword.customer_id).to.equal(pm.environment.get(\"customer_id\"));",
 									"",
-									"    pm.environment.set(\"token\", jsonData.data.authenticateAsCustomerViaPassword.token);",
+									"    pm.environment.set(\"x-moltin-customer-token\", jsonData.data.authenticateAsCustomerViaPassword.token);",
 									"});",
 									"",
 									"postman.setNextRequest(\"products\");"
@@ -58,10 +97,10 @@
 								"exec": [
 									"pm.test(\"Cart contains \" + pm.environment.get(\"product_name\"), function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.data.addToCart.items).to.be.an('array').but.not.an('object');",
+									"    pm.expect(jsonData.data.addToCart).to.be.an('array').but.not.an('object');",
 									"",
 									"    var lineItemFound = false;",
-									"    for (var lineItem of jsonData.data.addToCart.items) {",
+									"    for (var lineItem of jsonData.data.addToCart) {",
 									"        if (lineItem.name == pm.environment.get(\"product_name\")) {",
 									"            lineItemFound = true;",
 									"            break;",
@@ -82,8 +121,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation addToCart ($productId: ID!, $cartId: ID!) {\n    addToCart (productId: $productId, cartId: $cartId) {\n        id\n        name\n        description\n        priceWithTax {\n            amount\n            currency\n            formatted\n        }\n        priceWithoutTax {\n            amount\n            currency\n            formatted\n        }\n        tax {\n            amount\n            currency\n            formatted\n        }\n        items {\n            id\n            type\n            name\n            description\n            quantity\n            sku\n            value {\n                amount\n                currency\n                includes_tax\n            }\n            unit_price {\n                amount\n                currency\n                includes_tax\n            }\n        }\n    }\n}",
-								"variables": "{\n  \"productId\": \"{{product_id}}\",\n  \"cartId\": 0\n}"
+								"query": "mutation addToCart ($cartId: ID!, $productId: ID!, $quantity: Int!) {\n    addToCart (cartId: $cartId, productId: $productId, quantity: $quantity) {\n        id\n        type\n        name\n        description\n        quantity\n        sku\n        value {\n            amount\n            currency\n            includes_tax\n        }\n        unit_price {\n            amount\n            currency\n            includes_tax\n        }\n    }\n}",
+								"variables": "{\n  \"productId\": \"{{product_id}}\",\n  \"cartId\": 0,\n  \"quantity\": 1\n}"
 							}
 						},
 						"url": {
@@ -97,14 +136,30 @@
 				},
 				{
 					"name": "checkoutCart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Checkout is successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.checkoutCart).to.be.an('object').but.not.an('array');",
+									"});",
+									"",
+									"postman.setNextRequest(\"orders\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation checkoutCart ($cartId: ID!, $customer: CustomerInput!, $billing: BillingAddressInput!, $shipping: ShippingAddressInput) {\n    checkoutCart (cartId: $cartId, customer: $customer, billing: $billing, shipping: $shipping) {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
-								"variables": "{\n  \"cartId\": 0,\n  \"customer\": {\n    \"name\": \"\",\n    \"email\": \"\",\n    \"password\": \"\"\n  },\n  \"billing\": {\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"postcode\": \"\",\n    \"county\": \"\",\n    \"country\": \"\"\n  },\n  \"shipping\": {\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"phone_number\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"postcode\": \"\",\n    \"county\": \"\",\n    \"country\": \"\",\n    \"instructions\": \"\"\n  }\n}"
+								"query": "mutation checkoutCart ($cartId: ID!, $customer: CustomerInputForCheckout!, $billing: BillingAddressInput!, $shipping: ShippingAddressInput) {\n    checkoutCart (cartId: $cartId, customer: $customer, billing: $billing, shipping: $shipping) {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
+								"variables": "{\n  \"cartId\": 0,\n  \"customer\": {\n    \"name\": \"{{customer_name}}\",\n    \"email\": \"{{customer_email}}\"\n  },\n  \"billing\": {\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"company_name\": \"{{$randomCompanyName}}\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"\",\n    \"city\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"county\": \"{{address_county}}\",\n    \"country\": \"{{address_country}}\"\n  },\n  \"shipping\": {\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"phone_number\": \"{{$randomPhoneNumber}}\",\n    \"company_name\": \"{{$randomCompanyName}}\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"\",\n    \"city\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"county\": \"{{address_county}}\",\n    \"country\": \"{{address_country}}\",\n    \"instructions\": \"\"\n  }\n}"
 							}
 						},
 						"url": {
@@ -144,7 +199,12 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Create customer is successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.addCustomer).to.be.an('object').but.not.an('array');",
+									"});",
+									"",
+									"postman.setNextRequest(\"addCustomerAddress\");"
 								],
 								"type": "text/javascript"
 							}
@@ -157,7 +217,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "mutation addCustomer ($customerInput: CustomerInput) {\n    addCustomer (customerInput: $customerInput) {\n        id\n        type\n        name\n        email\n    }\n}",
-								"variables": "{\n  \"customerInput\": {\n    \"name\": \"{{customer_name}}\",\n    \"email\": \"{{customer_email}}\",\n    \"password\": \"{{customer_password}}\"\n  }\n}"
+								"variables": "{\n  \"customerInput\": {\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"{{customer_password}}\"\n  }\n}"
 							}
 						},
 						"url": {
@@ -196,8 +256,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation addCustomerAddress ($customerId: ID!, $address: CustomerAddressInput, $token: String!) {\n    addCustomerAddress (customerId: $customerId, address: $address, token: $token) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"address\": {\n    \"type\": \"address\",\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"name\": \"{{address_name}}\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"county\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"country\": \"{{address_country}}\"\n  },\n  \"token\": \"{{token}}\"\n}"
+								"query": "mutation addCustomerAddress ($customerId: ID!, $address: CustomerAddressInput) {\n    addCustomerAddress (customerId: $customerId, address: $address) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"address\": {\n    \"type\": \"address\",\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"name\": \"{{address_name}}\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"\",\n    \"city\": \"\",\n    \"county\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"country\": \"{{address_country}}\"\n  }\n}"
 							}
 						},
 						"url": {
@@ -235,8 +295,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation updateCustomerAddress ($customerId: ID!, $addressId: ID!, $address: CustomerAddressInput, $token: String!) {\n    updateCustomerAddress (customerId: $customerId, addressId: $addressId, address: $address, token: $token) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"address\": {\n    \"id\": \"{{address_id}}\",\n    \"type\": \"address\",\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"name\": \"{{address_name}}\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"updated\",\n    \"city\": \"\",\n    \"county\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"country\": \"{{address_country}}\"\n  },\n  \"addressId\": \"{{address_id}}\",\n  \"token\": \"{{token}}\"\n}"
+								"query": "mutation updateCustomerAddress ($customerId: ID!, $addressId: ID!, $address: CustomerAddressInput) {\n    updateCustomerAddress (customerId: $customerId, addressId: $addressId, address: $address) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"address\": {\n    \"id\": \"{{address_id}}\",\n    \"type\": \"address\",\n    \"first_name\": \"{{customer_first_name}}\",\n    \"last_name\": \"{{customer_last_name}}\",\n    \"name\": \"{{address_name}}\",\n    \"phone_number\": \"\",\n    \"instructions\": \"\",\n    \"company_name\": \"\",\n    \"line_1\": \"{{address_line_1}}\",\n    \"line_2\": \"updated\",\n    \"city\": \"\",\n    \"county\": \"{{address_county}}\",\n    \"postcode\": \"{{address_postcode}}\",\n    \"country\": \"{{address_country}}\"\n  },\n  \"addressId\": \"{{address_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -272,8 +332,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteCustomerAddress ($customerId: ID!, $addressId: ID!, $token: String!) {\n    deleteCustomerAddress (customerId: $customerId, addressId: $addressId, token: $token)\n}",
-								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"addressId\": \"{{address_id}}\",\n  \"token\": \"{{token}}\"\n}"
+								"query": "mutation deleteCustomerAddress ($customerId: ID!, $addressId: ID!) {\n    deleteCustomerAddress (customerId: $customerId, addressId: $addressId)\n}",
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"addressId\": \"{{address_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -284,6 +344,36 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -310,6 +400,11 @@
 									"        }",
 									"    }",
 									"    pm.expect(prodFound).to.equal(true);",
+									"});",
+									"",
+									"pm.test(\"There are no errors\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.errors).is.undefined;",
 									"});",
 									"",
 									"postman.setNextRequest(\"product\");"
@@ -349,6 +444,21 @@
 									"    pm.expect(jsonData.data.product).to.be.an('object');",
 									"",
 									"    pm.expect(jsonData.data.product.name).to.equal(pm.environment.get(\"product_name\"));",
+									"});",
+									"",
+									"pm.test(\"Brands is an array \", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.product.brands).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Brands.products is an array \", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.product.brands[0].products).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Main image is an object \", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.product.main_image).to.be.an('object');",
 									"});",
 									"",
 									"postman.setNextRequest(\"brands\");"
@@ -656,7 +766,7 @@
 									"    pm.expect(lineItemFound).to.equal(true);",
 									"});",
 									"",
-									"postman.setNextRequest(\"orders\");"
+									"postman.setNextRequest(\"checkoutCart\");"
 								],
 								"type": "text/javascript"
 							}
@@ -682,6 +792,86 @@
 					"response": []
 				},
 				{
+					"name": "orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Orders is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.orders).to.be.an('array').but.not.an('object');",
+									"    pm.expect(jsonData.data.orders.length).to.be.greaterThan(1)",
+									"",
+									"    pm.environment.set(\"order_id\", jsonData.data.orders[0].id);",
+									"});",
+									"",
+									"postman.setNextRequest(\"nodes\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query orders {\n    orders {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
+								"variables": "{}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Orders is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.orders).to.be.an('array').but.not.an('object');",
+									"    pm.expect(jsonData.data.orders.length).to.be.greaterThan(1)",
+									"",
+									"    pm.environment.set(\"order_id\", \"jsonData.data.orders[0].id\");",
+									"});",
+									"",
+									"postman.setNextRequest(\"nodes\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query order ($id: ID!) {\n    order (id: $id) {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
+								"variables": "{\n  \"id\": \"{{order_id}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "customer",
 					"event": [
 						{
@@ -695,7 +885,7 @@
 									"    pm.expect(jsonData.data.customer.name).to.equal(pm.environment.get(\"customer_name\"));",
 									"});",
 									"",
-									"postman.setNextRequest(\"addCustomerAddress\");"
+									"postman.setNextRequest(\"addCustomer\");"
 								],
 								"type": "text/javascript"
 							}
@@ -707,8 +897,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customer ($id: ID!, $token: String!) {\n    customer (id: $id, token: $token) {\n        id\n        type\n        name\n        email\n    }\n}",
-								"variables": "{\n  \"id\": \"{{customer_id}}\",\n  \"token\": \"{{token}}\"\n}"
+								"query": "query customer ($id: ID!) {\n    customer (id: $id) {\n        id\n        type\n        name\n        email\n    }\n}",
+								"variables": "{\n  \"id\": \"{{customer_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -753,8 +943,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customerAddresses ($customer: String!, $token: String!) {\n    customerAddresses (customer: $customer, token: $token) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customer\": \"{{customer_id}}\",\n  \"token\": \"{{token}}\"\n}"
+								"query": "query customerAddresses ($customerId: String!) {\n    customerAddresses (customerId: $customerId) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -792,8 +982,154 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customerAddress ($customer: String!, $address: String!, $token: String!) {\n    customerAddress (customer: $customer, address: $address, token: $token) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
-								"variables": "{\n  \"customer\": \"{{customer_id}}\",\n  \"address\": \"{{address_id}}\",\n  \"token\": \"{{token}}\"\n}"
+								"query": "query customerAddress ($customerId: String!, $addressId: String!) {\n    customerAddress (customerId: $customerId, addressId: $addressId) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
+								"variables": "{\n  \"customerId\": \"{{customer_id}}\",\n  \"addressId\": \"{{address_id}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "nodes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get All Nodes\", function () {",
+									"    var jsonData = pm.response.json()",
+									"    var nodes = jsonData.data.nodes",
+									"",
+									"    pm.expect(nodes).to.be.an('array').but.not.an('object')",
+									"    pm.expect(nodes).length.to.be.at.least(1)",
+									"",
+									"    for (var node of nodes) {",
+									"        pm.expect(node).to.be.an('object')",
+									"        pm.expect(node).to.have.all.keys('id', 'type', 'attributes')",
+									"        pm.expect(node.id).to.be.a('string')",
+									"        pm.expect(node.type).to.be.a('string').and.equals(\"node\")",
+									"        pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"    }",
+									"",
+									"    // Set the first node's id in env for next test",
+									"    pm.environment.set(\"node_id\", nodes[0].id)",
+									"});",
+									"",
+									"postman.setNextRequest(\"node\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query nodes {\n  nodes {\n    id\n    type\n    attributes {\n      name\n      description\n      slug\n    }\n  }\n}",
+								"variables": "{}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "node",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get A Node\", function () {",
+									"    var jsonData = pm.response.json()",
+									"    var node = jsonData.data.node",
+									"",
+									"    pm.expect(node).to.be.an('object')",
+									"    pm.expect(node).to.have.all.keys('id', 'type', 'attributes')",
+									"    pm.expect(node.id).to.be.a('string')",
+									"    pm.expect(node.type).to.be.a('string').and.equals(\"node\")",
+									"    pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"});",
+									"",
+									"// Set a specfic node as env var for the next test (nodesChildren)",
+									"pm.environment.set(\"node_id\", \"3b7acf0a-a6ca-4353-ba32-624ef342e234\")",
+									"",
+									"postman.setNextRequest(\"nodeChildren\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query node ($id: ID!) {\n  node (id: $id) {\n    id\n    type\n    attributes {\n      name\n      description\n      slug\n    }\n  }\n}",
+								"variables": "{\n  \"id\": \"{{node_id}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "nodeChildren",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get Node Children\", function () {",
+									"    var jsonData = pm.response.json()",
+									"    var nodeChildren = jsonData.data.nodeChildren",
+									"",
+									"    pm.expect(nodeChildren).to.be.an('array').but.not.an('object')",
+									"    pm.expect(nodeChildren).length.to.be.at.least(1)",
+									"",
+									"    for (var node of nodeChildren) {",
+									"        pm.expect(node).to.be.an('object')",
+									"        pm.expect(node).to.have.all.keys('id', 'type', 'attributes')",
+									"        pm.expect(node.id).to.be.a('string')",
+									"        pm.expect(node.type).to.be.a('string').and.equals(\"node\")",
+									"        pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"    }",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query nodeChildren ($id: ID!) {\n  nodeChildren (id: $id) {\n    id\n    type\n    attributes {\n      name\n      description\n      slug\n    }\n  }\n}",
+								"variables": "{\n  \"id\": \"{{node_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -826,15 +1162,66 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({",
+					"  key: \"X-Moltin-Customer-Token\",",
+					"  value: \"{{x-moltin-customer-token}}\"",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"variable": [
 		{
 			"key": "url",
-			"value": "",
-			"type": "any",
-			"description": "URL for the request."
+			"value": ""
 		}
 	]
 }

@@ -1,40 +1,33 @@
-const addCustomer = async (root, {customerInput}, {Moltin}) => {
+import { UserInputError } from "apollo-server"
+
+const addCustomer = async (root, {customerInput}, {dataSources}) => {
     try {
-        const {data: customer} = await Moltin.Customers.Create(customerInput)
-        return customer
+        return dataSources.customersAPI.createCustomer(customerInput)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const addCustomerAddress = async (root, { customerId, address, token }, { Moltin }) => {
+const addCustomerAddress = async (root, { customerId, address }, { dataSources}) => {
     try {
-        const { data: addressRes } = await Moltin.Addresses.Create({ customer: customerId, body: address, token: token})
-        return addressRes
+        return dataSources.customersAPI.createCustomerAddress(customerId, address)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
-const updateCustomerAddress = async (root, { customerId, addressId, address, token }, { Moltin }) => {
+const updateCustomerAddress = async (root, { customerId, addressId, address }, { dataSources }) => {
     try {
-        const { data: addressRes } = await Moltin.Addresses.Update({
-            customer: customerId,
-            address: addressId,
-            body: address,
-            token,
-        })
-        return addressRes
+        return dataSources.customersAPI.updateCustomerAddress(customerId, addressId, address)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const deleteCustomerAddress = async (root, { customerId, addressId, token }, { Moltin }) => {
+const deleteCustomerAddress = async (root, { customerId, addressId }, { dataSources }) => {
     try {
-        await Moltin.Addresses.Delete({ customer: customerId, address: addressId, token })
-        return true
+        return dataSources.customersAPI.deleteCustomerAddress(customerId, addressId)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
@@ -44,4 +37,3 @@ export default {
     updateCustomerAddress,
     deleteCustomerAddress,
 }
-

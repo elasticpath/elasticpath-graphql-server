@@ -2,12 +2,12 @@
 
 # GraphQL Server for Elastic Path Commerce Cloud 
 
-[Elastic Path](https://www.elasticpath.com/) is composable, API-first, headless commerce platform.
+[Elastic Path](https://www.elasticpath.com/) is a composable, API-first, headless commerce platform. This project provides a [GraphQL](https://graphql.org/) abstraction for a subset of Elastic Path Commerce Cloud APIs to support shopping experiences. APIs that are used for store administration are not included in this project. This code uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/getting-started/).
 
 Contributors welcome 👋
 
-## Pre-requisites 
-This code uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/getting-started/)
+## Pre-requisites
+This requires an [Elastic Path Commerce Cloud](https://www.elasticpath.com) account.
 
 ## Installation
 
@@ -23,7 +23,6 @@ Copy the `.env.example` file to create a `.env` file and fill in appropriate val
 
 
 ```bash
-export ELASTICPATH_CLIENT_ID=
 export ELASTICPATH_API_HOST=
 ```
 

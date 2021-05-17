@@ -1,12 +1,22 @@
-const orders = async (parent, {token}, {Moltin}) => {
+import {UserInputError} from "apollo-server";
+
+const orders = async (parent, args, {dataSources}) => {
     try {
-        const {data: orders} = await Moltin.Orders.All(token)
-        return orders
+        return dataSources.ordersAPI.getOrders()
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
+    }
+}
+
+const order = async (parent, { id: orderId }, { dataSources }) => {
+    try {
+        return dataSources.ordersAPI.getOrder(orderId)
+    } catch (e) {
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
 export default {
-    orders
+    orders,
+    order
 }

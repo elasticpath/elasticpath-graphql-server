@@ -1,22 +1,29 @@
 require('dotenv').config();
 import { typeDefs } from './types'
-import {gateway as MoltinGateway} from '@moltin/sdk'
 import {ApolloServer} from 'apollo-server'
 import resolvers from './resolvers'
-import loaders from './loaders'
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
-const {ELASTICPATH_CLIENT_ID, ELASTICPATH_API_HOST} = process.env
+import {PCMDataSource} from './datasources/PCMDataSource'
+import {TokensDataSource} from "./datasources/TokensDataSource";
+import {CartsDataSource} from "./datasources/CartsDataSource";
+import {OrdersDataSource} from "./datasources/OrdersDataSource";
+import {CustomersDataSource} from "./datasources/CustomersDataSource";
+import {LegacyCatalogDataSource} from "./datasources/LegacyCatalogDataSource";
 
-export const Moltin = MoltinGateway({
-    client_id: ELASTICPATH_CLIENT_ID,
-    host: ELASTICPATH_API_HOST
+// set up any dataSources our resolvers need
+const dataSources = () => ({
+    pcmAPI: new PCMDataSource(),
+    tokensAPI: new TokensDataSource(),
+    cartsAPI: new CartsDataSource(),
+    ordersAPI: new OrdersDataSource(),
+    customersAPI: new CustomersDataSource(),
+    legacyCatalogAPI: new LegacyCatalogDataSource()
 })
-
 
 // the function that sets up the global context for each resolver, using the req
 const context = async ({req}) => {
-    return {...req, Moltin, loaders}
+    return {req}
 }
 
 const schema = makeExecutableSchema({
@@ -27,6 +34,7 @@ const schema = makeExecutableSchema({
 // Set up Apollo Server
 const server = new ApolloServer({
     schema,
+    dataSources,
     context,
     introspection: true,
     playground: true,
@@ -43,6 +51,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 // export all the important pieces for integration/e2e tests to use
 module.exports = {
+    dataSources,
     context,
     typeDefs,
     resolvers,

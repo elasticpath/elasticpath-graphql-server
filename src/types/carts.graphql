@@ -1,0 +1,65 @@
+type Amount {
+  amount: Int
+  currency: String
+  formatted: String
+}
+
+type Value {
+  amount: Int
+  currency: String
+  includes_tax: Boolean 
+}
+
+
+type CartItem {
+  id: ID!
+  type: String!
+  name: String!
+  description: String
+  quantity: Int!
+  sku: String!
+  value: Value!
+  unit_price: Value!
+}
+
+type Cart {
+  id: ID!
+  name: String
+  description: String
+  priceWithTax: Amount
+  priceWithoutTax: Amount
+  tax: Amount
+  items: [CartItem]
+}
+
+input CustomerInputForCheckout {
+  name: String
+  email: String
+  id: ID
+}
+
+input BillingAddressInput {
+  first_name: String!
+  last_name: String!
+  company_name: String
+  line_1: String!
+  line_2: String
+  city: String
+  postcode: String!
+  county: String!
+  country: String
+}
+
+input ShippingAddressInput {
+  first_name: String!
+  last_name: String!
+  phone_number: String
+  company_name: String
+  line_1: String!
+  line_2: String
+  city: String
+  postcode: String!
+  county: String!
+  country: String
+  instructions: String
+}

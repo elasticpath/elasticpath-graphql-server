@@ -11,12 +11,12 @@
     "deploy": "now --public --dotenv .env.production && now alias && now rm --yes --safe moltinql",
     "build": "rimraf dist && tsc",
     "start": "node dist",
-    "test": "newman run postman/EP-GraphQL-Test.postman_collection.json -e postman/EP-GraphQL-env.postman_environment.json"
+    "test": "newman run postman/EP-GraphQL-Test.postman_collection.json -e postman/EP-GraphQL-env.postman_environment.json -g postman/EP-GraphQL-globals.postman_globals.json"
   },
   "dependencies": {
-    "@moltin/sdk": "7.0.0-beta.26",
     "apollo-server": "^2.24.0",
     "apollo-server-testing": "^2.24.0",
+    "apollo-datasource-rest": "^0.13.0",
     "dataloader": "^2.0.0",
     "dotenv": "^9.0.2",
     "graphql": "^15.5.0",

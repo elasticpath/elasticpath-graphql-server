@@ -1,0 +1,14 @@
+{
+	"id": "c798eb38-e514-4c98-878b-716a565064bc",
+	"values": [
+		{
+			"key": "ELASTICPATH_CLIENT_ID",
+			"value": "${ELASTICPATH_CLIENT_ID}",
+			"enabled": true
+		}
+	],
+	"name": "GraphQL Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2021-05-15T14:55:09.613Z",
+	"_postman_exported_using": "Postman/8.3.0"
+}

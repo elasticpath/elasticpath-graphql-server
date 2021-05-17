@@ -1,3 +1,11 @@
+type ImplicitToken{
+  expires_in: Int!
+  expires: Int!
+  access_token: String!
+  token_type: String!
+  identifier: String!
+}
+
 type TokenPayload {
   type: String!
   id: ID!

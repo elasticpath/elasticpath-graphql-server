@@ -1,16 +1,12 @@
 import authenticationMutationResolvers from './mutations/authentication'
-import cartMutationResolvers from './mutations/cart'
-import orderMutationResolvers from './mutations/orders'
+import cartMutationResolvers from './mutations/carts'
 import customerMutationResolvers from './mutations/customers'
 
-import cartQueryResolvers from './queries/cart'
-import brandQueryResolvers from './queries/brands'
-import productQueryResolvers from './queries/products'
+import cartsQueryResolvers from './queries/carts'
+import ordersQueryResolvers from './queries/orders'
+import legacyCatalogQueryResolvers from './queries/legacy_catalog'
 import pcmQueryResolvers from './queries/pcm'
-import categoryQueryResolvers from './queries/categories'
-import collectionQueryResolvers from './queries/collections'
 import customerQueryResolvers from './queries/customers'
-import orderQueryResolvers from './queries/orders'
 import rootQueryResolvers from './root'
 
 export default {
@@ -18,17 +14,13 @@ export default {
   Mutation: {
     ...authenticationMutationResolvers,
     ...cartMutationResolvers,
-    ...orderMutationResolvers,
     ...customerMutationResolvers,
   },
   Query: {
-    ...brandQueryResolvers,
-    ...cartQueryResolvers,
-    ...productQueryResolvers,
+    ...cartsQueryResolvers,
+    ...ordersQueryResolvers,
     ...pcmQueryResolvers,
-    ...categoryQueryResolvers,
-    ...collectionQueryResolvers,
     ...customerQueryResolvers,
-    ...orderQueryResolvers
+    ...legacyCatalogQueryResolvers
   },
 }

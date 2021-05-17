@@ -1,26 +1,25 @@
-const customer = async (parent, { id, token }, { Moltin }) => {
+import {UserInputError} from "apollo-server";
+
+const customer = async (parent, { id }, { dataSources}) => {
     try {
-        const { data: customer } = await Moltin.Customers.Get(id, token)
-        return customer
+        return dataSources.customersAPI.getCustomer(id)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
-const customerAddresses = async (parent, { customer, token }, { Moltin }) => {
+const customerAddresses = async (parent, { customerId }, { dataSources }) => {
     try {
-        const { data: addresses } = await Moltin.Addresses.All({ customer, token }, )
-        return addresses
+        return dataSources.customersAPI.getCustomerAddresses(customerId)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const customerAddress = async (parent, { customer, address: addressInput, token}, { Moltin }) => {
+const customerAddress = async (parent, { customerId, addressId}, { dataSources }) => {
     try {
-        const { data: address } = await Moltin.Addresses.Get({ customer, address: addressInput, token })
-        return address
+        return dataSources.customersAPI.getCustomerAddress(customerId, addressId)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 

@@ -1,116 +1,58 @@
-const host = process.env.ELASTICPATH_API_HOST
+import {UserInputError} from "apollo-server";
 
-const pcmProducts = async (parent, args, {Moltin}) => {
+const pcmProducts = async (parent, args, {dataSources}) => {
     try {
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
-        const data = await fetch(`https://` + host + `/catalog/products`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                "Authorization": authHeader
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getProducts()
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const pcmProduct = async (parent, {id}, {Moltin}) => {
+const pcmProduct = async (parent, {id}, {dataSources}) => {
     try {
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
-        const data = await fetch(`https://` + host + `/catalog/products/` + id, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                "Authorization": authHeader
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getProduct(id)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const nodes = async (parent, args, {Moltin}) => {
+const nodes = async (parent, args, {dataSources}) => {
     try {
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
-        const data = await fetch(`https://` + host + `/catalog/nodes`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                "Authorization": authHeader
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getNodes()
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const node = async (parent, {id}, {Moltin}) => {
+const node = async (parent, {id}, {dataSources}) => {
     try {
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
-        const data = await fetch(`https://` + host + `/catalog/nodes/` + id, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                "Authorization": authHeader
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getNode(id)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const hierarchies = async (parent, args, {Moltin}) => {
+const nodeChildren = async (parent, {id}, {dataSources}) => {
     try {
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
-        const data = await fetch(`https://` + host + `/catalog/hierarchies`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                "Authorization": authHeader
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getNodeChildren(id)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const hierarchy = async (parent, {id}, {Moltin}) => {
+const hierarchies = async (parent, args, {dataSources}) => {
     try {
-        const authHeader = "Bearer " + JSON.parse(Moltin.storage.get("moltinCredentials")).access_token
-
-        const data = await fetch(`https://` + host + `/catalog/hierarchies/` + id, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                "Authorization": authHeader
-            },
-        })
-        const result = await data.json()
-        return result.data
+        return dataSources.pcmAPI.getHierarchies()
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
+    }
+}
+
+const hierarchy = async (parent, {id}, {dataSources}) => {
+    try {
+        return dataSources.pcmAPI.getHierarchy(id)
+    } catch (e) {
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
@@ -119,6 +61,7 @@ export default {
     pcmProduct,
     nodes,
     node,
+    nodeChildren,
     hierarchies,
     hierarchy
 }

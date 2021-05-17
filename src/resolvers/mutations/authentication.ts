@@ -1,12 +1,22 @@
-const authenticateAsCustomerViaPassword = async (root, { email, password }, {Moltin}) => {
+import {UserInputError} from "apollo-server";
+
+const authenticate = async (root, { client_id }, {dataSources}) => {
     try {
-        const {data: token} = await Moltin.Customers.TokenViaPassword(email, password)
-        return token
+        return dataSources.tokensAPI.authenticate(client_id)
     } catch (e) {
-        return e
+        throw new UserInputError("API returned with errors.", e)
+    }
+}
+
+const authenticateAsCustomerViaPassword = async (root, { email, password }, {dataSources}) => {
+    try {
+        return dataSources.tokensAPI.authenticateAsCustomerViaPassword(email, password)
+    } catch (e) {
+        throw new UserInputError("API returned with errors.", e)
     }
 }
 
 export default {
+    authenticate,
     authenticateAsCustomerViaPassword
 }
