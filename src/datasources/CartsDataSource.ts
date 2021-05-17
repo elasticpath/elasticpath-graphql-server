@@ -44,7 +44,6 @@ export class CartsDataSource extends RESTDataSource {
       }
     }`;
     const {data: result} = await this.put(apiStr, body);
-    //console.log(result);
     return result[0]; //I have to do this because there is a "["
   }
 
@@ -59,6 +58,7 @@ export class CartsDataSource extends RESTDataSource {
     return result;
   }
   
+  // this works for Checkout with an existing customer ID and for Checkout with an associated customer name and email 
   async checkout(cartId, customer, billing, shipping = billing) {
     const body = `{
       "data": {

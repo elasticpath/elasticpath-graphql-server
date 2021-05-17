@@ -15,7 +15,6 @@ export class OrdersDataSource extends RESTDataSource {
 
   async getOrders() {
     const { data: result } = await this.get(`/orders/`);
-    console.log(result);
     return result;
   }
   
