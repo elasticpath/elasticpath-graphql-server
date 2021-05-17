@@ -52,5 +52,9 @@ export default {
         priceWithTax: (parent) => parent.meta.display_price.with_tax,
         priceWithoutTax: (parent) => parent.meta.display_price.without_tax,
         tax: (parent) => parent.meta.display_price.tax,
+    },
+
+    Node: {
+        children: (parent, __, { dataSources }) => dataSources.pcmAPI.getNodeChildren(parent.id)
     }
 }
