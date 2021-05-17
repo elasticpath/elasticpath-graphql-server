@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cba09f63-702d-42c4-852c-45475d4eebd1",
+		"_postman_id": "6deb8394-335f-4a31-b142-e7f0479101c7",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1215,6 +1215,8 @@
 									"        }",
 									"    }",
 									"});",
+									"",
+									"postman.setNextRequest(\"nodeProducts\");",
 									""
 								],
 								"type": "text/javascript"
@@ -1228,6 +1230,59 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query nodes {\n  nodes {\n    id\n    type\n    attributes {\n      name\n      description\n      slug\n    }\n    children {\n      id\n      type\n      attributes {\n        name\n        description\n        slug\n      }\n    }\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "nodeProducts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get Node Products\", function () {",
+									"    var jsonData = pm.response.json()",
+									"    var nodes = jsonData.data.nodes",
+									"",
+									"    pm.expect(nodes).to.be.an('array').but.not.an('object')",
+									"    // pm.expect(nodes).length.to.be.at.least(10)",
+									"",
+									"    for (var node of nodes) {",
+									"        var nodeProducts = node.products",
+									"        pm.expect(nodeProducts).to.be.an('array')",
+									"        // if (nodeProducts.length > 0) {",
+									"        //     for (var product of nodeProducts) {",
+									"        //         pm.expect(product).to.be.an('object')",
+									"        //         pm.expect(product).to.have.all.keys('id', 'type', 'attributes')",
+									"        //         pm.expect(node.id).to.be.a('string')",
+									"        //         pm.expect(node.type).to.be.a('string').and.equals(\"node\")",
+									"        //         pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"        //     }",
+									"        // }",
+									"    }",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query nodes {\n  nodes {\n    id\n    type\n    attributes {\n      name\n      description\n      slug\n    }\n    products {\n      id\n      type\n      attributes {\n        name\n        commodity_type\n        sku\n        slug\n        description\n        mpn\n        status\n        upc_ean\n      }\n    }\n  }\n}",
 								"variables": ""
 							}
 						},

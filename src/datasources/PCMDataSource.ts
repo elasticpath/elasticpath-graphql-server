@@ -37,6 +37,11 @@ export class PCMDataSource extends RESTDataSource {
         return result
     }
 
+    async getNodesProduct(id) {
+        const {data: result} = await this.get(`/nodes/${id}/relationships/products`)
+        return result
+    }
+
     async getHierarchies() {
         const {data: result} = await this.get(`/hierarchies`)
         return result
