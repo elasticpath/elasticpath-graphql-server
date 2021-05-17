@@ -13,48 +13,48 @@ export class LegacyCatalogDataSource extends RESTDataSource {
     }
 
     async getProducts() {
-        const {data: result} = await this.get(`/products`)
-        return result
+        const {data} = await this.get(`/products`)
+        return data
     }
     
     async getProduct(id) {
-        const {data: result} = await this.get(`/products/${id}`)
-        return result
+        const {data} = await this.get(`/products/${id}`)
+        return data
     }
 
     async getBrands() {
-        const {data: result} = await this.get(`/brands`)
-        return result
+        const {data} = await this.get(`/brands`)
+        return data
     }
 
     async getBrand(id) {
-        const {data: result} = await this.get(`/brands/${id}`)
-        return result
+        const {data} = await this.get(`/brands/${id}`)
+        return data
     }
 
     async getCategories() {
-        const {data: result} = await this.get(`/categories`)
-        return result
+        const {data} = await this.get(`/categories`)
+        return data
     }
 
     async getCategory(id) {
-        const {data: result} = await this.get(`/categories/${id}`)
-        return result
+        const {data} = await this.get(`/categories/${id}`)
+        return data
     }
 
     async getCollections() {
-        const {data: result} = await this.get(`/collections`)
-        return result
+        const {data} = await this.get(`/collections`)
+        return data
     }
 
     async getCollection(id) {
-        const {data: result} = await this.get(`/collections/${id}`)
-        return result
+        const {data} = await this.get(`/collections/${id}`)
+        return data
     }
 
     async getFile(id) {
-        const {data: result} = await this.get(`/files/${id}`)
-        return result
+        const {data} = await this.get(`/files/${id}`)
+        return data
     }
 
 }

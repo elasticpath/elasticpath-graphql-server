@@ -14,47 +14,34 @@ export class CustomersDataSource extends RESTDataSource {
   }
 
   async getCustomer(id) {
-    const { data: result } = await this.get(`/customers/${id}/`);
-    return result;
+    const { data } = await this.get(`/customers/${id}/`);
+    return data;
   }
 
   async getCustomerAddresses(id) {
-    const { data: result } = await this.get(`/customers/${id}/addresses/`);
-    return result;
+    const { data } = await this.get(`/customers/${id}/addresses/`);
+    return data;
   }
 
   async getCustomerAddress(customerId, addressId) {
-    const { data: result } = await this.get(`/customers/${customerId}/addresses/${addressId}`);
-    return result;
+    const { data } = await this.get(`/customers/${customerId}/addresses/${addressId}`);
+    return data;
   }
   
   async createCustomer(customerInput) {
-    const body = `{
-      "data": {
-        "type": "customer",
-        "name": "${customerInput.name}",
-        "email": "${customerInput.email}",
-        "password": "${customerInput.password}"
-      }
-    }`;
-    const {data: result} = await this.post(`/customers/`, body);
-    return result;
+    customerInput.type = 'customer'
+    const { data } = await this.post(`/customers/`, {data :customerInput} );
+    return data;
   }
 
   async createCustomerAddress(customerId, address) {
-    const body = `{
-      "data": ${JSON.stringify(address)}
-    }`;
-    const {data: result} = await this.post(`/customers/${customerId}/addresses/`, body);
-    return result;
+    const {data} = await this.post(`/customers/${customerId}/addresses/`, {data : address});
+    return data;
   }
 
   async updateCustomerAddress(customerId, addressId, address) {
-    const body = `{
-      "data": ${JSON.stringify(address)}
-    }`;
-    const {data: result} = await this.put(`/customers/${customerId}/addresses/${addressId}`, body);
-    return result;
+    const {data} = await this.put(`/customers/${customerId}/addresses/${addressId}`, {data : address});
+    return data;
   }
 
   async deleteCustomerAddress(customerId, addressId) {
