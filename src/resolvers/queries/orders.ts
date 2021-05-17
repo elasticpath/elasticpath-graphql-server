@@ -1,8 +1,8 @@
 import {UserInputError} from "apollo-server";
 
-const orders = async (parent, args, {dataSources}) => {
+const orders = async (parent, {page_offset:pageOffset,page_limit:pageLimit}, {dataSources}) => {
     try {
-        return dataSources.ordersAPI.getOrders()
+        return dataSources.ordersAPI.getOrders(pageOffset,pageLimit)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }

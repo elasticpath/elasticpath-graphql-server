@@ -1,14 +1,13 @@
 type Query {
-  pcmProducts: [PCMProduct]
+  pcmProducts(page_offset: Int!, page_limit: Int!): PCMProducts
   pcmProduct(id: ID!): PCMProduct
   hierarchies: [Hierarchy]
   hierarchy(id: ID!): Hierarchy
   nodes: [Node]
   node(id: ID!): Node
-  nodeChildren(id: ID!): [Node]
   cart(id: ID!): Cart
   order(id: ID!): Order
-  orders: [Order]
+  orders(page_offset: Int!, page_limit: Int!): Orders
   customer(id: ID!): Customer
   customerAddresses(customerId: String!): [CustomerAddress]
   customerAddress(customerId: String!, addressId: String!): CustomerAddress

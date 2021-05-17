@@ -1,3 +1,9 @@
+type PCMProducts {
+  data : [PCMProduct]
+  meta: Meta
+  links: Links
+}
+
 type PCMProductAttributes {
   name: String!
   commodity_type: String!
@@ -17,7 +23,7 @@ type PCMProduct {
 
 type NodeAttributes {
   name: String!,
-  slug: String!,
+  slug: String,
   description: String
 }
 
@@ -25,11 +31,12 @@ type Node {
   id: ID!
   type: String!
   attributes: NodeAttributes!
+  children: [Node]
 }
 
 type HierarchyAttributes {
   name: String!,
-  slug: String!,
+  slug: String,
   description: String
 }
 
