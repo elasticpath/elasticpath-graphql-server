@@ -32,6 +32,7 @@ type Node {
   type: String!
   attributes: NodeAttributes!
   children: [Node]
+  products: [PCMProduct]
 }
 
 type HierarchyAttributes {

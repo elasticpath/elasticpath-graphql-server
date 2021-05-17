@@ -55,6 +55,7 @@ export default {
     },
 
     Node: {
-        children: (parent, __, { dataSources }) => dataSources.pcmAPI.getNodeChildren(parent.id)
+        children: (parent, __, { dataSources }) => dataSources.pcmAPI.getNodeChildren(parent.id),
+        products: (parent, __, { dataSources }) => dataSources.pcmAPI.getNodesProduct(parent.id)
     }
 }
