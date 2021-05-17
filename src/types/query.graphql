@@ -5,7 +5,6 @@ type Query {
   hierarchy(id: ID!): Hierarchy
   nodes: [Node]
   node(id: ID!): Node
-  nodeChildren(id: ID!): [Node]
   cart(id: ID!): Cart
   order(id: ID!): Order
   orders(page_offset: Int!, page_limit: Int!): Orders

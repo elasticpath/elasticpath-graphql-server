@@ -32,14 +32,6 @@ const node = async (parent, {id}, {dataSources}) => {
     }
 }
 
-const nodeChildren = async (parent, {id}, {dataSources}) => {
-    try {
-        return dataSources.pcmAPI.getNodeChildren(id)
-    } catch (e) {
-        throw new UserInputError("API returned with errors.", e)
-    }
-}
-
 const hierarchies = async (parent, args, {dataSources}) => {
     try {
         return dataSources.pcmAPI.getHierarchies()
@@ -61,7 +53,6 @@ export default {
     pcmProduct,
     nodes,
     node,
-    nodeChildren,
     hierarchies,
     hierarchy
 }
