@@ -3,9 +3,9 @@
 
 agent "Shopping Website" as browser
 
-component "Elastic Path GraphQL Server" as GraphQL
+component "\t\t<img:graphql.png> \n\nElastic Path GraphQL Server" as GraphQL
 
-cloud "Elastic Path Commerce Cloud" as epcc {
+cloud "\n<img:elasticpath.png> \n\nElastic Path Commerce Cloud\n\n" as epcc {
 component "Orders API" as orders
 component "Carts API" as carts
 component "Product Content Management API"
