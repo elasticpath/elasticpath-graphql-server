@@ -12,7 +12,6 @@ type Query {
   customer(id: ID!): Customer
   customerAddresses(customerId: String!): [CustomerAddress]
   customerAddress(customerId: String!, addressId: String!): CustomerAddress
-  
   products: [Product] @deprecated( reason: "Use pcmProducts instead")
   product(id: ID!): Product @deprecated( reason: "Use pcmProduct instead")
   brands: [Brand] @deprecated( reason: "Use hierarchies and nodes instead")

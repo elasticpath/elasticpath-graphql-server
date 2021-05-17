@@ -1,22 +1,78 @@
 type Order {
   id: ID!
-  items: [OrderItem]
-  status: String!
-  payment: String!
-  shipping: String!
+  type: String
+  status: String
+  payment: String
+  shipping: String
+  customer : OrderCustomer
+  shipping_address: ShippingAddress
+  billing_address: BillingAddress
+  meta: OrderMeta
+  relationships: OrderRelationships
 }
 
-type OrderItem {
-  id: ID!
-  name: String!
-  product_id: ID!
-  quantity: Int!
+type OrderCustomer {
+    name: String
+    email: String
 }
 
-type Checkout {
-  id: ID!
+type OrderRelationships {
+    customer: DataObj
+    items: DataArr
 }
 
-type Payment {
-  id: ID!
+type ItemsData{
+    data: OrderItems
+}
+
+type OrderItems{
+ type: String
+ id: ID
+ items: [CartItem]
+}
+
+type DisplayPrice {
+ without_tax: WithoutTax
+ with_tax: WithTax
+}
+
+type WithTax {
+    amount: String
+    currency: String
+    formatted: String
+}
+
+type WithoutTax {
+    amount: String
+    currency: String
+    formatted: String
+}
+
+type OrderMeta {
+     display_price: DisplayPrice
+     timestamps: TimeStamps
+}
+type ShippingAddress {
+  first_name: String
+  last_name: String
+  phone_number: String
+  company_name: String
+  line_1: String
+  line_2: String
+  city: String
+  postcode: String
+  county: String
+  country: String
+  instructions: String
+}
+type BillingAddress {
+  first_name: String
+  last_name: String
+  company_name: String
+  line_1: String
+  line_2: String
+  city: String
+  postcode: String
+  county: String
+  country: String
 }

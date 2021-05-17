@@ -13,7 +13,7 @@ type Mutation {
     customer: CustomerInputForCheckout!
     billing: BillingAddressInput!
     shipping: ShippingAddressInput
-  ): Order
+  ): CheckoutCartOrderResult
   addCustomer(customerInput: CustomerInput): Customer
   addCustomerAddress(customerId: ID!, address: CustomerAddressInput): CustomerAddress
   updateCustomerAddress(customerId: ID!, addressId:ID!,address: CustomerAddressInput): CustomerAddress

@@ -1,0 +1,16 @@
+type TimeStamps {
+    created_at: String
+    updated_at: String
+}
+
+type DataObj {
+    data: DataVal
+}
+
+type DataArr {
+    data: [DataVal]
+}
+type DataVal {
+     type: String
+     id: ID
+}

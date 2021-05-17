@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2e2ba38a-4487-413b-9c17-7efb2556d650",
+		"_postman_id": "3cbd86e4-7977-4e62-be9b-c024a3e9619f",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -818,7 +818,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query orders {\n    orders {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
+								"query": "query orders {\n    orders {\n            id\n            type\n            status\n            payment\n            shipping\n            shipping_address{\n                first_name\n                last_name\n                country\n                postcode\n            }\n            customer{\n                name\n                email\n            }\n            billing_address{\n                first_name\n                last_name\n                country\n                postcode\n            }\n            meta{\n                timestamps{\n                    created_at\n                    updated_at\n                }\n                display_price{\n                    with_tax{\n                        amount\n                        currency\n                        formatted\n                    }\n                    without_tax{\n                        amount\n                        currency\n                        formatted\n                    }\n                }\n            }\n            relationships{\n                customer {\n                        data\n                        {\n                            id\n                            type\n                        }\n                }\n                items{\n                    data{\n                        id\n                        type\n                    }\n                }\n        }\n    }\n}",
 								"variables": "{}"
 							}
 						},
@@ -1199,6 +1199,7 @@
 	],
 	"variable": [
 		{
+			"id": "7dd5bd07-0b8a-4b6f-a812-4af16748d886",
 			"key": "url",
 			"value": ""
 		}
