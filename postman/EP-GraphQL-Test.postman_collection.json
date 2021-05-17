@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3cbd86e4-7977-4e62-be9b-c024a3e9619f",
+		"_postman_id": "46124385-45b1-46e9-a005-4ea3bdf94f26",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -806,7 +806,7 @@
 									"    pm.environment.set(\"order_id\", jsonData.data.orders[0].id);",
 									"});",
 									"",
-									"postman.setNextRequest(\"nodes\");"
+									"postman.setNextRequest(\"hierarchies\");"
 								],
 								"type": "text/javascript"
 							}
@@ -846,7 +846,7 @@
 									"    pm.environment.set(\"order_id\", \"jsonData.data.orders[0].id\");",
 									"});",
 									"",
-									"postman.setNextRequest(\"nodes\");"
+									"postman.setNextRequest(\"hierarchies\");"
 								],
 								"type": "text/javascript"
 							}
@@ -996,6 +996,103 @@
 					"response": []
 				},
 				{
+					"name": "hierarchies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get All Hierarchies\", function () {",
+									"    var jsonData = pm.response.json()",
+									"    var hierarchies = jsonData.data.hierarchies",
+									"",
+									"    pm.expect(hierarchies).to.be.an('array').but.not.an('object')",
+									"    pm.expect(hierarchies).length.to.be.at.least(1)",
+									"",
+									"    for (var hierarchy of hierarchies) {",
+									"        pm.expect(hierarchy).to.be.an('object')",
+									"        pm.expect(hierarchy).to.have.all.keys('id', 'type', 'attributes')",
+									"        pm.expect(hierarchy.id).to.be.a('string')",
+									"        pm.expect(hierarchy.type).to.be.a('string').and.equals(\"hierarchy\")",
+									"        pm.expect(hierarchy.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"    }",
+									"",
+									"    // Set the first hierarchy's id in env for next test about \"hierarchy\"",
+									"    pm.environment.set(\"hierarchy_id\", hierarchies[0].id)",
+									"});",
+									"",
+									"postman.setNextRequest(\"hierarchy\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query hierarchies {\n  hierarchies {\n    id\n    type\n    attributes {\n      name\n      slug\n      description\n    }\n  }\n}",
+								"variables": "{}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "hierarchy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get a hierarchy\", function () {",
+									"    var jsonData = pm.response.json()",
+									"    var hierarchy = jsonData.data.hierarchy",
+									"",
+									"    pm.expect(hierarchy).to.be.an('object')",
+									"    pm.expect(hierarchy).to.have.all.keys('id', 'type', 'attributes')",
+									"    pm.expect(hierarchy.id).to.be.a('string')",
+									"    pm.expect(hierarchy.type).to.be.a('string').and.equals(\"hierarchy\")",
+									"    pm.expect(hierarchy.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"",
+									"});",
+									"",
+									"postman.setNextRequest(\"nodes\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query hierarchy ($id: ID!) {\n  hierarchy (id: $id) {\n    id\n    type\n    attributes {\n      name\n      slug\n      description\n    }\n  }\n}",
+								"variables": "{\n  \"id\": \"{{hierarchy_id}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "nodes",
 					"event": [
 						{
@@ -1065,9 +1162,6 @@
 									"    pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
 									"});",
 									"",
-									"// Set a specfic node as env var for the next test (nodesChildren)",
-									"pm.environment.set(\"node_id\", \"3b7acf0a-a6ca-4353-ba32-624ef342e234\")",
-									"",
 									"postman.setNextRequest(\"nodeChildren\");",
 									""
 								],
@@ -1106,14 +1200,15 @@
 									"    var nodeChildren = jsonData.data.nodeChildren",
 									"",
 									"    pm.expect(nodeChildren).to.be.an('array').but.not.an('object')",
-									"    pm.expect(nodeChildren).length.to.be.at.least(1)",
 									"",
-									"    for (var node of nodeChildren) {",
-									"        pm.expect(node).to.be.an('object')",
-									"        pm.expect(node).to.have.all.keys('id', 'type', 'attributes')",
-									"        pm.expect(node.id).to.be.a('string')",
-									"        pm.expect(node.type).to.be.a('string').and.equals(\"node\")",
-									"        pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"    if (nodeChildren > 0) {",
+									"        for (var node of nodeChildren) {",
+									"            pm.expect(node).to.be.an('object')",
+									"            pm.expect(node).to.have.all.keys('id', 'type', 'attributes')",
+									"            pm.expect(node.id).to.be.a('string')",
+									"            pm.expect(node.type).to.be.a('string').and.equals(\"node\")",
+									"            pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"        }",
 									"    }",
 									"});",
 									""
