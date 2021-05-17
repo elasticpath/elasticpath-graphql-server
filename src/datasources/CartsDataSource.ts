@@ -85,7 +85,7 @@ export class CartsDataSource extends RESTDataSource {
         shipping_address: shipping
       }
     };
-    const {data} = await this.post(`/carts/${cartId}/checkout/`, JSON.stringify(body));
+    const {data} = await this.post(`/carts/${cartId}/checkout/`, body);
     return data;
   }
 }
