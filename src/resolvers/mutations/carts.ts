@@ -8,6 +8,14 @@ const addToCart = async (root, {cartId, productId, quantity}, {dataSources}) => 
     }
 }
 
+const updateProductQtyInCart = async (root, {cartId, productId, quantity}, {dataSources}) => {
+    try {
+        return dataSources.cartsAPI.updateProductQtyInCart(cartId, productId, quantity)
+    } catch (e) {
+        throw new UserInputError("API returned with errors.", e)
+    }
+}
+
 const addPromotion = async (root, {cartId, promotionCode}, {dataSources}) => {
     try {
         return dataSources.cartsAPI.addProductToCart(cartId, promotionCode)
@@ -25,6 +33,7 @@ const checkoutCart = async (root, {cartId, customer, billing, shipping = billing
 }
 export default {
     checkoutCart,
+    updateProductQtyInCart,
     addToCart,
     addPromotion
 }
