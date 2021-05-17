@@ -1,3 +1,9 @@
+type PCMProducts {
+  data : [PCMProduct]
+  meta: Meta
+  links: Links
+}
+
 type PCMProductAttributes {
   name: String!
   commodity_type: String!

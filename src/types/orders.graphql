@@ -1,14 +1,19 @@
-type Order {
-  id: ID!
-  type: String
-  status: String
-  payment: String
-  shipping: String
-  customer : OrderCustomer
-  shipping_address: ShippingAddress
-  billing_address: BillingAddress
-  meta: OrderMeta
-  relationships: OrderRelationships
+type Orders {
+    data : [Order]
+    meta: Meta
+    links: Links
+}
+type Order{
+    id: ID!
+    type: String
+    status: String
+    payment: String
+    shipping: String
+    customer : OrderCustomer
+    shipping_address: ShippingAddress
+    billing_address: BillingAddress
+    meta: OrderMeta
+    relationships: OrderRelationships
 }
 
 type OrderCustomer {

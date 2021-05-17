@@ -1,6 +1,6 @@
 import {UserInputError} from "apollo-server";
 
-const products = async (parent, args, {dataSources}) => {
+const products = async (parent, {}, {dataSources}) => {
     try {
         return dataSources.legacyCatalogAPI.getProducts()
     } catch (e) {
