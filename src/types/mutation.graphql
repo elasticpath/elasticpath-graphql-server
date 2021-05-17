@@ -9,6 +9,7 @@ type Mutation {
   addToCart( cartId: ID!, productId: ID!, quantity: Int!): [CartItem]
   updateProductQtyInCart(cartId: ID!, productId: ID!, quantity: Int!): CartItem
   addPromotion(cartId: ID!, promotionCode: String!): [CartItem]
+  addCustomItemToCart(cartId: ID!, customItem: CustomItemInput!): [CartItem]
   checkoutCart(
     cartId: ID!
     customer: CustomerInputForCheckout!

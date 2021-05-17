@@ -22,6 +22,19 @@ type CartItem {
   unit_price: Value!
 }
 
+input CustomItemInput {
+  name: String!
+  sku: String
+  description: String
+  quantity: Int!
+  price: CustomPrice!
+}
+
+input CustomPrice {
+  amount: Int!
+  includes_tax: Boolean
+}
+
 type Cart {
   id: ID!
   name: String
@@ -31,6 +44,7 @@ type Cart {
   tax: Amount
   items: [CartItem]
 }
+
 
 input CustomerInputForCheckout {
   name: String

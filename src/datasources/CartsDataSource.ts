@@ -57,6 +57,16 @@ export class CartsDataSource extends RESTDataSource {
     const {data: result} = await this.post(`/carts/${cartId}/items/`, body);
     return result;
   }
+
+  async addCustomItemToCart(cartId, customItem) {
+    customItem.type = "custom_item";
+    const body = `{
+      "data":
+        ${JSON.stringify(customItem)}
+    }`;
+    const {data: result} = await this.post(`/carts/${cartId}/items/`, body);
+    return result;
+  }
   
   // this works for Checkout with an existing customer ID and for Checkout with an associated customer name and email 
   async checkout(cartId, customer, billing, shipping = billing) {

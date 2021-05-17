@@ -24,6 +24,16 @@ const addPromotion = async (root, {cartId, promotionCode}, {dataSources}) => {
     }
 }
 
+const addCustomItemToCart = async (root, {cartId, customItem}, {dataSources}) => {
+    try {
+        console.log(customItem)
+        return dataSources.cartsAPI.addCustomItemToCart(cartId, customItem)
+    } catch (e) {
+        throw new UserInputError("API returned with errors.", e)
+    }
+}
+
+//TODO: why is shipping = billing ? 
 const checkoutCart = async (root, {cartId, customer, billing, shipping = billing}, {dataSources}) => {
     try {
         return dataSources.cartsAPI.checkout(cartId, customer, billing, shipping)
@@ -35,5 +45,6 @@ export default {
     checkoutCart,
     updateProductQtyInCart,
     addToCart,
-    addPromotion
+    addPromotion,
+    addCustomItemToCart
 }
