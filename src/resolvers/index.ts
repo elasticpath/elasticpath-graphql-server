@@ -10,6 +10,7 @@ import pcmQueryResolvers from './queries/pcm'
 import categoryQueryResolvers from './queries/categories'
 import collectionQueryResolvers from './queries/collections'
 import customerQueryResolvers from './queries/customers'
+import orderQueryResolvers from './queries/orders'
 import rootQueryResolvers from './root'
 
 export default {
@@ -27,6 +28,7 @@ export default {
     ...pcmQueryResolvers,
     ...categoryQueryResolvers,
     ...collectionQueryResolvers,
-    ...customerQueryResolvers
+    ...customerQueryResolvers,
+    ...orderQueryResolvers
   },
 }

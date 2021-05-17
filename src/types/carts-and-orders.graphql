@@ -32,12 +32,68 @@ type Cart {
   items: [CartItem]
 }
 
-type Order {
+type CheckoutCartOrderResult {
   id: ID!
   items: [OrderItem]
   status: String!
   payment: String!
   shipping: String!
+}
+
+type Order {
+  id: ID!
+  type: String
+  status: String
+  payment: String
+  shipping: String
+  customer : OrderCustomer
+  shipping_address: ShippingAddress
+  billing_address: BillingAddress
+  meta: OrderMeta
+  relationships: OrderRelationships
+}
+
+type OrderCustomer {
+    name: String
+    email: String
+}
+
+type OrderRelationships {
+    customer: DataObj
+    items: DataArr
+}
+
+
+type ItemsData{
+    data: OrderItems
+}
+
+type OrderItems{
+ type: String
+ id: ID
+ items: [CartItem]
+}
+
+type DisplayPrice {
+ without_tax: WithoutTax
+ with_tax: WithTax
+}
+
+type WithTax {
+    amount: String
+    currency: String
+    formatted: String
+}
+
+type WithoutTax {
+    amount: String
+    currency: String
+    formatted: String
+}
+
+type OrderMeta {
+     display_price: DisplayPrice
+     timestamps: TimeStamps
 }
 
 type OrderItem {
@@ -53,6 +109,32 @@ type Checkout {
 
 type Payment {
   id: ID!
+}
+
+type ShippingAddress {
+  first_name: String
+  last_name: String
+  phone_number: String
+  company_name: String
+  line_1: String
+  line_2: String
+  city: String
+  postcode: String
+  county: String
+  country: String
+  instructions: String
+}
+
+type BillingAddress {
+  first_name: String
+  last_name: String
+  company_name: String
+  line_1: String
+  line_2: String
+  city: String
+  postcode: String
+  county: String
+  country: String
 }
 
 input BillingAddressInput {

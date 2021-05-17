@@ -17,4 +17,5 @@ type Query {
   customer(id: ID!, token: String!): Customer
   customerAddresses(customer: String!, token: String!): [CustomerAddress]
   customerAddress(customer: String!, address: String!, token: String!): CustomerAddress
+  orders(token:String!): [Order]
 }

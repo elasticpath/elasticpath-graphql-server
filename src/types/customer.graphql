@@ -38,6 +38,7 @@ type AuthenticatePayload {
 }
 
 input CustomerInput {
+  id: ID
   name: String
   email: String
   password: String

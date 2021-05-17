@@ -14,7 +14,7 @@ const addToCart = async (root, {productId, cartId}, {Moltin}) => {
     }
 }
 
-const checkoutCart = async (root, {cartId, billing, customer, shipping = billing}, {Moltin}) => {
+const checkoutCart = async (root, {cartId,billing, customer, shipping = billing}, {Moltin}) => {
     try {
         const {data: order} = await Moltin.Cart(cartId).Checkout(
             customer,

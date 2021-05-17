@@ -9,7 +9,7 @@ type Mutation {
     customer: CustomerInput!
     billing: BillingAddressInput!
     shipping: ShippingAddressInput
-  ): Order
+  ): CheckoutCartOrderResult
   stripeTokenPayment(orderId: ID!, token: String!): Order
   addCustomer(customerInput: CustomerInput): Customer
   addCustomerAddress(customerId: ID!, address: CustomerAddressInput, token: String!): CustomerAddress
