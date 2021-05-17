@@ -31,6 +31,7 @@ type Node {
   id: ID!
   type: String!
   attributes: NodeAttributes!
+  children: [Node]
 }
 
 type HierarchyAttributes {

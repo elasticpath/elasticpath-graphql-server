@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f2f5ccf0-c3af-4c12-be9c-dafe1f4c08f5",
+		"_postman_id": "cba09f63-702d-42c4-852c-45475d4eebd1",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1197,17 +1197,21 @@
 								"exec": [
 									"pm.test(\"Get Node Children\", function () {",
 									"    var jsonData = pm.response.json()",
-									"    var nodeChildren = jsonData.data.nodeChildren",
+									"    var nodes = jsonData.data.nodes",
 									"",
-									"    pm.expect(nodeChildren).to.be.an('array').but.not.an('object')",
+									"    pm.expect(nodes).to.be.an('array').but.not.an('object')",
+									"    pm.expect(nodes).length.to.be.at.least(1)",
 									"",
-									"    if (nodeChildren > 0) {",
-									"        for (var node of nodeChildren) {",
-									"            pm.expect(node).to.be.an('object')",
-									"            pm.expect(node).to.have.all.keys('id', 'type', 'attributes')",
-									"            pm.expect(node.id).to.be.a('string')",
-									"            pm.expect(node.type).to.be.a('string').and.equals(\"node\")",
-									"            pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"    for (var node of nodes) {",
+									"        var nodeChildren = node.children",
+									"        if (nodeChildren.length > 0) {",
+									"            for (var node of nodeChildren) {",
+									"                pm.expect(node).to.be.an('object')",
+									"                pm.expect(node).to.have.all.keys('id', 'type', 'attributes')",
+									"                pm.expect(node.id).to.be.a('string')",
+									"                pm.expect(node.type).to.be.a('string').and.equals(\"node\")",
+									"                pm.expect(node.attributes).to.be.an('object').and.to.have.all.keys('name', 'slug', 'description')",
+									"            }",
 									"        }",
 									"    }",
 									"});",
@@ -1223,8 +1227,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query nodeChildren ($id: ID!) {\n  nodeChildren (id: $id) {\n    id\n    type\n    attributes {\n      name\n      description\n      slug\n    }\n  }\n}",
-								"variables": "{\n  \"id\": \"{{node_id}}\"\n}"
+								"query": "query nodes {\n  nodes {\n    id\n    type\n    attributes {\n      name\n      description\n      slug\n    }\n    children {\n      id\n      type\n      attributes {\n        name\n        description\n        slug\n      }\n    }\n  }\n}",
+								"variables": ""
 							}
 						},
 						"url": {
@@ -1294,7 +1298,6 @@
 	],
 	"variable": [
 		{
-			"id": "10fdd46e-2d38-4596-888e-85a5e40e959f",
 			"key": "url",
 			"value": ""
 		}
