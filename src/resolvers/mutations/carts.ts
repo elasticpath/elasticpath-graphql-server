@@ -40,8 +40,17 @@ const checkoutCart = async (root, {cartId, customer, billing, shipping = billing
         throw new UserInputError("API returned with errors.", e)
     }
 }
+
+const checkoutCartForAccount = async (root, {cartId, contact, billing, shipping = billing}, {dataSources}) => {
+    try {
+        return dataSources.cartsAPI.checkoutForAccount(cartId, contact, billing, shipping)
+    } catch (e) {
+        throw new UserInputError("API returned with errors.", e)
+    }
+}
 export default {
     checkoutCart,
+    checkoutCartForAccount,
     updateProductQtyInCart,
     addToCart,
     addPromotion,

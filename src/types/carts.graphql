@@ -52,6 +52,11 @@ input CustomerInputForCheckout {
   id: ID
 }
 
+input ContactInputForCheckout {
+  name: String!
+  email: String!
+}
+
 input BillingAddressInput {
   first_name: String!
   last_name: String!

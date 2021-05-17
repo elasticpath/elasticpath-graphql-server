@@ -6,6 +6,7 @@ type Mutation {
     email: String!
     password: String!
   ): TokenPayload
+  generateAccountTokens(accountTokenInput : AccountTokenInput):[AccountToken]
   addToCart( cartId: ID!, productId: ID!, quantity: Int!): [CartItem]
   updateProductQtyInCart(cartId: ID!, productId: ID!, quantity: Int!): CartItem
   addPromotion(cartId: ID!, promotionCode: String!): [CartItem]
@@ -13,6 +14,12 @@ type Mutation {
   checkoutCart(
     cartId: ID!
     customer: CustomerInputForCheckout!
+    billing: BillingAddressInput!
+    shipping: ShippingAddressInput
+  ): CheckoutCartOrderResult
+  checkoutCartForAccount(
+    cartId: ID!
+    contact: ContactInputForCheckout!
     billing: BillingAddressInput!
     shipping: ShippingAddressInput
   ): CheckoutCartOrderResult
