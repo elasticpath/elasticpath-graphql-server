@@ -27,28 +27,25 @@ export class TokensDataSource extends RESTDataSource {
             }
         )
     }
-    
+
     async authenticateAsCustomerViaPassword(email, password) {
-        const body = `{
-          "data": {
-            "type": "token",
-            "authentication_mechanism": "password",
-            "email": "${email}",
-            "password": "${password}"
-           }
-        }`;
-        const {data: result} =  await this.post(
-            `/v2/customers/tokens`,
-            body,
-            {
-                headers: {
+        const body = {
+            data: {
+                type: "token",
+                authentication_mechanism: "password",
+                email,
+                password
+            }
+        }
+        const {data} = await this.post(`/v2/customers/tokens`, body, {
+            headers:
+                {
                     'Content-Type': 'application/json',
                     'Authorization': this.context.req.headers.authorization,
                     'Accept': 'application/json'
                 }
-            }
-        )
-        return result;
+        })
+        return data;
     }
 
 }

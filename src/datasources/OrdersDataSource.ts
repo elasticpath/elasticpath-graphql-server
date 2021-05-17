@@ -15,13 +15,12 @@ export class OrdersDataSource extends RESTDataSource {
 
 
   async getOrders(pageOffset, pageLimit) {
-    const  result  = await this.get(`/orders?page[offset]=`+pageOffset+`&page[limit]=`+pageLimit);
-    return result;
+    return await this.get(`/orders?page[offset]=`+pageOffset+`&page[limit]=`+pageLimit);
   }
   
   async getOrder(id) {
-    const { data: result } = await this.get(`/orders/${id}/`);
-    return result;
+    const { data } = await this.get(`/orders/${id}/`);
+    return data;
   }
 
 }
