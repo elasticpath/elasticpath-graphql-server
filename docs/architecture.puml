@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/deployment-diagram
+
+agent "Shopping Website" as browser
+
+component "Elastic Path GraphQL Server" as GraphQL
+
+cloud "Elastic Path Commerce Cloud" as epcc {
+component "Orders API" as orders
+component "Carts API" as carts
+component "Product Content Management API"
+component "Customers API"
+component "Accounts API"
+component "Payments API"
+}
+  
+note right of browser
+An example GraphQL query
+<code>
+{
+    orders {
+        id
+        status
+    } 
+    cart(id: "123") {
+        priceWithTax {
+          amount
+        }
+        items{
+          quantity
+          name
+        }
+      } 
+    }
+}
+</code>
+end note
+browser -down-> GraphQL
+GraphQL -down-> orders : Fetch Orders
+GraphQL -down-> carts  : Fetch Cart
+
+@enduml
