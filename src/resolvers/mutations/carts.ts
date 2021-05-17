@@ -33,7 +33,6 @@ const addCustomItemToCart = async (root, {cartId, customItem}, {dataSources}) =>
     }
 }
 
-//TODO: why is shipping = billing ? 
 const checkoutCart = async (root, {cartId, customer, billing, shipping = billing}, {dataSources}) => {
     try {
         return dataSources.cartsAPI.checkout(cartId, customer, billing, shipping)
