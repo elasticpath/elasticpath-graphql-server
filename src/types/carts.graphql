@@ -64,3 +64,21 @@ input ShippingAddressInput {
   instructions: String
 }
 
+type CheckoutCartOrderResult {
+  id: ID!
+  items: [OrderItem]
+  status: String!
+  payment: String!
+  shipping: String!
+}
+
+type OrderItem {
+  id: ID!
+  name: String!
+  product_id: ID!
+  quantity: Int!
+}
+
+type Checkout {
+  id: ID!
+}
