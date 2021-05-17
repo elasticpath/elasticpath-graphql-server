@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "46124385-45b1-46e9-a005-4ea3bdf94f26",
+		"_postman_id": "f2f5ccf0-c3af-4c12-be9c-dafe1f4c08f5",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -800,10 +800,10 @@
 								"exec": [
 									"pm.test(\"Orders is an array\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.data.orders).to.be.an('array').but.not.an('object');",
-									"    pm.expect(jsonData.data.orders.length).to.be.greaterThan(1)",
+									"    pm.expect(jsonData.data.orders.data).to.be.an('array').but.not.an('object');",
+									"    pm.expect(jsonData.data.orders.data.length).to.be.greaterThan(1)",
 									"",
-									"    pm.environment.set(\"order_id\", jsonData.data.orders[0].id);",
+									"    pm.environment.set(\"order_id\", jsonData.data.orders.data[0].id);",
 									"});",
 									"",
 									"postman.setNextRequest(\"hierarchies\");"
@@ -818,7 +818,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query orders {\n    orders {\n            id\n            type\n            status\n            payment\n            shipping\n            shipping_address{\n                first_name\n                last_name\n                country\n                postcode\n            }\n            customer{\n                name\n                email\n            }\n            billing_address{\n                first_name\n                last_name\n                country\n                postcode\n            }\n            meta{\n                timestamps{\n                    created_at\n                    updated_at\n                }\n                display_price{\n                    with_tax{\n                        amount\n                        currency\n                        formatted\n                    }\n                    without_tax{\n                        amount\n                        currency\n                        formatted\n                    }\n                }\n            }\n            relationships{\n                customer {\n                        data\n                        {\n                            id\n                            type\n                        }\n                }\n                items{\n                    data{\n                        id\n                        type\n                    }\n                }\n        }\n    }\n}",
+								"query": "query orders {\n    orders(page_offset:1,page_limit:2) {\n           data{ \n            id\n            type\n            status\n            payment\n            shipping\n            shipping_address{\n                first_name\n                last_name\n                country\n                postcode\n            }\n            customer{\n                name\n                email\n            }\n            billing_address{\n                first_name\n                last_name\n                country\n                postcode\n            }\n            meta{\n                timestamps{\n                    created_at\n                    updated_at\n                }\n                display_price{\n                    with_tax{\n                        amount\n                        currency\n                        formatted\n                    }\n                    without_tax{\n                        amount\n                        currency\n                        formatted\n                    }\n                }\n            }\n            relationships{\n                customer {\n                        data\n                        {\n                            id\n                            type\n                        }\n                }\n                items{\n                    data{\n                        id\n                        type\n                    }\n                }\n        }\n    }\n                meta\n            {\n                page\n                {\n                    limit\n                    offset\n                    current\n                    total\n                }\n            }\n            links\n            {\n                current\n                first\n                last\n                prev\n                next\n            }\n\n    }\n}",
 								"variables": "{}"
 							}
 						},
@@ -943,7 +943,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query customerAddresses ($customerId: String!) {\n    customerAddresses (customerId: $customerId) {\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
+								"query": "query customerAddresses ($customerId: String!) {\n    customerAddresses (customerId: $customerId) {\n\n        id\n        type\n        first_name\n        last_name\n        name\n        phone_number\n        instructions\n        company_name\n        line_1\n        line_2\n        city\n        county\n        postcode\n        country\n    }\n}",
 								"variables": "{\n  \"customerId\": \"{{customer_id}}\"\n}"
 							}
 						},
@@ -1294,7 +1294,7 @@
 	],
 	"variable": [
 		{
-			"id": "7dd5bd07-0b8a-4b6f-a812-4af16748d886",
+			"id": "10fdd46e-2d38-4596-888e-85a5e40e959f",
 			"key": "url",
 			"value": ""
 		}
