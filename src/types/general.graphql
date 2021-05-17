@@ -3,14 +3,14 @@ type TimeStamps {
     updated_at: String
 }
 
-type DataObj{
+type DataObj {
     data: DataVal
 }
 
-type DataArr{
+type DataArr {
     data: [DataVal]
 }
 type DataVal {
- type: String
- id: ID
+     type: String
+     id: ID
 }
