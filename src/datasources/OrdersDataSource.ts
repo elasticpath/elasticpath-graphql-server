@@ -13,8 +13,8 @@ export class OrdersDataSource extends RESTDataSource {
     this.baseURL = `https://${process.env.ELASTICPATH_API_HOST}/v2`
   }
 
-  async getOrders(id) {
-    const { data: result } = await this.get(`/orders/`);
+  async getOrders(pageOffset, pageLimit) {
+    const  result  = await this.get(`/orders?page[offset]=`+pageOffset+`&page[limit]=`+pageLimit);
     return result;
   }
   

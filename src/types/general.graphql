@@ -11,6 +11,30 @@ type DataArr {
     data: [DataVal]
 }
 type DataVal {
-     type: String
-     id: ID
+    type: String
+    id: ID
+}
+
+type Links {
+    current: String
+    first: String
+    last: String
+    prev: String
+    next: String
+}
+
+type Meta {
+    page: Page
+    results: MetaResults
+}
+
+type Page {
+    limit: Int
+    offset: Int
+    current: Int
+    total: Int
+}
+
+type MetaResults {
+    total: Int
 }
