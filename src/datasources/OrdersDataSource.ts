@@ -13,11 +13,19 @@ export class OrdersDataSource extends RESTDataSource {
     this.baseURL = `https://${process.env.ELASTICPATH_API_HOST}/v2`
   }
 
-
-  async getOrders(pageOffset, pageLimit,sort) {
-    let path = `/orders?page[offset]=`+pageOffset+`&page[limit]=`+pageLimit;
-    if (sort != ""){
-      path = path +'&sort='+ sort
+  async getOrders(listInput) {
+    let path = '/orders?'
+    if (listInput.page_limit) {
+      path = path + 'page[limit]='+listInput.page_limit+'&'
+    }
+    if (listInput.page_limit) {
+      path = path + 'page[offset]='+listInput.page_offset+'&'
+    }
+    if (listInput.sort) {
+      path = path + 'sort=' + listInput.sort+'&'
+    }
+    if (listInput['filter']) {
+      path = path + 'filter='+listInput.filter+'&'
     }
     return await this.get(path);
   }
