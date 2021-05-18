@@ -7,6 +7,7 @@
 Contributors welcome 👋
 
 ## Pre-requisites
+
 This requires an [Elastic Path Commerce Cloud](https://www.elasticpath.com) account.
 
 ## Architecture
@@ -43,6 +44,21 @@ Development uses [nodemon](https://github.com/remy/nodemon) which automatically 
 
 Visit [http://localhost:4000/](http://localhost:4000/) where you will be able to perform queries using [GraphQL Playground](https://github.com/graphql/graphql-playground).
 
+## Authentication
+
+Elastic Path Commerce Cloud APIs expect certain headers to be set e.g. `Authorization` header to identify the end user. This GraphQL server will pass these along to Elastic Path Commerce Cloud if they are provided in the request to the GraphQL server. 
+
+Please consult Elastic Path Commerce Cloud [documentation](https://documentation.elasticpath.com/commerce-cloud/docs/api/basics/authentication/index.html) on which headers might be needed. The below snippet lists some headers used as an example.
+
+```
+{
+   "Authorization": "Bearer <implicit access token>",
+   "X-MOLTIN-CUSTOMER-TOKEN": "<customer token>",
+   "EP-Account-Management-Authentication-Token": "<account management authentication token>",
+   "EP-Beta-Features": "<list of beta features>"
+}
+```
+
 ### Example Query
 
 ```graphql
@@ -71,13 +87,15 @@ Visit [http://localhost:4000/](http://localhost:4000/) where you will be able to
 
 This project uses postman collection to handle testing. We can run the tests on the command-line using newman so it is easy to incorporate those tests in CI.
 
-Before running the tests, make sure your server is up and running!
+Before running the tests, make sure your server is up and running, and update `postman/EP-GraphQL-globals.postman_globals.json` with your `ELASTICPATH_CLIENT_ID`.
 
 Run the tests with the following command:
 
 ```bash
 yarn test
 ```
+
+Alternatively, import the postman collection `postman/EP-GraphQL-Test.postman_collection.json` in Postman, and run the tests using the Postman application. 
 
 ### Adding to the tests
 
