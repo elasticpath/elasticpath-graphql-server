@@ -14,9 +14,9 @@
     "test": "node newman"
   },
   "dependencies": {
+    "apollo-datasource-rest": "^0.13.0",
     "apollo-server": "^2.24.0",
     "apollo-server-testing": "^2.24.0",
-    "apollo-datasource-rest": "^0.13.0",
     "dataloader": "^2.0.0",
     "dotenv": "^9.0.2",
     "graphql": "^15.5.0",
@@ -28,6 +28,7 @@
     "@tsconfig/node16": "^1.0.1",
     "dotenv": "^9.0.2",
     "graphql-cli": "^4.1.0",
+    "newman-reporter-htmlextra": "^1.20.4",
     "nodemon": "^2.0.7",
     "now": "^21.0.1",
     "npm-run-all": "^4.1.5",
