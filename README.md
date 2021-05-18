@@ -25,13 +25,18 @@ yarn
 
 You will need to set a few environment variables inside.
 
-Copy the `.env.example` file to create a `.env` file and fill in appropriate values or...
+Copy the `.env.example` file to create a `.env` file and fill in appropriate values.
+
+Alternatively, `export` the envionment variables in your shell. Consult the `.env.example` file to determine which envirornment variables are needed.
 
 
 ```bash
 export ELASTICPATH_API_HOST=
 export ELASTICPATH_CLIENT_ID=
 ```
+
+> **Note**: If you have both `.env` file and also exported the variables in your terminal, the values from the terminal will take precedence.
+
 
 ## Development
 
