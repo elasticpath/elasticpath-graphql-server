@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "267d164d-9b32-40d4-89ba-527efc8c3a94",
+		"_postman_id": "de2cbf78-e0d6-4143-b32d-2ea7606c40f6",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -419,7 +419,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query products {\n    products {\n        id\n        name\n        slug\n        description\n        status\n        price {\n            amount\n            currency\n            includes_tax\n        }\n        brands {\n            id\n            type\n            name\n            slug\n            description\n            status\n            products {\n                id\n                name\n                slug\n                description\n                status\n                main_image {\n                    file_name\n                    href\n                }\n            }\n        }\n    }\n}",
+								"query": "query products {\n    products {\n        id\n        name\n        slug\n        description\n        status\n        price {\n            amount\n            currency\n            includes_tax\n        }\n        brands {\n            id\n            type\n            name\n            slug\n            description\n            status\n        }\n    }\n}",
 								"variables": "{}"
 							}
 						},
@@ -451,11 +451,6 @@
 									"    pm.expect(jsonData.data.product.brands).to.be.an('array');",
 									"});",
 									"",
-									"pm.test(\"Brands.products is an array \", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.data.product.brands[0].products).to.be.an('array');",
-									"});",
-									"",
 									"pm.test(\"Main image is an object \", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.data.product.main_image).to.be.an('object');",
@@ -473,7 +468,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query product ($id: ID!) {\n    product (id: $id) {\n        id\n        name\n        slug\n        description\n        status\n        price {\n            amount\n            currency\n            includes_tax\n        }\n        brands {\n            id\n            type\n            name\n            slug\n            description\n            status\n            products {\n                id\n                name\n                slug\n                description\n                status\n                price {\n                    amount\n                    currency\n                    includes_tax\n                }\n                brands {\n                    id\n                    type\n                    name\n                    slug\n                    description\n                    status\n                }\n                main_image {\n                    file_name\n                    href\n                }\n            }\n        }\n        main_image {\n            file_name\n            href\n        }\n    }\n}",
+								"query": "query product ($id: ID!) {\n    product (id: $id) {\n        id\n        name\n        slug\n        description\n        status\n        price {\n            amount\n            currency\n            includes_tax\n        }\n        brands {\n            id\n            type\n            name\n            slug\n            description\n            status\n        }\n        main_image {\n            file_name\n            href\n        }\n    }\n}",
 								"variables": "{\n  \"id\": \"{{product_id}}\"\n}"
 							}
 						},
@@ -818,7 +813,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query orders {\n    orders(page_offset:1,page_limit:2) {\n           data{ \n            id\n            type\n            status\n            payment\n            shipping\n            shipping_address{\n                first_name\n                last_name\n                country\n                postcode\n            }\n            customer{\n                name\n                email\n            }\n            billing_address{\n                first_name\n                last_name\n                country\n                postcode\n            }\n            meta{\n                timestamps{\n                    created_at\n                    updated_at\n                }\n                display_price{\n                    with_tax{\n                        amount\n                        currency\n                        formatted\n                    }\n                    without_tax{\n                        amount\n                        currency\n                        formatted\n                    }\n                }\n            }\n            relationships{\n                customer {\n                        data\n                        {\n                            id\n                            type\n                        }\n                }\n                items{\n                    data{\n                        id\n                        type\n                    }\n                }\n        }\n    }\n                meta\n            {\n                page\n                {\n                    limit\n                    offset\n                    current\n                    total\n                }\n            }\n            links\n            {\n                current\n                first\n                last\n                prev\n                next\n            }\n\n    }\n}",
+								"query": "query orders {\n    orders {\n           data{ \n            id\n            type\n            status\n            payment\n            shipping\n            shipping_address{\n                first_name\n                last_name\n                country\n                postcode\n            }\n            customer{\n                name\n                email\n            }\n            billing_address{\n                first_name\n                last_name\n                country\n                postcode\n            }\n            meta{\n                timestamps{\n                    created_at\n                    updated_at\n                }\n                display_price{\n                    with_tax{\n                        amount\n                        currency\n                        formatted\n                    }\n                    without_tax{\n                        amount\n                        currency\n                        formatted\n                    }\n                }\n            }\n            relationships{\n                customer {\n                        data\n                        {\n                            id\n                            type\n                        }\n                }\n                items{\n                    data{\n                        id\n                        type\n                    }\n                }\n        }\n    }\n                meta\n            {\n                page\n                {\n                    limit\n                    offset\n                    current\n                    total\n                }\n            }\n            links\n            {\n                current\n                first\n                last\n                prev\n                next\n            }\n\n    }\n}",
 								"variables": "{}"
 							}
 						},

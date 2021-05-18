@@ -24,7 +24,7 @@ export class OrdersDataSource extends RESTDataSource {
     if (listInput.sort) {
       path = path + 'sort=' + listInput.sort+'&'
     }
-    if (listInput['filter']) {
+    if (listInput.filter) {
       path = path + 'filter='+listInput.filter+'&'
     }
     return await this.get(path);
