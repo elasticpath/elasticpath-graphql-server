@@ -33,7 +33,6 @@ postman-tests:
     ELASTICPATH_CLIENT_ID: $ELASTICPATH_CLIENT_ID
     ELASTICPATH_API_HOST: $ELASTICPATH_API_HOST
   before_script:
-    - yarn install
     - yarn start&
     - sleep 5 ## Let the server start up
   script:
