@@ -16,16 +16,16 @@ export class OrdersDataSource extends RESTDataSource {
   async getOrders(listInput) {
     let path = '/orders?'
     if (listInput.page_limit) {
-      path = path + 'page[limit]='+listInput.page_limit+'&'
+      path += `page[limit]=${listInput.page_limit}&`
     }
     if (listInput.page_offset) {
-      path = path + 'page[offset]='+listInput.page_offset+'&'
+      path += `page[offset]=${listInput.page_offset}&`
     }
     if (listInput.sort) {
-      path = path + 'sort=' + listInput.sort+'&'
+      path += `sort=${listInput.sort}&`
     }
     if (listInput.filter) {
-      path = path + 'filter='+listInput.filter+'&'
+      path += `filter=${listInput.filter}&`
     }
     return await this.get(path);
   }
