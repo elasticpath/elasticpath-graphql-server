@@ -14,8 +14,12 @@ export class OrdersDataSource extends RESTDataSource {
   }
 
 
-  async getOrders(pageOffset, pageLimit) {
-    return await this.get(`/orders?page[offset]=`+pageOffset+`&page[limit]=`+pageLimit);
+  async getOrders(pageOffset, pageLimit,sort) {
+    let path = `/orders?page[offset]=`+pageOffset+`&page[limit]=`+pageLimit;
+    if (sort != ""){
+      path = path +'&sort='+ sort
+    }
+    return await this.get(path);
   }
   
   async getOrder(id) {
