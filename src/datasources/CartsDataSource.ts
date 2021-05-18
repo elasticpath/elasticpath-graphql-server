@@ -27,36 +27,30 @@ export class CartsDataSource extends RESTDataSource {
   
   async addProductToCart(cartId, productId, quantity) {
     const body = {
-      data: {
-        type: "cart_item",
-        id: productId,
-        quantity: quantity
-      }
+      type: "cart_item",
+      id: productId,
+      quantity: quantity
     };
-    const {data} = await this.post(`/carts/${cartId}/items/`, body);
+    const {data} = await this.post(`/carts/${cartId}/items/`, {data:body});
     return data;
   }
 
   async updateProductQtyInCart(cartId, productId, quantity) {
     const body = {
-      data: {
-        type: "cart_item",
-        id: productId,
-        quantity: quantity
-      }
+      type: "cart_item",
+      id: productId,
+      quantity: quantity
     }
-    const {data} = await this.put(`carts/${cartId}/items/${productId}`, body);
+    const {data} = await this.put(`carts/${cartId}/items/${productId}`, {data:body} );
     return data[0];
   }
 
   async addPromotionToCart(cartId, promotionCode) {
     const body = {
-      data: {
-        type: "cart_item",
-        code: promotionCode
-      }
+      type: "cart_item",
+      code: promotionCode
     }
-    const {data} = await this.post(`/carts/${cartId}/items/`, body);
+    const {data} = await this.post(`/carts/${cartId}/items/`, {data:body});
     return data;
   }
 
@@ -69,25 +63,21 @@ export class CartsDataSource extends RESTDataSource {
   // this works for Checkout with an existing customer ID and for Checkout with an associated customer name and email 
   async checkout(cartId, customer, billing, shipping = billing) {
     const body = {
-      data: {
-        customer: customer,
-        billing_address: billing,
-        shipping_address: shipping
-      }
+      customer: customer,
+      billing_address: billing,
+      shipping_address: shipping
     }
-    const {data} = await this.post(`/carts/${cartId}/checkout/`, body);
+    const {data} = await this.post(`/carts/${cartId}/checkout/`, {data:body});
     return data;
   }
 
   async checkoutForAccount(cartId, contact, billing, shipping = billing) {
     const body ={
-      data : {
-        contact,
-        billing_address: billing,
-        shipping_address: shipping
-      }
+      contact,
+      billing_address: billing,
+      shipping_address: shipping
     };
-    const {data} = await this.post(`/carts/${cartId}/checkout/`, body);
+    const {data} = await this.post(`/carts/${cartId}/checkout/`, {data:body});
     return data;
   }
 }
