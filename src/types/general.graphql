@@ -21,6 +21,7 @@ type Links {
     last: String
     prev: String
     next: String
+    self: String
 }
 
 type Meta {
@@ -37,4 +38,11 @@ type Page {
 
 type MetaResults {
     total: Int
+}
+
+input ListInput {
+    page_offset: Int
+    page_limit: Int
+    sort: String
+    filter: String
 }

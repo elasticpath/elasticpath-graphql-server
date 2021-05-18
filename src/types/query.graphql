@@ -1,5 +1,5 @@
 type Query {
-  pcmProducts(page_offset: Int!, page_limit: Int!, sort: String): PCMProducts
+  pcmProducts(listInput: ListInput={}): PCMProducts
   pcmProduct(id: ID!): PCMProduct
   hierarchies: [Hierarchy]
   hierarchy(id: ID!): Hierarchy
@@ -7,7 +7,7 @@ type Query {
   node(id: ID!): Node
   cart(id: ID!): Cart
   order(id: ID!): Order
-  orders(page_offset: Int!, page_limit: Int!, sort: String): Orders
+  orders(listInput: ListInput={}): Orders
   customer(id: ID!): Customer
   customerAddresses(customerId: String!): [CustomerAddress]
   customerAddress(customerId: String!, addressId: String!): CustomerAddress
