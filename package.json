@@ -47,10 +47,5 @@
   },
   "engines": {
     "node": "=16"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "schema.graphql"
-    ]
   }
 }
