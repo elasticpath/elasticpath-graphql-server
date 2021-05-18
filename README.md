@@ -30,6 +30,7 @@ Copy the `.env.example` file to create a `.env` file and fill in appropriate val
 
 ```bash
 export ELASTICPATH_API_HOST=
+export ELASTICPATH_CLIENT_ID=
 ```
 
 ## Development
@@ -85,17 +86,18 @@ Please consult Elastic Path Commerce Cloud [documentation](https://documentation
 
 ## Testing
 
-This project uses postman collection to handle testing. We can run the tests on the command-line using newman so it is easy to incorporate those tests in CI.
+This project uses postman collection to handle testing. We can run the tests on the command-line using newman so it is easy to incorporate those tests in CI. To run the test using terminal:
 
-Before running the tests, start the server, and update `postman/EP-GraphQL-globals.postman_globals.json` with your `ELASTICPATH_CLIENT_ID`.
+1. Start the graphql server: `yarn dev`
+2. While the dev server is running, in another terminal run test: `yarn test`
+  - Test reports will be geneated in `build/reports/` directory
 
-Run the tests with the following command:
+Alternatively, run the postman collection using Postman app:
 
-```bash
-yarn test
-```
-
-Alternatively, import the postman collection `postman/EP-GraphQL-Test.postman_collection.json` in Postman, and run the tests using the Postman application. 
+1. Start the graphql server: `yarn dev`
+2. Import the `postman` directory into Postman app
+3. Set `ELASTICPATH_CLIENT_ID` in the global environment variable with appropriate value
+4. Run collection
 
 ### Adding to the tests
 
