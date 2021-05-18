@@ -9,5 +9,4 @@ package-lock.json
 *.rdb
 .env*
 localStorage
-schema.graphql
 build
