@@ -22,12 +22,20 @@ postman-tests:
   stage: test
   needs: []
   image: node:16-alpine
-  before_script:
-    - echo "ELASTICPATH_CLIENT_ID=${ELASTICPATH_CLIENT_ID}" > .env
-    - echo "ELASTICPATH_API_HOST=${ELASTICPATH_API_HOST}" >> .env
-    - sed -i "s/\${ELASTICPATH_CLIENT_ID}/${ELASTICPATH_CLIENT_ID}/" postman/EP-GraphQL-globals.postman_globals.json
+  variables:
+    ELASTICPATH_CLIENT_ID: $ELASTICPATH_CLIENT_ID
+    ELASTICPATH_API_HOST: $ELASTICPATH_API_HOST
   script:
     - yarn install
     - yarn dev&
     - sleep 5
     - yarn test
+  artifacts:
+    when: always
+    expire_in: 3 days
+    name: ${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}-${CI_PIPELINE_ID}-${CI_JOB_NAME}
+    paths:
+      - build/reports
+    reports:
+      junit:
+        - build/reports/postman-collection-report-junit.xml
