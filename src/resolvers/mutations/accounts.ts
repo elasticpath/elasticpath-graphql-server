@@ -1,14 +1,14 @@
 import {UserInputError} from "apollo-server";
 
-const generateAccountTokens = async (root, {accountTokenInput} , {dataSources}) => {
+const generateAccountTokens = (root, {accountTokenInput}, {dataSources}) => {
     try {
-        return dataSources.accountsAPI.generateAccountTokens( accountTokenInput )
+        return dataSources.accountsAPI.generateAccountTokens(accountTokenInput)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
 export default {
-    generateAccountTokens,
+    generateAccountTokens
 }
 

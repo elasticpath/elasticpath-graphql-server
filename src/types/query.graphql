@@ -1,4 +1,5 @@
 type Query {
+  accountAuthenticationSetting:AccountAuthenticationSetting
   pcmProducts(listInput: ListInput={}): PCMProducts
   pcmProduct(id: ID!): PCMProduct
   hierarchies: [Hierarchy]

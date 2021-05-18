@@ -1,28 +1,30 @@
-import authenticationMutationResolvers from './mutations/authentication'
-import cartMutationResolvers from './mutations/carts'
-import customerMutationResolvers from './mutations/customers'
-import accountMutationResolvers from './mutations/accounts'
+import authenticationMutation from './mutations/authentication'
+import accountMutation from './mutations/accounts'
+import cartMutation from './mutations/carts'
+import customerMutation from './mutations/customers'
 
-import cartsQueryResolvers from './queries/carts'
-import ordersQueryResolvers from './queries/orders'
-import legacyCatalogQueryResolvers from './queries/legacy_catalog'
-import pcmQueryResolvers from './queries/pcm'
-import customerQueryResolvers from './queries/customers'
-import rootQueryResolvers from './root'
+import accountQuery from './queries/accounts'
+import cartsQuery from './queries/carts'
+import ordersQuery from './queries/orders'
+import legacyCatalogQuery from './queries/legacy_catalog'
+import pcmQuery from './queries/pcm'
+import customerQuery from './queries/customers'
+import rootQuery from './root'
 
 export default {
-  ...rootQueryResolvers,
+  ...rootQuery,
   Mutation: {
-    ...accountMutationResolvers,
-    ...authenticationMutationResolvers,
-    ...cartMutationResolvers,
-    ...customerMutationResolvers,
+    ...accountMutation,
+    ...authenticationMutation,
+    ...cartMutation,
+    ...customerMutation,
   },
   Query: {
-    ...cartsQueryResolvers,
-    ...ordersQueryResolvers,
-    ...pcmQueryResolvers,
-    ...customerQueryResolvers,
-    ...legacyCatalogQueryResolvers
+    ...accountQuery,
+    ...cartsQuery,
+    ...ordersQuery,
+    ...pcmQuery,
+    ...customerQuery,
+    ...legacyCatalogQuery
   },
 }
