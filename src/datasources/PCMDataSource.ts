@@ -12,8 +12,12 @@ export class PCMDataSource extends RESTDataSource {
         this.baseURL = `https://${process.env.ELASTICPATH_API_HOST}/catalog`
     }
 
-    async getProducts(pageOffset, pageLimit) {
-        return await this.get(`/products?page[offset]=`+pageOffset+`&page[limit]=`+pageLimit)
+    async getProducts(pageOffset, pageLimit, sort) {
+        let path = `/products?page[offset]=`+pageOffset+`&page[limit]=`+pageLimit;
+        if (sort != ""){
+            path = path +'&sort='+ sort
+        }
+        return await this.get(path);
     }
     
     async getProduct(id) {

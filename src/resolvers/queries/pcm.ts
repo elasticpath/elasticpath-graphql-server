@@ -1,8 +1,8 @@
 import {UserInputError} from "apollo-server";
 
-const pcmProducts = async (parent, {page_offset:pageOffset,page_limit:pageLimit}, {dataSources}) => {
+const pcmProducts = async (parent, {page_offset:pageOffset,page_limit:pageLimit, sort: sort}, {dataSources}) => {
     try {
-        return dataSources.pcmAPI.getProducts(pageOffset,pageLimit)
+        return dataSources.pcmAPI.getProducts(pageOffset, pageLimit, sort)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
