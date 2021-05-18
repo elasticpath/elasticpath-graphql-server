@@ -23,6 +23,7 @@ type Mutation {
     billing: BillingAddressInput!
     shipping: ShippingAddressInput
   ): CheckoutCartOrderResult
+  payForOrder(orderId: ID!, gateway: String!, method: String!): Order!
   addCustomer(customerInput: CustomerInput): Customer
   addCustomerAddress(customerId: ID!, address: CustomerAddressInput): CustomerAddress
   updateCustomerAddress(customerId: ID!, addressId:ID!,address: CustomerAddressInput): CustomerAddress

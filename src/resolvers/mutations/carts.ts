@@ -47,11 +47,21 @@ const checkoutCartForAccount = (root, {cartId, contact, billing, shipping = bill
         throw new UserInputError("API returned with errors.", e)
     }
 }
+
+const payForOrder = (root, {orderId, gateway, method}, {dataSources}) => {
+    try {
+        return dataSources.ordersAPI.payForOrder(orderId, gateway, method)
+    } catch (e) {
+        throw new UserInputError("API returned with errors.", e)
+    }
+}
+
 export default {
     checkoutCart,
     checkoutCartForAccount,
     updateProductQtyInCart,
     addToCart,
     addPromotion,
-    addCustomItemToCart
+    addCustomItemToCart,
+    payForOrder
 }
