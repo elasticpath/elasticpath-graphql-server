@@ -5,6 +5,9 @@ export class CartsDataSource extends RESTDataSource {
     request.headers.set('Authorization', this.context.req.headers.authorization)
     request.headers.set('Content-Type', 'application/json')
     request.headers.set('Accept', 'application/json')
+    if(this.context.req.headers['ep-account-management-authentication-token']){
+      request.headers.set('EP-Account-Management-Authentication-Token', this.context.req.headers['ep-account-management-authentication-token'])
+    }
   }
 
   constructor() {
@@ -76,4 +79,15 @@ export class CartsDataSource extends RESTDataSource {
     return data;
   }
 
+  async checkoutForAccount(cartId, contact, billing, shipping = billing) {
+    const body ={
+      data : {
+        contact,
+        billing_address: billing,
+        shipping_address: shipping
+      }
+    };
+    const {data} = await this.post(`/carts/${cartId}/checkout/`, body);
+    return data;
+  }
 }

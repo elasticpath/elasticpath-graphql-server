@@ -1,0 +1,23 @@
+enum AccountTokenType {
+    account_management_authentication_token
+}
+
+enum AuthenticationMechanism {
+    oidc
+    account_management_authentication_token
+}
+
+type AccountToken {
+    account_name: String!
+    account_id: String!
+    token: String!
+    type:AccountTokenType!
+    expires: String!
+}
+
+input AccountTokenInput {
+    authentication_mechanism: AuthenticationMechanism!
+    oauth_authorization_code: String
+    oauth_redirect_uri: String
+    oauth_code_verifier: String
+}

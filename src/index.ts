@@ -4,7 +4,8 @@ import {ApolloServer} from 'apollo-server'
 import resolvers from './resolvers'
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
-import {PCMDataSource} from './datasources/PCMDataSource'
+import {AccountsDataSource} from "./datasources/AccountsDataSource";
+import {PCMDataSource} from './datasources/PCMDataSource';
 import {TokensDataSource} from "./datasources/TokensDataSource";
 import {CartsDataSource} from "./datasources/CartsDataSource";
 import {OrdersDataSource} from "./datasources/OrdersDataSource";
@@ -13,6 +14,7 @@ import {LegacyCatalogDataSource} from "./datasources/LegacyCatalogDataSource";
 
 // set up any dataSources our resolvers need
 const dataSources = () => ({
+    accountsAPI: new AccountsDataSource(),
     pcmAPI: new PCMDataSource(),
     tokensAPI: new TokensDataSource(),
     cartsAPI: new CartsDataSource(),
