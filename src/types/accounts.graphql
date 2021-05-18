@@ -21,3 +21,8 @@ input AccountTokenInput {
     oauth_redirect_uri: String
     oauth_code_verifier: String
 }
+
+type AccountAuthenticationSetting{
+    id: String
+    type: String
+}

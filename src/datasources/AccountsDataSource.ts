@@ -23,4 +23,9 @@ export class AccountsDataSource extends RESTDataSource {
         const {data} = await this.post(`/account-members/tokens`, {data: accountTokenInput});
         return data;
     }
+
+    async accountAuthenticationSetting() {
+        const {data} = await this.get(`/settings/account-authentication`);
+        return data;
+    }
 }

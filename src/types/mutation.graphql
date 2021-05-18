@@ -1,4 +1,5 @@
 type Mutation {
+  accountAuthenticationSetting:AccountAuthenticationSetting
   authenticate(
     client_id: String!
   ): ImplicitToken  
