@@ -456,6 +456,107 @@
 									"    pm.expect(jsonData.data.product.main_image).to.be.an('object');",
 									"});",
 									"",
+									"postman.setNextRequest(\"pcmProducts\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query product ($id: ID!) {\n    product (id: $id) {\n        id\n        name\n        slug\n        description\n        status\n        price {\n            amount\n            currency\n            includes_tax\n        }\n        brands {\n            id\n            type\n            name\n            slug\n            description\n            status\n        }\n        main_image {\n            file_name\n            href\n        }\n    }\n}",
+								"variables": "{\n  \"id\": \"{{product_id}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pcmProducts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response contains \" + pm.environment.get(\"product_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.products).to.be.an('array').but.not.an('object');",
+									"",
+									"    var prodFound = false;",
+									"    for (var product of jsonData.data.products) {",
+									"        if (product.name == pm.environment.get(\"product_name\")) {",
+									"            prodFound = true;",
+									"            pm.environment.set(\"product_id\", product.id)",
+									"            break;",
+									"        }",
+									"    }",
+									"    pm.expect(prodFound).to.equal(true);",
+									"});",
+									"",
+									"pm.test(\"There are no errors\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.errors).is.undefined;",
+									"});",
+									"",
+									"postman.setNextRequest(\"pcmProduct\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query products {\n    products {\n        id\n        name\n        slug\n        description\n        status\n        price {\n            amount\n            currency\n            includes_tax\n        }\n        brands {\n            id\n            type\n            name\n            slug\n            description\n            status\n        }\n    }\n}",
+								"variables": "{}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pcmProduct",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Product is \" + pm.environment.get(\"product_name\"), function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.product).to.be.an('object');",
+									"",
+									"    pm.expect(jsonData.data.product.name).to.equal(pm.environment.get(\"product_name\"));",
+									"});",
+									"",
+									"pm.test(\"Brands is an array \", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.product.brands).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Main image is an object \", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.product.main_image).to.be.an('object');",
+									"});",
+									"",
 									"postman.setNextRequest(\"brands\");"
 								],
 								"type": "text/javascript"
