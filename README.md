@@ -144,3 +144,36 @@ The workflow using `setNextRequest` allows us to control order of tests, to do t
 1. Getting a product by previously stored id. 
    
 For an example of tests, check out `products` and `product` within the Postman Collection.
+
+## Build & Deploy
+
+To build the server:
+
+1. Run `yarn build` and you'll have output in the `build/dist/` directory
+2. Run `yarn start` to run the server locally from that built output
+
+Deploying the server can be done in various ways. Checkout the [Apollo Documentation on deployment](https://www.apollographql.com/docs/apollo-server/deployment/) for suggestions on how to deploy it several cloud hosting services.
+
+Alternatively, you can copy the build output and host it yourself in a dedicated machine with NodeJS installed.
+
+Another alternative is to deploy in a kubernetes cluster by building a docker image:
+
+```dockerfile
+FROM node:16-alpine
+
+WORKDIR /app/
+
+COPY package.json .
+COPY yarn.lock .
+COPY build/dist/ .
+
+RUN yarn install
+
+EXPOSE 4000
+
+CMD ["node", "/app/"]
+```
+
+- Build the docker image: `docker build --tag epcc-graphql --file Dockerfile .`
+- Run the docke image with necessary configurations: `docker run --detach --name epcc-graphql -p 8000:4000 --env ELASTICPATH_API_HOST=api.moltin.com epcc-graphql`
+- GraphQL playground and apis should now be available at `localhost:8000/`
