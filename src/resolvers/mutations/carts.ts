@@ -1,6 +1,6 @@
 import {UserInputError} from "apollo-server";
 
-const addToCart = async (root, {cartId, productId, quantity}, {dataSources}) => {
+const addToCart =  (root, {cartId, productId, quantity}, {dataSources}) => {
     try {
         return dataSources.cartsAPI.addProductToCart(cartId, productId, quantity)
     } catch (e) {
@@ -8,7 +8,7 @@ const addToCart = async (root, {cartId, productId, quantity}, {dataSources}) => 
     }
 }
 
-const updateProductQtyInCart = async (root, {cartId, productId, quantity}, {dataSources}) => {
+const updateProductQtyInCart = (root, {cartId, productId, quantity}, {dataSources}) => {
     try {
         return dataSources.cartsAPI.updateProductQtyInCart(cartId, productId, quantity)
     } catch (e) {
@@ -16,7 +16,7 @@ const updateProductQtyInCart = async (root, {cartId, productId, quantity}, {data
     }
 }
 
-const addPromotion = async (root, {cartId, promotionCode}, {dataSources}) => {
+const addPromotion =  (root, {cartId, promotionCode}, {dataSources}) => {
     try {
         return dataSources.cartsAPI.addProductToCart(cartId, promotionCode)
     } catch (e) {
@@ -24,16 +24,15 @@ const addPromotion = async (root, {cartId, promotionCode}, {dataSources}) => {
     }
 }
 
-const addCustomItemToCart = async (root, {cartId, customItem}, {dataSources}) => {
+const addCustomItemToCart = (root, {cartId, customItem}, {dataSources}) => {
     try {
-        console.log(customItem)
         return dataSources.cartsAPI.addCustomItemToCart(cartId, customItem)
     } catch (e) {
         throw new UserInputError("API returned with errors.", e)
     }
 }
 
-const checkoutCart = async (root, {cartId, customer, billing, shipping = billing}, {dataSources}) => {
+const checkoutCart = (root, {cartId, customer, billing, shipping = billing}, {dataSources}) => {
     try {
         return dataSources.cartsAPI.checkout(cartId, customer, billing, shipping)
     } catch (e) {
@@ -41,7 +40,7 @@ const checkoutCart = async (root, {cartId, customer, billing, shipping = billing
     }
 }
 
-const checkoutCartForAccount = async (root, {cartId, contact, billing, shipping = billing}, {dataSources}) => {
+const checkoutCartForAccount = (root, {cartId, contact, billing, shipping = billing}, {dataSources}) => {
     try {
         return dataSources.cartsAPI.checkoutForAccount(cartId, contact, billing, shipping)
     } catch (e) {

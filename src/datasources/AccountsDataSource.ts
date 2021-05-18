@@ -5,7 +5,9 @@ export class AccountsDataSource extends RESTDataSource {
         request.headers.set('Authorization', this.context.req.headers.authorization)
         request.headers.set('Content-Type', 'application/json')
         request.headers.set('Accept', 'application/json')
-        request.headers.set('EP-Beta-Features', this.context.req.headers['ep-beta-features'])
+        if(this.context.req.headers['ep-beta-features']){
+            request.headers.set('EP-Beta-Features', this.context.req.headers['ep-beta-features'])
+        }
         if(this.context.req.headers['ep-account-management-authentication-token']){
             request.headers.set('EP-Account-Management-Authentication-Token', this.context.req.headers['ep-account-management-authentication-token'])
         }
