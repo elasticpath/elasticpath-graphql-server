@@ -9,8 +9,9 @@
     "dev:server": "nodemon -e ts,graphql -x ts-node -r dotenv/config src",
     "playground": "graphql playground",
     "deploy": "now --public --dotenv .env.production && now alias && now rm --yes --safe moltinql",
-    "build": "rimraf dist && tsc",
-    "start": "node dist",
+    "compile": "rimraf build/dist && tsc",
+    "build": "yarn compile && cp src/types/*.graphql build/dist/types/",
+    "start": "node build/dist",
     "test": "node newman"
   },
   "dependencies": {
