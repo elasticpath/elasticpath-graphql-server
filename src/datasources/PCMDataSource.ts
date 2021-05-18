@@ -17,7 +17,7 @@ export class PCMDataSource extends RESTDataSource {
         if (listInput.page_limit) {
             path = path + 'page[limit]='+listInput.page_limit+'&'
         }
-        if (listInput.page_limit) {
+        if (listInput.page_offset) {
             path = path + 'page[offset]='+listInput.page_offset+'&'
         }
         if (listInput.sort) {
