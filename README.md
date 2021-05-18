@@ -87,7 +87,7 @@ Please consult Elastic Path Commerce Cloud [documentation](https://documentation
 
 This project uses postman collection to handle testing. We can run the tests on the command-line using newman so it is easy to incorporate those tests in CI.
 
-Before running the tests, make sure your server is up and running, and update `postman/EP-GraphQL-globals.postman_globals.json` with your `ELASTICPATH_CLIENT_ID`.
+Before running the tests, start the server, and update `postman/EP-GraphQL-globals.postman_globals.json` with your `ELASTICPATH_CLIENT_ID`.
 
 Run the tests with the following command:
 
