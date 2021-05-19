@@ -63,7 +63,7 @@ yarn prettier-fix
 ```
 
 ### pre-commit hook
-This repo has pre-commit hook, which run `yarn prettier-check` before any commit.
+This repo has a pre-commit hook, which runs `yarn prettier-check` before any commit.
 
 ## Authentication
 
