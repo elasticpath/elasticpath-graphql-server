@@ -48,7 +48,7 @@ export default {
     },
     
     Cart: {
-        items: (parent, __, { dataSources }) => dataSources.cartsAPI.getCartItems(parent.id),
+        items: (parent) => parent.included.items,
         priceWithTax: (parent) => parent.meta.display_price.with_tax,
         priceWithoutTax: (parent) => parent.meta.display_price.without_tax,
         tax: (parent) => parent.meta.display_price.tax,

@@ -16,15 +16,14 @@ export class CartsDataSource extends RESTDataSource {
   }
 
   async getCart(id) {
-    const { data } = await this.get(`/carts/${id}/`);
+    const results = await this.get(`/carts/${id}`, {
+      include: 'items'
+    });
+    var data = results.data;
+    data.included = results.included
     return data;
   }
 
-  async getCartItems(id) {
-    const { data } = await this.get(`/carts/${id}/items/`);
-    return data;
-  }
-  
   async addProductToCart(cartId, productId, quantity) {
     const body = {
       data: {
