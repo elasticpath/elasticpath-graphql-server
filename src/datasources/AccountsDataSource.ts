@@ -11,7 +11,7 @@ export class AccountsDataSource extends RESTDataSource {
         if(this.context.req.headers['ep-account-management-authentication-token']){
             request.headers.set('EP-Account-Management-Authentication-Token', this.context.req.headers['ep-account-management-authentication-token'])
         }
-    }
+}
 
     constructor() {
         super();

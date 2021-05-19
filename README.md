@@ -50,6 +50,18 @@ Development uses [nodemon](https://github.com/remy/nodemon) which automatically 
 
 Visit [http://localhost:4000/](http://localhost:4000/) where you will be able to perform queries using [GraphQL Playground](https://github.com/graphql/graphql-playground).
 
+## Linting
+
+This repo uses the prettier for Linting, to check it you can use this command:
+```bash
+yarn prettier-check
+```
+
+To fix the prettier errors automatically, you can use this command:
+```bash
+yarn prettier-fix
+```
+
 ## Authentication
 
 Elastic Path Commerce Cloud APIs expect certain headers to be set e.g. `Authorization` header to identify the end user. This GraphQL server will pass these along to Elastic Path Commerce Cloud if they are provided in the request to the GraphQL server.
