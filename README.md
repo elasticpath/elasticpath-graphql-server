@@ -158,22 +158,7 @@ Alternatively, you can copy the build output and host it yourself in a dedicated
 
 Another alternative is to deploy in a kubernetes cluster by building a docker image:
 
-```dockerfile
-FROM node:16-alpine
-
-WORKDIR /app/
-
-COPY package.json .
-COPY yarn.lock .
-COPY build/dist/ .
-
-RUN yarn install
-
-EXPOSE 4000
-
-CMD ["node", "/app/"]
-```
-
+- Build the server first: `yarn build`
 - Build the docker image: `docker build --tag epcc-graphql --file Dockerfile .`
 - Run the docke image with necessary configurations: `docker run --detach --name epcc-graphql -p 8000:4000 --env ELASTICPATH_API_HOST=api.moltin.com epcc-graphql`
 - GraphQL playground and apis should now be available at `localhost:8000/`
