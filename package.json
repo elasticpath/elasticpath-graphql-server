@@ -47,8 +47,11 @@
     "alias": "elasticpath-graphql-server"
   },
   "prettier": {
+    "arrowParens": "always",
+    "printWidth": 120,
     "semi": false,
     "singleQuote": true,
+    "tabWidth": 2,
     "trailingComma": "all"
   },
   "engines": {
@@ -58,8 +61,5 @@
     "ignore": [
       "schema.graphql"
     ]
-  },
-  "lint-staged": {
-    "**/*": "yarn prettier-fix"
   }
 }
