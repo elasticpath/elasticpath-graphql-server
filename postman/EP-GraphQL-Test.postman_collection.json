@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "de2cbf78-e0d6-4143-b32d-2ea7606c40f6",
+		"_postman_id": "03076a64-2d1c-4096-b39c-ca454d4f954f",
 		"name": "EP-GraphQL-Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -22,7 +22,7 @@
 									"    pm.environment.set(\"access_token\", jsonData.data.authenticate.access_token);",
 									"});",
 									"",
-									"postman.setNextRequest(\"authenticateAsCustomerViaPassword\");"
+									"postman.setNextRequest(\"addCustomer\");"
 								],
 								"type": "text/javascript"
 							}
@@ -36,6 +36,117 @@
 							"graphql": {
 								"query": "mutation authenticate ($client_id: String!) {\n    authenticate (client_id: $client_id) {\n        expires_in\n        expires\n        access_token\n        token_type\n        identifier\n    }\n}",
 								"variables": "{\n  \"client_id\": \"{{ELASTICPATH_CLIENT_ID}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addCustomer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create customer is successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.addCustomer).to.be.an('object').but.not.an('array');",
+									"",
+									"    pm.environment.set(\"new_customer_email\", jsonData.data.addCustomer.email);",
+									"    pm.environment.set(\"new_customer_id\", jsonData.data.addCustomer.id);",
+									"});",
+									"",
+									"postman.setNextRequest(\"authenticateAsNewCustomerViaPassword\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation addCustomer ($customerInput: CustomerInput) {\n    addCustomer (customerInput: $customerInput) {\n        id\n        type\n        name\n        email\n    }\n}",
+								"variables": "{\n  \"customerInput\": {\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"{{customer_password}}\"\n  }\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "authenticateAsNewCustomerViaPassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Token has customer_id\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.authenticateAsCustomerViaPassword).to.be.an('object');",
+									"",
+									"    pm.environment.set(\"x-moltin-customer-token\", jsonData.data.authenticateAsCustomerViaPassword.token);",
+									"});",
+									"",
+									"postman.setNextRequest(\"deleteCustomer\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation authenticateAsCustomerViaPassword ($email: String!, $password: String!) {\n    authenticateAsCustomerViaPassword (email: $email, password: $password) {\n        type\n        id\n        customer_id\n        token\n        expires\n    }\n}",
+								"variables": "{\n  \"email\": \"{{new_customer_email}}\",\n  \"password\": \"{{customer_password}}\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCustomer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"postman.setNextRequest(\"authenticateAsCustomerViaPassword\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteCustomer ($customerId: ID!) {\n    deleteCustomer (customerId: $customerId)\n}",
+								"variables": "{\n  \"customerId\": \"{{new_customer_id}}\"\n}"
 							}
 						},
 						"url": {
@@ -181,43 +292,6 @@
 							"graphql": {
 								"query": "mutation stripeTokenPayment ($orderId: ID!, $token: String!) {\n    stripeTokenPayment (orderId: $orderId, token: $token) {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
 								"variables": "{\n  \"orderId\": 0,\n  \"token\": \"\"\n}"
-							}
-						},
-						"url": {
-							"raw": "{{url}}",
-							"host": [
-								"{{url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "addCustomer",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Create customer is successful\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.data.addCustomer).to.be.an('object').but.not.an('array');",
-									"});",
-									"",
-									"postman.setNextRequest(\"addCustomerAddress\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation addCustomer ($customerInput: CustomerInput) {\n    addCustomer (customerInput: $customerInput) {\n        id\n        type\n        name\n        email\n    }\n}",
-								"variables": "{\n  \"customerInput\": {\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"{{customer_password}}\"\n  }\n}"
 							}
 						},
 						"url": {
@@ -815,7 +889,7 @@
 									"    pm.expect(jsonData.data.category.name).to.equal(pm.environment.get(\"category_name\"));",
 									"});",
 									"",
-									"postman.setNextRequest(\"customer\");"
+									"postman.setNextRequest(\"addCustomerAddress\");"
 								],
 								"type": "text/javascript"
 							}

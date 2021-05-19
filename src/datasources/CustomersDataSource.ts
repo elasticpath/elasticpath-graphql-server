@@ -18,6 +18,11 @@ export class CustomersDataSource extends RESTDataSource {
     return data;
   }
 
+  async deleteCustomer(id) {
+    await this.delete(`/customers/${id}/`);
+    return true;
+  }
+
   async getCustomerAddresses(id) {
     const { data } = await this.get(`/customers/${id}/addresses/`);
     return data;
@@ -27,7 +32,7 @@ export class CustomersDataSource extends RESTDataSource {
     const { data } = await this.get(`/customers/${customerId}/addresses/${addressId}`);
     return data;
   }
-  
+
   async createCustomer(customerInput) {
     customerInput.type = 'customer'
     const { data } = await this.post(`/customers/`, {data :customerInput} );

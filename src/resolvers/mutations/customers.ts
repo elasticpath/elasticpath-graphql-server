@@ -8,6 +8,14 @@ const addCustomer = async (root, {customerInput}, {dataSources}) => {
     }
 }
 
+const deleteCustomer = async (root, {customerId}, {dataSources}) => {
+    try {
+        return dataSources.customersAPI.deleteCustomer(customerId)
+    } catch (e) {
+        throw new UserInputError("API returned with errors.", e)
+    }
+}
+
 const addCustomerAddress = async (root, { customerId, address }, { dataSources}) => {
     try {
         return dataSources.customersAPI.createCustomerAddress(customerId, address)
@@ -33,6 +41,7 @@ const deleteCustomerAddress = async (root, { customerId, addressId }, { dataSour
 
 export default {
     addCustomer,
+    deleteCustomer,
     addCustomerAddress,
     updateCustomerAddress,
     deleteCustomerAddress,
