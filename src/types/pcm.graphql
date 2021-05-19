@@ -1,5 +1,5 @@
 type PCMProducts {
-  data : [PCMProduct]
+  data: [PCMProduct]
   meta: Meta
   links: Links
 }
@@ -22,8 +22,8 @@ type PCMProduct {
 }
 
 type NodeAttributes {
-  name: String!,
-  slug: String,
+  name: String!
+  slug: String
   description: String
 }
 
@@ -36,8 +36,8 @@ type Node {
 }
 
 type HierarchyAttributes {
-  name: String!,
-  slug: String,
+  name: String!
+  slug: String
   description: String
 }
 

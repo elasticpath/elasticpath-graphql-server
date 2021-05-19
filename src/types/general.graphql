@@ -1,48 +1,48 @@
 type TimeStamps {
-    created_at: String
-    updated_at: String
+  created_at: String
+  updated_at: String
 }
 
 type DataObj {
-    data: DataVal
+  data: DataVal
 }
 
 type DataArr {
-    data: [DataVal]
+  data: [DataVal]
 }
 type DataVal {
-    type: String
-    id: ID
+  type: String
+  id: ID
 }
 
 type Links {
-    current: String
-    first: String
-    last: String
-    prev: String
-    next: String
-    self: String
+  current: String
+  first: String
+  last: String
+  prev: String
+  next: String
+  self: String
 }
 
 type Meta {
-    page: Page
-    results: MetaResults
+  page: Page
+  results: MetaResults
 }
 
 type Page {
-    limit: Int
-    offset: Int
-    current: Int
-    total: Int
+  limit: Int
+  offset: Int
+  current: Int
+  total: Int
 }
 
 type MetaResults {
-    total: Int
+  total: Int
 }
 
 input ListInput {
-    page_offset: Int
-    page_limit: Int
-    sort: String
-    filter: String
+  page_offset: Int
+  page_limit: Int
+  sort: String
+  filter: String
 }

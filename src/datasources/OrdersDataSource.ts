@@ -1,4 +1,4 @@
-import {RESTDataSource} from "apollo-datasource-rest";
+import { RESTDataSource } from 'apollo-datasource-rest'
 
 export class OrdersDataSource extends RESTDataSource {
   willSendRequest(request) {
@@ -9,7 +9,7 @@ export class OrdersDataSource extends RESTDataSource {
   }
 
   constructor() {
-    super();
+    super()
     this.baseURL = `https://${process.env.ELASTICPATH_API_HOST}/v2`
   }
 
@@ -27,22 +27,22 @@ export class OrdersDataSource extends RESTDataSource {
     if (listInput.filter) {
       path += `filter=${listInput.filter}&`
     }
-    return await this.get(path);
+    return await this.get(path)
   }
-  
+
   async getOrder(id) {
-    const { data } = await this.get(`/orders/${id}/`);
-    return data;
+    const { data } = await this.get(`/orders/${id}/`)
+    return data
   }
 
   async payForOrder(orderId, gateway, method) {
     const body = {
       data: {
         gateway: gateway,
-        method: method
-      }
+        method: method,
+      },
     }
-    const {data} = await this.post(`/orders/${orderId}/payments`, body );
-    return data;
+    const { data } = await this.post(`/orders/${orderId}/payments`, body)
+    return data
   }
 }

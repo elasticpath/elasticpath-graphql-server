@@ -22,7 +22,6 @@ type CustomerAddress {
   country: String
 }
 
-
 enum AuthGrantType {
   client_credentials
   implicit

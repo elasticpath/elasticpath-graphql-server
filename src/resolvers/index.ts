@@ -25,6 +25,6 @@ export default {
     ...ordersQuery,
     ...pcmQuery,
     ...customerQuery,
-    ...legacyCatalogQuery
+    ...legacyCatalogQuery,
   },
 }

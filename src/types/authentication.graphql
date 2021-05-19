@@ -1,4 +1,4 @@
-type ImplicitToken{
+type ImplicitToken {
   expires_in: Int!
   expires: Int!
   access_token: String!
