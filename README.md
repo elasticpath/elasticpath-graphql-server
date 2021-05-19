@@ -50,7 +50,7 @@ Development uses [nodemon](https://github.com/remy/nodemon) which automatically 
 
 Visit [http://localhost:4000/](http://localhost:4000/) where you will be able to perform queries using [GraphQL Playground](https://github.com/graphql/graphql-playground).
 
-## Linting
+### Linting
 
 This repo uses the prettier for Linting, to check it you can use this command:
 ```bash
@@ -61,6 +61,9 @@ To fix the prettier errors automatically, you can use this command:
 ```bash
 yarn prettier-fix
 ```
+
+### pre-commit hook
+This repo has a pre-commit hook, which runs `yarn prettier-check` before any commit.
 
 ## Authentication
 
