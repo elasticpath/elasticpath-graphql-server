@@ -11,7 +11,7 @@
     "deploy": "now --public --dotenv .env.production && now alias && now rm --yes --safe moltinql",
     "compile": "rimraf build/dist && tsc",
     "prepare": "husky install",
-    "prettier-check": " prettier --check src/.",
+    "prettier-check": "prettier --check src/.",
     "prettier-fix":"prettier --write --ignore-unknown src/.",
     "build": "yarn compile && mkdir build/dist/types && cp src/types/*.graphql build/dist/types/",
     "start": "node build/dist",
