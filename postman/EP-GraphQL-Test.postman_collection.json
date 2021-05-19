@@ -66,6 +66,15 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"x-moltin-customer-token\", \"\");"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
