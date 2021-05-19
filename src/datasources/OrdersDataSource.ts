@@ -35,11 +35,13 @@ export class OrdersDataSource extends RESTDataSource {
     return data
   }
 
-  async payForOrder(orderId, gateway, method) {
+  async payForOrder(orderId, gateway, method, payment, options) {
     const body = {
       data: {
         gateway: gateway,
         method: method,
+        payment: payment,
+        options: options,
       },
     }
     const { data } = await this.post(`/orders/${orderId}/payments`, body)

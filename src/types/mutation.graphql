@@ -18,7 +18,7 @@ type Mutation {
     billing: BillingAddressInput!
     shipping: ShippingAddressInput
   ): CheckoutCartOrderResult
-  payForOrder(orderId: ID!, gateway: String!, method: String!): Order!
+  payForOrder(orderId: ID!, gateway: String!, method: String!, payment: String, options: String): Order!
   addCustomer(customerInput: CustomerInput): Customer
   deleteCustomer(customerId: ID!): Boolean
   addCustomerAddress(customerId: ID!, address: CustomerAddressInput): CustomerAddress
