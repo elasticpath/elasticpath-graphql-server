@@ -1,6 +1,6 @@
 type Query {
-  accountAuthenticationSetting:AccountAuthenticationSetting
-  pcmProducts(listInput: ListInput={}): PCMProducts
+  accountAuthenticationSetting: AccountAuthenticationSetting
+  pcmProducts(listInput: ListInput = {}): PCMProducts
   pcmProduct(id: ID!): PCMProduct
   hierarchies: [Hierarchy]
   hierarchy(id: ID!): Hierarchy
@@ -8,16 +8,16 @@ type Query {
   node(id: ID!): Node
   cart(id: ID!): Cart
   order(id: ID!): Order
-  orders(listInput: ListInput={}): Orders
+  orders(listInput: ListInput = {}): Orders
   customer(id: ID!): Customer
   customerAddresses(customerId: String!): [CustomerAddress]
   customerAddress(customerId: String!, addressId: String!): CustomerAddress
-  products: [Product] @deprecated( reason: "Use pcmProducts instead")
-  product(id: ID!): Product @deprecated( reason: "Use pcmProduct instead")
-  brands: [Brand] @deprecated( reason: "Use hierarchies and nodes instead")
-  brand(id: ID!): Brand @deprecated( reason: "Use hierarchies and nodes instead")
-  collections: [Collection] @deprecated( reason: "Use hierarchies and nodes instead")
-  collection(id: ID!): Collection @deprecated( reason: "Use hierarchies and nodes instead")
-  categories: [Category] @deprecated( reason: "Use hierarchies and nodes instead")
-  category(id: ID!): Category @deprecated( reason: "Use hierarchies and nodes instead")
+  products: [Product] @deprecated(reason: "Use pcmProducts instead")
+  product(id: ID!): Product @deprecated(reason: "Use pcmProduct instead")
+  brands: [Brand] @deprecated(reason: "Use hierarchies and nodes instead")
+  brand(id: ID!): Brand @deprecated(reason: "Use hierarchies and nodes instead")
+  collections: [Collection] @deprecated(reason: "Use hierarchies and nodes instead")
+  collection(id: ID!): Collection @deprecated(reason: "Use hierarchies and nodes instead")
+  categories: [Category] @deprecated(reason: "Use hierarchies and nodes instead")
+  category(id: ID!): Category @deprecated(reason: "Use hierarchies and nodes instead")
 }

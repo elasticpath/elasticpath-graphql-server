@@ -7,9 +7,8 @@ type Amount {
 type Value {
   amount: Int
   currency: String
-  includes_tax: Boolean 
+  includes_tax: Boolean
 }
-
 
 type CartItem {
   id: ID!
@@ -44,7 +43,6 @@ type Cart {
   tax: Amount
   items: [CartItem]
 }
-
 
 input CustomerInputForCheckout {
   name: String

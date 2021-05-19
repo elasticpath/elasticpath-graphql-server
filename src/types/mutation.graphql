@@ -1,13 +1,8 @@
 type Mutation {
-  authenticate(
-    client_id: String!
-  ): ImplicitToken
-  authenticateAsCustomerViaPassword(
-    email: String!
-    password: String!
-  ): TokenPayload
-  generateAccountTokens(accountTokenInput : AccountTokenInput!):[AccountToken]
-  addToCart( cartId: ID!, productId: ID!, quantity: Int!): [CartItem]
+  authenticate(client_id: String!): ImplicitToken
+  authenticateAsCustomerViaPassword(email: String!, password: String!): TokenPayload
+  generateAccountTokens(accountTokenInput: AccountTokenInput!): [AccountToken]
+  addToCart(cartId: ID!, productId: ID!, quantity: Int!): [CartItem]
   updateProductQtyInCart(cartId: ID!, productId: ID!, quantity: Int!): CartItem
   addPromotion(cartId: ID!, promotionCode: String!): [CartItem]
   addCustomItemToCart(cartId: ID!, customItem: CustomItemInput!): [CartItem]
@@ -27,6 +22,6 @@ type Mutation {
   addCustomer(customerInput: CustomerInput): Customer
   deleteCustomer(customerId: ID!): Boolean
   addCustomerAddress(customerId: ID!, address: CustomerAddressInput): CustomerAddress
-  updateCustomerAddress(customerId: ID!, addressId:ID!,address: CustomerAddressInput): CustomerAddress
-  deleteCustomerAddress(customerId: ID!, addressId:ID!): Boolean
+  updateCustomerAddress(customerId: ID!, addressId: ID!, address: CustomerAddressInput): CustomerAddress
+  deleteCustomerAddress(customerId: ID!, addressId: ID!): Boolean
 }

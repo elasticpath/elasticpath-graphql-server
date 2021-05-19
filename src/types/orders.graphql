@@ -1,61 +1,61 @@
 type Orders {
-    data : [Order]
-    meta: Meta
-    links: Links
+  data: [Order]
+  meta: Meta
+  links: Links
 }
-type Order{
-    id: ID!
-    type: String
-    status: String
-    payment: String
-    shipping: String
-    customer : OrderCustomer
-    shipping_address: ShippingAddress
-    billing_address: BillingAddress
-    meta: OrderMeta
-    relationships: OrderRelationships
+type Order {
+  id: ID!
+  type: String
+  status: String
+  payment: String
+  shipping: String
+  customer: OrderCustomer
+  shipping_address: ShippingAddress
+  billing_address: BillingAddress
+  meta: OrderMeta
+  relationships: OrderRelationships
 }
 
 type OrderCustomer {
-    name: String
-    email: String
+  name: String
+  email: String
 }
 
 type OrderRelationships {
-    customer: DataObj
-    items: DataArr
+  customer: DataObj
+  items: DataArr
 }
 
-type ItemsData{
-    data: OrderItems
+type ItemsData {
+  data: OrderItems
 }
 
-type OrderItems{
- type: String
- id: ID
- items: [CartItem]
+type OrderItems {
+  type: String
+  id: ID
+  items: [CartItem]
 }
 
 type DisplayPrice {
- without_tax: WithoutTax
- with_tax: WithTax
+  without_tax: WithoutTax
+  with_tax: WithTax
 }
 
 type WithTax {
-    amount: String
-    currency: String
-    formatted: String
+  amount: String
+  currency: String
+  formatted: String
 }
 
 type WithoutTax {
-    amount: String
-    currency: String
-    formatted: String
+  amount: String
+  currency: String
+  formatted: String
 }
 
 type OrderMeta {
-     display_price: DisplayPrice
-     timestamps: TimeStamps
+  display_price: DisplayPrice
+  timestamps: TimeStamps
 }
 type ShippingAddress {
   first_name: String

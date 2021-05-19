@@ -1,92 +1,95 @@
-import {RESTDataSource} from "apollo-datasource-rest";
+import { RESTDataSource } from 'apollo-datasource-rest'
 
 export class CartsDataSource extends RESTDataSource {
   willSendRequest(request) {
     request.headers.set('Authorization', this.context.req.headers.authorization)
     request.headers.set('Content-Type', 'application/json')
     request.headers.set('Accept', 'application/json')
-    if(this.context.req.headers['ep-account-management-authentication-token']){
-      request.headers.set('EP-Account-Management-Authentication-Token', this.context.req.headers['ep-account-management-authentication-token'])
+    if (this.context.req.headers['ep-account-management-authentication-token']) {
+      request.headers.set(
+        'EP-Account-Management-Authentication-Token',
+        this.context.req.headers['ep-account-management-authentication-token'],
+      )
     }
   }
 
   constructor() {
-    super();
+    super()
     this.baseURL = `https://${process.env.ELASTICPATH_API_HOST}/v2`
   }
 
   async getCart(id) {
     const results = await this.get(`/carts/${id}`, {
-      include: 'items'
-    });
-    var data = results.data;
+      include: 'items',
+    })
+    var data = results.data
     data.included = results.included
-    return data;
+    return data
   }
 
   async addProductToCart(cartId, productId, quantity) {
     const body = {
       data: {
-        type: "cart_item",
+        type: 'cart_item',
         id: productId,
-        quantity: quantity
-      }
-    };
-    const {data} = await this.post(`/carts/${cartId}/items/`, body);
-    return data;
+        quantity: quantity,
+      },
+    }
+    const { data } = await this.post(`/carts/${cartId}/items/`, body)
+    return data
   }
 
   async updateProductQtyInCart(cartId, productId, quantity) {
     const body = {
       data: {
-        type: "cart_item",
+        type: 'cart_item',
         id: productId,
-        quantity: quantity
-      }
+        quantity: quantity,
+      },
     }
-    const {data} = await this.put(`carts/${cartId}/items/${productId}`, body);
-    return data[0];
+    const { data } = await this.put(`carts/${cartId}/items/${productId}`, body)
+    return data[0]
   }
 
   async addPromotionToCart(cartId, promotionCode) {
     const body = {
       data: {
-        type: "cart_item",
-        code: promotionCode
-      }
+        type: 'cart_item',
+        code: promotionCode,
+      },
     }
-    const {data} = await this.post(`/carts/${cartId}/items/`, body);
-    return data;
+    const { data } = await this.post(`/carts/${cartId}/items/`, body)
+    return data
   }
 
   async addCustomItemToCart(cartId, customItem) {
-    customItem.type = "custom_item";
-    const {data} = await this.post(`/carts/${cartId}/items/`, { data :customItem} );
-    return data;
+    customItem.type = 'custom_item'
+    const { data } = await this.post(`/carts/${cartId}/items/`, { data: customItem })
+    return data
   }
-  
-  // this works for Checkout with an existing customer ID and for Checkout with an associated customer name and email 
+
+  // this works for Checkout with an existing customer ID and for Checkout with an associated customer name and email
   async checkout(cartId, customer, billing, shipping = billing) {
     const body = {
       data: {
         customer: customer,
         billing_address: billing,
-        shipping_address: shipping
-      }
+        shipping_address: shipping,
+      },
     }
-    const {data} = await this.post(`/carts/${cartId}/checkout/`, body);
-    return data;
+    const { data } = await this.post(`/carts/${cartId}/checkout/`, body)
+    return data
   }
 
   async checkoutForAccount(cartId, contact, billing, shipping = billing) {
-    const body ={
-      data : {
+    const body = {
+      data: {
         contact,
         billing_address: billing,
-        shipping_address: shipping
-      }
-    };
-    const {data} = await this.post(`/carts/${cartId}/checkout/`, body);
-    return data;
+        shipping_address: shipping,
+      },
+    }
+    const { data } = await this.post(`/carts/${cartId}/checkout/`, body)
+    return data
   }
 }
