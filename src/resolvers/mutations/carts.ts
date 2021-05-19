@@ -48,9 +48,9 @@ const checkoutCartForAccount = (root, { cartId, contact, billing, shipping = bil
   }
 }
 
-const payForOrder = (root, { orderId, gateway, method }, { dataSources }) => {
+const payForOrder = (root, { orderId, gateway, method, payment, options }, { dataSources }) => {
   try {
-    return dataSources.ordersAPI.payForOrder(orderId, gateway, method)
+    return dataSources.ordersAPI.payForOrder(orderId, gateway, method, payment, options)
   } catch (e) {
     throw new UserInputError('API returned with errors.', e)
   }

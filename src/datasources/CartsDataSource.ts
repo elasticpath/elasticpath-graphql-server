@@ -19,11 +19,10 @@ export class CartsDataSource extends RESTDataSource {
   }
 
   async getCart(id) {
-    const results = await this.get(`/carts/${id}`, {
+    const { data, included } = await this.get(`/carts/${id}`, {
       include: 'items',
     })
-    var data = results.data
-    data.included = results.included
+    data.included = included
     return data
   }
 
