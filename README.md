@@ -1,6 +1,6 @@
 <img src="https://www.elasticpath.com/themes/custom/bootstrap_sass/logo.svg" alt="" width="400" />
 
-# GraphQL Server for Elastic Path Commerce Cloud 
+# GraphQL Server for Elastic Path Commerce Cloud
 
 [Elastic Path](https://www.elasticpath.com/) is a composable, API-first, headless commerce platform. This project provides a [GraphQL](https://graphql.org/) abstraction for a subset of Elastic Path Commerce Cloud APIs to support shopping experiences. APIs that are used for store administration are not included in this project. This code uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/getting-started/).
 
@@ -52,7 +52,7 @@ Visit [http://localhost:4000/](http://localhost:4000/) where you will be able to
 
 ## Authentication
 
-Elastic Path Commerce Cloud APIs expect certain headers to be set e.g. `Authorization` header to identify the end user. This GraphQL server will pass these along to Elastic Path Commerce Cloud if they are provided in the request to the GraphQL server. 
+Elastic Path Commerce Cloud APIs expect certain headers to be set e.g. `Authorization` header to identify the end user. This GraphQL server will pass these along to Elastic Path Commerce Cloud if they are provided in the request to the GraphQL server.
 
 Please consult Elastic Path Commerce Cloud [documentation](https://documentation.elasticpath.com/commerce-cloud/docs/api/basics/authentication/index.html) on which headers might be needed. The below snippet lists some headers used as an example.
 
@@ -65,27 +65,69 @@ Please consult Elastic Path Commerce Cloud [documentation](https://documentation
 }
 ```
 
-### Example Query
+### Your First GraphQL Queries
+
+1. Get an implicit token
+
+```graphql
+mutation {
+  authenticate(client_id: "<your client id>") {
+    access_token
+    expires
+  }
+}
+```
+Set the `access_token` from the response as a Bearer token for subsequent requests.
+
+1. Get a customer token
+```graphql
+mutation {
+    authenticateAsCustomerViaPassword (email: "<email of an existing customer>", password: "<the customer's password>") {
+        type
+        id
+        customer_id
+        token
+        expires
+    }
+}
+```
+Set the `token` from the response as the `X-MOLTIN-CUSTOMER-TOKEN` for subsequent requests.
+
+1. Fetch hierarchies and nodes from a published catalog
 
 ```graphql
 {
-  products {
-    id
-    name
-    description
-    status
-  }
+    hierarchies {
+        id
+        type
+        attributes {
+            name
+            description
+        }
+    }
 
-  product(id: "PRODUCT_ID") {
-    id
-    name
-    description
-  }
+    nodes {
+        id
+        type
+        attributes {
+            name
+            description
+        }
+        children {
+            attributes {
+                name
+                description
+            }
 
-  brands {
-    id
-    name
-  }
+        }
+        products {
+            attributes {
+                name
+                description
+                sku
+            }
+        }
+    }
 }
 ```
 
@@ -119,7 +161,7 @@ When you make a schema change, you can do the following to generate a postman co
 1. In postman create new `API` and select schema type as `GraphQL` with format `GraphQL SDL`. (One-time step)
 1. Under `Define` tab, update the schema with the contents of `schema.graphql`
 1. Click on `Generate Collection` giving it a name and selecting `Test the API` to create a Test suite collection.
-   
+
 #### Adding to the existing collection
 
 You can do this in one of two ways:
@@ -130,7 +172,7 @@ You can do this in one of two ways:
       - If we modified existing types, an existing request needs to be updated
    1. Add or fix the postman tests into the existing collection.
    1. Export your modified collection back to the project and add it to git.
-   
+
 1. Using a diff/merge tool
    1. Using IntelliJ, compare the new collection with the existing one.
    1. Merge any differences in the new file back to the existing collection.
@@ -140,9 +182,9 @@ You can do this in one of two ways:
    1. Once all tests are passing, export your updated collection and save it back into the project.
 
 The workflow using `setNextRequest` allows us to control order of tests, to do things such as:
-1. Get all products, storing the id of a product 
-1. Getting a product by previously stored id. 
-   
+1. Get all products, storing the id of a product
+1. Getting a product by previously stored id.
+
 For an example of tests, check out `products` and `product` within the Postman Collection.
 
 ## Build & Deploy
