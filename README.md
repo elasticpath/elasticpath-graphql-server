@@ -79,7 +79,7 @@ mutation {
 ```
 Set the `access_token` from the response as a Bearer token for subsequent requests.
 
-1. Get a customer token
+2. Get a customer token
 ```graphql
 mutation {
     authenticateAsCustomerViaPassword (email: "<email of an existing customer>", password: "<the customer's password>") {
@@ -93,7 +93,7 @@ mutation {
 ```
 Set the `token` from the response as the `X-MOLTIN-CUSTOMER-TOKEN` for subsequent requests.
 
-1. Fetch hierarchies and nodes from a published catalog
+3. Fetch hierarchies and nodes from a published catalog
 
 ```graphql
 {
