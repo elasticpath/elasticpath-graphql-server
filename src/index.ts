@@ -1,8 +1,12 @@
 require('dotenv').config();
-import { typeDefs } from './types'
-import {ApolloServer} from 'apollo-server'
+import * as path from 'path';
+import * as fs from "fs";
+import {print} from 'graphql';
+import {mergeTypeDefs} from "@graphql-tools/merge";
+import {loadFilesSync} from '@graphql-tools/load-files';
+import {ApolloServer, Config} from 'apollo-server'
 import resolvers from './resolvers'
-import { makeExecutableSchema } from '@graphql-tools/schema';
+import {makeExecutableSchema} from '@graphql-tools/schema';
 
 import {AccountsDataSource} from "./datasources/AccountsDataSource";
 import {PCMDataSource} from './datasources/PCMDataSource';
@@ -11,6 +15,10 @@ import {CartsDataSource} from "./datasources/CartsDataSource";
 import {OrdersDataSource} from "./datasources/OrdersDataSource";
 import {CustomersDataSource} from "./datasources/CustomersDataSource";
 import {LegacyCatalogDataSource} from "./datasources/LegacyCatalogDataSource";
+
+const allTypes = loadFilesSync(path.join(__dirname, "./types/*.graphql"));
+const typeDefs: Config["typeDefs"] = mergeTypeDefs(allTypes)
+fs.writeFileSync('schema.graphql', print(typeDefs));
 
 // set up any dataSources our resolvers need
 const dataSources = () => ({
