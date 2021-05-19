@@ -15,7 +15,7 @@ export class AccountsDataSource extends RESTDataSource {
 
     constructor() {
         super();
-        this.baseURL = `https://${process.env.ELASTICPATH_API_HOST}/v2`
+        this.baseURL = `https://${process.env.ELASTICPATH_API_HOST}/v2`;
     }
 
     async generateAccountTokens(accountTokenInput) {
