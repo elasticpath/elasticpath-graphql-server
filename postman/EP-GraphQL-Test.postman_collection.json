@@ -264,9 +264,11 @@
 									"pm.test(\"Checkout is successful\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.data.checkoutCart).to.be.an('object').but.not.an('array');",
+									"",
+									"    pm.environment.set(\"order_id\", jsonData.data.checkoutCart.id);",
 									"});",
 									"",
-									"postman.setNextRequest(\"orders\");"
+									"postman.setNextRequest(\"payForOrder\");"
 								],
 								"type": "text/javascript"
 							}
@@ -292,15 +294,34 @@
 					"response": []
 				},
 				{
-					"name": "stripeTokenPayment",
+					"name": "payForOrder",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Order paid with Manual Gateway\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.payForOrder).to.be.an('object');",
+									"",
+									"    pm.expect(jsonData.data.payForOrder.type).to.equal(\"transaction\");",
+									"",
+									"});",
+									"",
+									"postman.setNextRequest(\"orders\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation stripeTokenPayment ($orderId: ID!, $token: String!) {\n    stripeTokenPayment (orderId: $orderId, token: $token) {\n        id\n        items {\n            id\n            name\n            product_id\n            quantity\n        }\n        status\n        payment\n        shipping\n    }\n}",
-								"variables": "{\n  \"orderId\": 0,\n  \"token\": \"\"\n}"
+								"query": "mutation payForOrder ($orderId: ID!, $gateway: String!, $method: String!) {\n    payForOrder (orderId: $orderId, gateway: $gateway, method: $method) {\n        id\n        type\n        status\n        payment\n    }\n}",
+								"variables": "{\n  \"orderId\": \"{{order_id}}\",\n  \"gateway\": \"manual\",\n  \"method\": \"authorize\"\n}"
 							}
 						},
 						"url": {
