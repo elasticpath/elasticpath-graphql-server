@@ -15,7 +15,7 @@ This requires an [Elastic Path Commerce Cloud](https://www.elasticpath.com) acco
 This GraphQL server can be hosted anywhere by an Elastic Path customer. For each GraphQL query it makes one or more REST calls to Elastic Path Commerce Cloud. The diagram below shows one example query execution.
 ![Architecture](docs/architecture.png)
 
-## Installation
+## Get Started
 
 ```bash
 git clone https://github.com/elasticpath/elasticpath-graphql-server
