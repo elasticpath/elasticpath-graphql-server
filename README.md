@@ -48,6 +48,8 @@ yarn dev
 
 Development uses [nodemon](https://github.com/remy/nodemon) which automatically reloads code after changes.
 
+## GraphQL Playground
+
 Visit [http://localhost:4000/](http://localhost:4000/) where you will be able to perform queries using [GraphQL Playground](https://github.com/graphql/graphql-playground).
 
 ### Linting
