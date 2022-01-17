@@ -1,0 +1,78 @@
+name: GraphQL server build and test
+on:
+  push:
+  pull_request_target:
+    branches:
+      - 'main'
+jobs:
+  approve:
+    needs: []
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
+    environment:
+      name: Pull Requests
+    steps:
+      - name: Approve
+        run: echo The workflow run must be approved before running jobs
+  build-server:
+    needs: [approve]
+    runs-on: ubuntu-latest
+    container: node:16-alpine
+    if: ${{ !cancelled() }}
+    env:
+      ARTIFACT_NAME: ${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.sha }}-${{ github.run_id }}-${{ github.job }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+      - name: Build server
+        run: |
+          yarn install
+          yarn build
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ./**/build/dist/
+          retention-days: 3
+    outputs:
+      artifact-name: ${{ env.ARTIFACT_NAME }}
+
+  postman-tests:
+    needs: [build-server]
+    runs-on: ubuntu-latest
+    container: node:16-alpine
+    if: ${{ !cancelled() && github.repository_owner == 'elasticpath' }}
+    env:
+      ELASTICPATH_CLIENT_ID: ${{ secrets.ELASTICPATH_CLIENT_ID }}
+      ELASTICPATH_API_HOST: ${{ secrets.ELASTICPATH_API_HOST }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ needs.build-server.outputs.artifact-name }}
+      - name: Start server and run tests
+        run: |
+          yarn install
+          yarn start&
+          sleep 5 ## Let the server start up
+          yarn test
+      - name: Upload test reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.sha }}-${{ github.run_id }}-${{ github.job }}
+          path: build/reports/
+          retention-days: 3
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1.27
+        if: always()
+        with:
+          files: build/reports/**/*.xml
+
+
+
