@@ -14,18 +14,30 @@ jobs:
     steps:
       - name: Approve
         run: echo The workflow run must be approved before running jobs
-  build-server:
+  pre_job:
     needs: [approve]
     runs-on: ubuntu-latest
-    container: node:16-alpine
     if: ${{ !cancelled() }}
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v3.4.1
+        with:
+          skip_after_successful_duplicate: 'true'
+          concurrent_skipping: 'same_content_newer'
+  build-server:
+    needs: [pre_job]
+    runs-on: ubuntu-latest
+    container: node:16-alpine
+    if: ${{ !cancelled() && needs.pre_job.outputs.should_skip != 'true' }}
     env:
       ARTIFACT_NAME: ${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.sha }}-${{ github.run_id }}-${{ github.job }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Build server
         run: |
           yarn install
@@ -51,7 +63,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Download build artifacts
         uses: actions/download-artifact@v2
         with:
