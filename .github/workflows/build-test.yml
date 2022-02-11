@@ -62,7 +62,7 @@ jobs:
     if: ${{ !cancelled() && github.repository_owner == 'elasticpath' }}
     env:
       ELASTICPATH_CLIENT_ID: ${{ secrets.ELASTICPATH_CLIENT_ID }}
-      ELASTICPATH_API_HOST: ${{ secrets.ELASTICPATH_API_HOST }}
+      ELASTICPATH_API_HOST: api.moltin.com
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
