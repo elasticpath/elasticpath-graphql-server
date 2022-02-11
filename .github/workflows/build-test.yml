@@ -5,18 +5,21 @@ on:
     branches:
       - 'main'
 jobs:
+  # This job forces the PR to be approved by an authorized reviewer before the rest of the workflow can run.
   approve:
     needs: []
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository
     environment:
       name: Pull Requests
     steps:
       - name: Approve
         run: echo The workflow run must be approved before running jobs
+
+  # This job uses skip-duplicate-actions to skip one of the duplicate workflow runs when you push to a branch with an open PR.
   pre_job:
     needs: [approve]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: ${{ !cancelled() }}
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
@@ -26,9 +29,10 @@ jobs:
         with:
           skip_after_successful_duplicate: 'true'
           concurrent_skipping: 'same_content_newer'
+
   build-server:
     needs: [pre_job]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container: node:16-alpine
     if: ${{ !cancelled() && needs.pre_job.outputs.should_skip != 'true' }}
     env:
@@ -53,7 +57,7 @@ jobs:
 
   postman-tests:
     needs: [build-server]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container: node:16-alpine
     if: ${{ !cancelled() && github.repository_owner == 'elasticpath' }}
     env:
